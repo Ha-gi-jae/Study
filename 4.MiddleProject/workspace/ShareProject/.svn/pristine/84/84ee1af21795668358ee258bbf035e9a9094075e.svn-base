@@ -1,0 +1,28 @@
+package kr.or.ddit.member.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.or.ddit.member.vo.ClassVO;
+import kr.or.ddit.member.vo.MemVO;
+import kr.or.ddit.member.vo.MsgVO;
+
+public interface IMemberDao {
+
+	public MemVO idCheck(MemVO mv) throws SQLException;
+	
+	public int memLock(MemVO mv) throws SQLException;
+	
+	public int chkCheck(String mem_id) throws SQLException;
+	
+	public MemVO memAll(String mem_id) throws SQLException;
+	
+	public ClassVO memClass(String class_id) throws SQLException;
+	
+	public int updateMem(MemVO mv) throws SQLException;
+	
+	public List<MsgVO> msgList(String msg_from) throws SQLException;
+	
+	public int sendMsg(MsgVO mv) throws SQLException;
+	
+}

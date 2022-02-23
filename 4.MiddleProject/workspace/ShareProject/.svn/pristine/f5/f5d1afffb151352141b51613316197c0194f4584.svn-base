@@ -1,0 +1,314 @@
+<%@page import="kr.or.ddit.clboard.vo.ClBoardVO"%>
+<%@page import="kr.or.ddit.member.vo.MemVO"%>
+<%@page import="kr.or.ddit.board.vo.AdminreVO"%>
+<%@page import="kr.or.ddit.at.vo.AtVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
+<%
+	ClBoardVO bv = (ClBoardVO) request.getAttribute("bv");
+	int id_chk = (int) request.getAttribute("id_chk");
+	
+	String board_title_id = (String)request.getAttribute("board_title_id");
+	List<AtVO> list = (List<AtVO>) request.getAttribute("fileList");
+	//답글 리스트
+	List<AdminreVO> reList =(List<AdminreVO>) request.getAttribute("reList");
+	
+	MemVO mv = (MemVO) request.getAttribute("mv");
+%>
+
+<table id="atchTable" border="1">
+				
+	<tr>
+		<td>제목</td>
+		<td><%=bv.getClboard_title()%></td>
+		
+	</tr>
+
+	<tr>
+		<td colspan="2">작성자 : <%=bv.getMem_name()%>&#09;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+		                                작성일 : <%=bv.getClboard_date()%>&#09;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			                        조회수 : <%=bv.getAdminboard_view()%>&#09;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			                        댓글수 : <%=bv.getReply_count()%>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>내용</td>
+		<td><%=bv.getClboard_content()%></td>
+	</tr>
+	<tr>
+		<td>첨부파일</td>
+		<td>
+		<%
+			int cnt = 0;
+				if (list.size() > 0 && list.get(cnt).getFile_cn().equals(bv.getMem_id())) {
+		%>
+			<a href="<%=request.getContextPath()%>/filedownload.do?fileId=<%=list.get(cnt).getAtch_file_id()%>&fileSn=<%=list.get(cnt).getFile_sn()%>"><%=list.get(cnt).getOrignl_file_nm()%></a>
+				<%
+				cnt++;
+			} else {
+		%>
+		첨부파일 없음
+		<%
+			}
+		%>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<%
+			if(mv.getMem_group().equals("pro")){
+				
+		%>
+			<input type="button" data-toggle="modal" data-target="#HWModal"	value="과제">
+		<%
+			} else {
+				int chk = 0;
+				for(int i = cnt; i < list.size(); i++){
+					if(list.get(i).getFile_cn().equals(mv.getMem_id()) {
+						cnt = i;
+						chk = 1;
+						break;
+					}
+				}
+				if(chk > 0){
+		%>
+			<a href="<%=request.getContextPath()%>/filedownload.do?fileId=<%=list.get(cnt).getAtch_file_id()%>&fileSn=<%=list.get(cnt).getFile_sn()%>"><%=list.get(cnt).getOrignl_file_nm()%></a>&nbsp;&nbsp;&nbsp;
+			<input type="file" id="atFile">&nbsp;&nbsp;
+			<input type="button" id="atFileUpdate" value="수정">
+		
+		<%
+				} else {
+		%>			
+			<a>첨부파일 없음</a>&nbsp;&nbsp;&nbsp;
+			<input type="file" id="atFile">&nbsp;&nbsp;
+			<input type="button" id="atFileUpdate" value="수정">
+		
+		<%					
+				}
+			}
+		%>
+		</td>
+	</tr>
+
+		
+		<%
+			if (reList.size() > 0) {
+		%>
+		
+		<%
+			for (int i = 0; i < reList.size(); i++) {
+				AdminreVO arv = reList.get(i);
+		%>
+		
+	<tr>
+		<td id="inputParent">답글<%=i + 1%><input id="<%=arv.getMem_id()%>" type="button" class="reUpdate" value="답글수정"> 
+		<input id="<%=arv.getMem_id()%>" type="button" class="reDelete" value="답글삭제"> 
+		<input type="hidden" id="<%=arv.getAdminre_num()%>" class="adminre_num">
+		</td>
+	</tr>
+
+
+	<tr>
+		<td>작성자:<%=arv.getMem_name()%></td>
+	</tr>
+	
+	<tr>
+		<td>내용:<%=arv.getAdminre_content()%></td>
+	</tr>
+
+	<%
+		}
+	%>
+
+	<%
+		}
+	%>
+
+	<%-- // 여기에 널이 들어가서 오류가 발생함 
+	if(board_title_id.equals("BR11")){
+%>
+		<!-- 파라미터를 넘겨줘서 ?mem_id=<%=bv.getMem_id() %> 받는 사람 아이디에 뜨게 만들까 고민중 -->
+		 <a href="../member/message.html" id="m">쪽지보내기</a>
+    		 <input type="button" id="end" value="판매완료">
+		<%
+ --%>
+
+	<tr>
+		<td colspan="2">
+			<input type="button" id="back" value="뒤로">
+			<%
+				if (id_chk > 0) {
+			%> 
+			<input type="button" data-toggle="modal" data-target="#UpdateModal"
+			value="수정"> <input type="button" id="delete" value="삭제">
+ 				<%
+					}
+				%>
+			<input type="button" id="response" data-toggle="modal"	data-target="#ResponseModal" value="답글"> 
+		</td>
+		
+	<tr>
+	
+</table>
+				<!-- Modal -->
+				<div class="modal fade" id="HWModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">글 수정</h4>
+							</div>
+							<div class="modal-body">
+								<form id="updateFile" action="insert.do" method="post" enctype="multipart/form-data">
+									<div id="Accordion_wrap">
+										<div class="title">
+											<span>This is first question.</span>
+										</div>
+										<div class="content">
+											<%
+												int j = 0;
+												if (list.get(0).getFile_cn().equals(bv.getMem_id())) {
+														j++;
+												}
+												for(int i = j; i < list.size(); i++) {
+													
+												}
+											%>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<input type="button" id="HW" class="btn btn-default" data-dismiss="modal" value="수정" />
+								<button type="button" class="btn btn-default"data-dismiss="modal" id="cancel">취소</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal -->
+				<div class="modal fade" id="UpdateModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">글 수정</h4>
+							</div>
+							<div class="modal-body">
+								<form id="updateFile" action="insert.do" method="post"
+									enctype="multipart/form-data">
+									<input type="hidden" name="board_title_id"
+										value="<%=bv.getBoard_title_id()%>"> <input
+										type="hidden" name="adminboard_id"
+										value="<%=bv.getAdminboard_id()%>"> <input
+										type="text" name="board_title"
+										value="<%=bv.getClboard_title()%>" /><br>
+									<textarea cols="50" rows="20" style="resize: none;"
+										name="board_content"><%=bv.getClboard_content()%></textarea>
+									<input type="file" name="atchFile">
+									<input type="submit" id="update" class="btn btn-default" data-dismiss="modal" value="수정" />
+								</form>
+							</div>
+							<div class="modal-footer">
+
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal" id="cancel">취소</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal -->
+				<div class="modal fade" id="reportModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">신고하기</h4>
+							</div>
+							<div class="modal-body">
+								<form id="reportForm">
+									<input type="hidden" name="adminboard_id"
+										value="<%=bv.getAdminboard_id()%>"> <input
+										type="hidden" name="mem_id" value="<%=bv.getMem_id()%>">
+									신고사유:<br>
+									<textarea cols="30" rows="20" style="resize: none;"
+										name="report_reason" placeholder="신고 이유를 작성해주세요."></textarea>
+									<input type="submit" id="reportBtn" class="btn btn-default"
+										data-dismiss="modal" value="신고" />
+								</form>
+							</div>
+							<div class="modal-footer">
+
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal" id="cancel">취소</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal 답글-->
+				<div class="modal fade" id="ResponseModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">답글</h4>
+							</div>
+							<div class="modal-body">
+								<form name="resForm" id="responseForm">
+									<input type="hidden" name="adminboard_id"
+										value="<%=bv.getAdminboard_id()%>">
+									<textarea cols="50" rows="20" style="resize: none;"
+										name="adminre_content"></textarea>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<input type="button" id="reinsert" class="btn btn-default"
+									value="등록" />
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">취소</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal 답글수정 -->
+				<div class="modal fade" id="reUpdateModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">답글 수정</h4>
+							</div>
+							<div class="modal-body">
+								<form>
+									<input type="hidden" name="adminboard_id"
+										value="<%=bv.getAdminboard_id() %>">
+									<textarea id="rerecontent" cols="50" rows="20"
+										style="resize: none;" name="adminre_content"></textarea>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<input type="button" id="remupdate" class="btn btn-default"
+									value="수정" />
+								<!-- <input type="button" id="redelete" class="btn btn-default" value="삭제">  -->
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">취소</button>
+							</div>
+						</div>
+					</div>
+				</div>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MyPage</title>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+
+<script>
+	$(function(){
+		$.ajax({
+			url : '/ShareProject/Mypage.do',
+			type : 'get',
+			dataType : 'json',
+			success : function(res){
+				
+				code="<h2>마이페이지</h2>";
+				
+				code+="<input id='memrevise' type='button' value='수정'>";
+				code+="<input id='pass' type='hidden' name='mem_pass' value="+res.mem_pass+">";
+				
+				code+="<table class='table table-hover' border='1'>";
+				
+				code+="<tr><td>과정명</td>";
+				code+="<td class='sub' name='mem_sub' value="+res.mem_sub+">"+res.mem_sub+"</td></tr>";
+				
+				code+="<tr><td>입학일</td>";
+				code+="<td class='start' name='mem_start' value="+res.mem_start+">"+res.mem_start+"</td>";
+				
+
+				code+="<td>수료일</td>";
+				code+="<td class='end'name='mem_end' value="+res.mem_end+">"+res.mem_end+"</td></tr>";
+				
+				 
+				code+="<tr><td>반</td>";
+				//값 수정 필요
+				code+="<td class='cname' name='class_cname' value="+res.class_name+">"+res.class_name+"</td>"; 
+				
+				code+="<td>구분</td>";
+				//값 수정 필요
+				code+="<td class='group' name='mem_group' value="+res.mem_group+">"+res.mem_group+"</td></tr>";
+				
+				code+="<tr><td>아이디</td>";
+				code+="<td class='id' name='mem_id' value="+res.mem_id+">"+res.mem_id+"</td></tr>";
+				
+				code+="<tr><td>이름</td>";
+				code+="<td class='name' name='mem_name' value="+res.mem_name+">"+res.mem_name+"</td></tr>";
+				
+				code+="<tr><td>연락처</td>";
+				code+="<td class='hp' name='mem_hp' value="+res.mem_hp+">"+res.mem_hp+"</td></tr>";
+				
+				code+="<tr><td>주소</td>";
+				code+="<td class='addr1' name='mem_addr1' value="+res.mem_addr1+">"+res.mem_addr1+"</td></tr>";
+				
+
+				code+="<tr><td>상세주소</td>";
+				code+="<td class='addr2' name='mem_addr2' value="+res.mem_sub+">"+res.mem_addr2+"</td></tr></table>";
+				
+				$('#dv1').html(code);
+				
+			},
+			error : function(xhr){
+				alert(xhr.status);
+			}
+			
+		})
+		
+		 $(document).on('click','#memrevise' ,function(){
+			 
+			 
+			 //eng ="안녕";
+			//console.log(eng);
+			dv1 = $(this).parents('#dv1');
+			console.log(dv1);
+			
+			//과정명
+			sub = $(dv1).find('.sub').text();
+			//console.log(sub);
+			$('#revise .sub').val(sub);
+			//입학일
+			start = $(dv1).find('.start').text();
+			//console.log(start);
+			
+			//수료일
+			end = $(dv1).find('.end').text();
+			//console.log(end);
+			
+			//반
+			cname = $(dv1).find('.cname').text();
+			//console.log(sub);
+			
+			//구분
+			group = $(dv1).find('.group').text();
+			//console.log(group);
+			
+			//아이디
+			id = $(dv1).find('.id').text();
+			//console.log(id);
+			
+			//이름
+			name = $(dv1).find('.name').text();
+			//console.log(name);
+			
+			//연락처
+			hp = $(dv1).find('.hp').text();
+			//console.log(hp);
+			
+			//주소
+			addr1 = $(dv1).find('.addr1').text();
+			//console.log(addr1);
+			
+			//상세주소
+			addr2 = $(dv1).find('.addr2').text();
+			//console.log(addr2);
+			
+			
+			
+		}) 
+		 
+	})
+</script>
+</head>
+<body>
+	<div id="dv1">
+	
+	</div>
+<form id="revise.form" action="/ShareProject/MemRevise.do" method="post">
+	
+
+</form>
+</body>
+</html>

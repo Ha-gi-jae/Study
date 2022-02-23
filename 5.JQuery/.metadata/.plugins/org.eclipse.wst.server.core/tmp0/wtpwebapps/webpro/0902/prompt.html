@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style></style>
+
+<script>
+window.onload = () =>{ 
+	vdiv = document.getElementsByTagName('div')[0];
+	//es6 - 첫번째 것만 검색이 된다.
+	vdiv = document.querySelector('div');
+	// 모든 div를 검색한다.
+//	vdiv = document.querySelectorAll('div'); 배열이 된다.
+	su1 = prompt("첫번째 수를 입력하세요."); // 프롬프트 자체를 parseInt로 감싸줘도 된다.
+	su2 = prompt("두번째 수를 입력하세요.");
+	
+	sum = su1 + su2; //parseInt를 안했음. 그러니까 문자열로 더해진다.
+	
+	vdiv.innerHTML = "첫번째 수 : " + su1 + "<br>" // 15
+	vdiv.innerHTML += "두번째 수 : " + su2 + "<br>" // 25
+	vdiv.innerHTML += "합계 : " + sum + "<br>" // 1525
+	
+	sum = parseInt(su1) + parseInt(su2);
+	vdiv.innerHTML = `첫번째 수 :  ${su1} <br>`
+	vdiv.innerHTML += "두번째 수 : " + su2 + "<br>"
+	vdiv.innerHTML += "합계 : " + sum + "<br>"
+	
+	
+}
+	
+</script>
+</head>
+<body>
+<pre>
+ prompt를 이용한 입력
+ 결과 리턴값은 문자열이다.
+ 
+ 두 수를 입력 받아서 덧셈 결과를 출력한다.
+</pre>
+<br>
+<div></div>
+</body>
+</html>

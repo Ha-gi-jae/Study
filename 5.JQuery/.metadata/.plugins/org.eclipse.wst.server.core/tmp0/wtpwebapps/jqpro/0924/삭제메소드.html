@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+
+<style>
+	.box div{
+		background: yellow;
+	}
+</style>
+
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	$('#remove').on('click', function(){
+		$('#result1').remove();
+	})
+	$('#empty').on('click', function(){
+		$('#result2').empty();
+	})
+	$('#remsel').on('click', function(){
+		//$('p').remove() // p 전체가 삭제됨.
+		$('p').remove('.pp') // class가 pp인 것만 삭제됨.
+		
+	})
+})
+
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3>삭제메소드</h3>
+ $('셀렉터').remove() : 셀렉터를 포함하여 삭제<br>
+ $('셀렉터').empty() : 셀렉터를 포함하지 않고 내부에 있는 요소들만 삭제한다.<br>
+ $('셀렉터').remove(selector) : 셀렉터중에서 지정된 selector만 삭제한다.<br>
+ <br>
+ <input id = "remove" type = "button" value = "remove">
+ <input id = "empty" type = "button" value = "empty">
+ <input id = "remsel" type = "button" value = "remove_selector">
+ <br>
+ <div id="result1">
+ 	<p class="pp">무궁화 꽃이 피었습니다</p>
+ 	<p>우리집 강아지는 복슬강아지</p>
+ 	<p>임영웅은 Hero이다 </p>
+ </div>
+ <div id="result2">
+ 	<p>무궁화 꽃이 피었습니다</p>
+ 	<p class="pp">우리집 강아지는 복슬강아지</p>
+ 	<p>임영웅은 Hero이다 </p>
+ </div>
+</div>
+
+
+</body>
+</html>

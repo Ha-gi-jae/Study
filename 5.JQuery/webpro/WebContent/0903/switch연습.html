@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+	div{
+ 		padding : 20px;
+ 		height: auto;
+ 		width : 50%;
+ 		border: 1px dotted blue;
+	}
+</style>
+<script>
+ window.onload = () => {
+	 first = parseInt(prompt("첫번째 수를 입력해주세요."));
+	 second = parseInt(prompt("두번째 수를 입력해주세요."));
+	 
+	 op = prompt("연산자를 입력해주세요.");
+	 switch (op) {
+	case "+":
+		res = first + second;
+		break;
+		
+	case "-":
+		res = first - second;
+		break;
+		
+	case "*":
+		res = first * second;
+		break;
+		
+	case "/":
+		res = first / second;
+		break;
+		
+	}
+	str = `${first} ${op} ${second} = ${res}`;
+	
+	document.querySelector('div').innerHTML = str;
+	 
+ }
+</script>
+</head>
+<body>
+<pre>
+prompt를 이용하여 두 수를 입력받는다.
+prompt를 이용하여 연산자를 입력받는다.
+연산자를 비교하여 연산한 후에 div에 출력한다.
+</pre>
+<div></div>
+</body>
+</html>

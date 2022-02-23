@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>공지사항</h2>
+	<table>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>날짜</th>
+			<th>조회수</th>
+			<th>댓글수</th>
+		</tr>
+		<tr>
+			<td>15</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>14</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>13</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>12</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>11</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>10</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>9</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>8</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>6</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>종소리 좀 크게 틀어주세요.</td>
+			<td>김지윤</td>
+			<td>2021-10-13</td>
+			<td>20</td>
+			<td>1</td>
+		</tr>
+	</table>
+</body>
+</html>

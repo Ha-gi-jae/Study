@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+	div{
+ 		padding : 20px;
+ 		height: auto;
+ 		width : 50%;
+ 		border: 1px dotted blue;
+	}
+</style>
+<script>
+
+	window.onload = () =>{	
+	first = parseInt(prompt("첫번째 수 입력하세요."));
+	second = parseInt(prompt("두번째 수 입력하세요."));
+	
+	op = prompt("연산자를 입력하세요");
+	
+	// 비교
+	if(op == "+"){ // 더하기 일때만 parseInt로 해준다. 왜냐하면 String은 - */ 할 일 이 없으니까.
+		res = first + second;
+	}else if(op == "-"){
+		res = first - second;
+	}else if(op == "*"){
+		res = first * second;
+	}else if(op == "/"){ // 정수 / 정수 해도 script는 알아서 실수(double)로 바꿔줌.
+		res = first / second;
+	}
+		
+	// 출력 내용
+	str = `${first} ${op} ${second} = ${res}`;
+	
+	// div로 접근
+	document.querySelector('div').innerHTML = str;
+	}
+ 
+</script>
+</head>
+<body>
+<pre>
+prompt를 이용하여 두 수를 입력받는다.
+prompt를 이용하여 연산자를 입력받는다.
+연산자를 비교하여 연산한 후에 div에 출력한다.
+</pre>
+<div></div>
+
+<hr>
+<pre>
+두 사람의 가위바위보 입력하는 게임
+</pre>
+<div id="d2"></div>
+</body>
+</html>

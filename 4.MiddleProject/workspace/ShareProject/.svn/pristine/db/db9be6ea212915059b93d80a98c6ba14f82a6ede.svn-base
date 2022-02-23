@@ -1,0 +1,21 @@
+<%@page import="kr.or.ddit.member.vo.MemVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	MemVO mv = (MemVO) request.getAttribute("member");
+	String class_name = (String) request.getAttribute("class_name");
+%>
+
+{
+	"mem_id" : "<%=mv.getMem_id() %>",	
+	"mem_pass" : "<%=mv.getMem_pass() %>",	
+	"mem_group" : "<%=mv.getMem_group() %>",	
+	"mem_start" : "<%=mv.getMem_start() %>",	
+	"mem_end" : "<%=mv.getMem_end() %>",	
+	"mem_addr1" : "<%=mv.getMem_addr1() %>",	
+	"mem_addr2" : "<%=mv.getMem_addr2() %>",	
+	"mem_hp" : "<%=mv.getMem_hp() %>",	
+	"mem_name" : "<%=mv.getMem_name() %>",	
+	"mem_sub" : "<%=mv.getMem_sub() %>",
+	"class_name" : "<%=class_name %>"	
+}

@@ -1,0 +1,86 @@
+* {
+    margin : 0px;
+    padding: 0px;
+}
+body {
+    background-color: rgb(253, 253, 253);
+    display: flex;
+    justify-content: center;
+}
+#page-wraper {
+    width : 1400px;
+    background-color: rgb(224, 224, 224);
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    left : 100px;
+    height: 100vh;
+}
+.clButton {
+    background-color: #6d6d6d;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 30px;
+    height: 50px;
+    width: 200px;
+    border-radius: 6px;
+}
+#boardBox {
+    width : 1150px;
+    height: 800px;
+    background-color: rgb(248, 248, 248);
+    margin: 0px;
+    border-radius: 10px;
+    position : relative;
+    top : 70px;
+    left : 170px;
+    -webkit-box-shadow: 5px 12px 17px -4px rgba(0,0,0,0.38); 
+    box-shadow: 5px 12px 17px -4px rgba(0,0,0,0.38);
+    }
+#classNum h3 {
+    color: white;
+}
+#computer {
+    border-radius: 10px 10px 0px 0px;
+}
+#quickContainer{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.quickBox {
+    width : 500px;
+    height: 350px;
+    background-color: rgb(245, 245, 245);
+    border-radius: 10px;
+    position: relative;
+    top : -60px;
+    -webkit-box-shadow: 5px 12px 17px -4px rgba(0,0,0,0.38); 
+    box-shadow: 5px 12px 17px -4px rgba(0,0,0,0.38);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.quickTitle {
+    margin : 10px 0px;
+}
+#courseBox {
+    width : 235px;
+    background-color: rgba(255, 255, 225, .3);
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.infOption:hover {
+    border-bottom : 1px solid white;
+    font-weight: bold;
+}

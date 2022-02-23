@@ -1,0 +1,18 @@
+package kr.or.ddit.member.service;
+
+import kr.or.ddit.member.vo.ClassVO;
+import kr.or.ddit.member.vo.MemVO;
+
+public interface IMemberService {
+
+	public MemVO idCheck(MemVO mv); 
+	
+	public int memLock(MemVO mv);
+	public int chkCheck(String mem_id);
+	
+	public MemVO memAll(String mem_id);
+	
+	public ClassVO memClass(String class_id);
+	
+	public int updateMem(MemVO mv);
+}

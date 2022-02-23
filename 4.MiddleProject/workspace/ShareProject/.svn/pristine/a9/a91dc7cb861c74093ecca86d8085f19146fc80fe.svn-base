@@ -1,0 +1,64 @@
+<%@page import="kr.or.ddit.at.vo.AtVO"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.board.vo.BoardVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	BoardVO bv = (BoardVO) request.getAttribute("bv");
+	int id_chk = (int) request.getAttribute("id_chk");
+	System.out.println(bv.getBoard_title_id());
+	String name = bv.getMem_name().substring(0, 1) + "**";
+	
+	String board_title_id = (String)request.getAttribute("board_title_id");
+%>
+
+<table id="boardTable" border="1">
+	<tr>
+		<th><%=bv.getBoard_title() %></th>
+		<td>
+<%
+		if(id_chk > 0){
+%>
+		<input type="button" data-toggle="modal" data-target="#UpdateModal" value="수정">
+		<input type="button" id="delete" value="삭제">
+<%
+		} 
+%>
+		</td>
+	<tr>
+	<tr>
+		<td colspan="2">작성자 <%=name %>&#09; 작성일 <%=bv.getBoard_date() %>&#09; 조회수 <%=bv.getAdminboard_view() %>&#09; 댓글수 <%=bv.getReply_count() %></td>
+	<tr>
+	<tr>
+		<td><%=bv.getBoard_content() %></td>
+	<tr>
+	
+	<tr>
+		<td><input type="button" id="back" value="뒤로" ></td>
+	<tr>
+</table>
+
+	<!-- Modal -->
+	<div class="modal fade" id="UpdateModal" role="dialog">
+		<div class="modal-dialog">
+		
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4	class="modal-title">글 수정</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+					<input type="hidden" name="adminboard_id" value="<%=bv.getAdminboard_id() %>">
+					<input type="text" name="board_title" value="<%=bv.getBoard_title() %>"/><br>
+					<textarea cols="50" rows="20" style="resize: none;" name="board_content"><%=bv.getBoard_content() %></textarea>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input type="button" id="update" class="btn btn-default" value="수정" />
+					<button type="button" id="cancel" class="btn btn-default" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>

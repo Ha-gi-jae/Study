@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 2 elements from project &apos;GijaeNetworkTest&apos;&#x0D;&#x0A;- Original project: &apos;GijaeNetworkTest&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     kr.or.ddit.tcp.MultiChatClient.java&#x0D;&#x0A;     kr.or.ddit.tcp.MultiChatServer.java" description="Delete elements" element1="/src&lt;kr.or.ddit.tcp{MultiChatServer.java" element2="/src&lt;kr.or.ddit.tcp{MultiChatClient.java" elements="2" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1632881769683" subPackages="false" version="1.0"/>
+</session>

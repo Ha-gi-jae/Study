@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="shortcut icon" type="image/x-icon" href="../images/check.png"/> <!-- 타이틀 아이콘 -->
+	<style>
+		div{
+			width: 80%;
+			height: auto;
+			border : 1px solid blue;
+			padding : 20px;
+		}
+	
+	
+	
+	</style>
+<script> /* 위에서 먼저 읽어오기 때문에 지금 script가 먼저 실행된다. window.onload 를 쓰면 script보다 body를 먼저 읽는다. 그래서 실행이 된다. */
+
+	window.onload = function(){ // 윈도우가 load 되었다 => 브라우저가 보인다 => 그러면 실행해라!
+	
+	now = new Date();
+	
+	// div인 요소로 접근 - 배열로 리턴.
+	var vdiv = document.getElementsByTagName('div');
+	
+	// 접근된 요소에 출력
+	vdiv[0].innerHTML = now + "<br>";
+}
+	
+</script>
+</head>
+<body>
+<div>
+</div>
+</body>
+</html>

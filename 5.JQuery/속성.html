@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <title></title>  <!-- 타이틀은 생략해도 된다. -->
+	<link rel="stylesheet" href ="./css/mystyle.css">
+	<style>
+	  img{
+		width : 100px;
+		height : 100px;
+	  }
+	  <!--pre{
+	    border 1px dotted orange;
+		background : lightblue;
+		font-size : 2.0em;
+	  }-->
+	</style>
+  </head>
+
+  <body>
+  <pre>
+     속성
+	 여는 태그에 이름 = "값" 의 형태로
+	 태그의 부가정보를 나타낸다
+	 
+	 a태그의 속성 : href(필수), target(선택)
+	 img 태그의 속성 : src(필수), alt(대체 alternate) 그림이 안나오면 대체함. 대체문자. 필수는 아니고 표준임. 붙여줘야함.
+  </pre>
+   <div>
+    <a href="http://www.naver.com" target="_blank">네이버</a>    <!-- 줄이 바뀌지않음. Inline요소이다. -->
+    <a href="http://www.daum.net">다음</a>  <!-- target="_blank" 하면 새로운페이지로해서 실행된다. -->
+    <a href="http://www.w3schools.com">w3schools</a> <!-- a태그에는 href~  href = 페이지이동 target_self -->
+   </div>
+   
+   <div>
+	<img src="./images/img1.jfif" alt="이미지"> 	<!-- 얘네도 인라인 요소라 줄이 안바뀜 -->
+	<img src="./images/img2.jfif" alt="이미지">
+	<img src="./images/img3.jfif" alt="이미지">
+	<img src="./images/img4.jfif" alt="이미지">
+	<img src="./images/img5.jfif" alt="이미지">
+	<img src="./images/img6.jfif" alt="이미지">
+   </div>
+	<!-- img는 src 속성이 필수임. </img> 이런게 아님. -->
+	<!-- ./ 현재위치임. 생략해도 된다 지금 같은 위치에있기때문에. -->
+
+  </body>
+</html>

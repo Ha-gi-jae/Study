@@ -1,0 +1,64 @@
+package kr.or.ddit.admin.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.admin.service.AdminServiceImpl;
+import kr.or.ddit.admin.service.IAdminService;
+import kr.or.ddit.admin.vo.AdminVO;
+import kr.or.ddit.board.vo.PagingVO;
+
+/**
+ * Servlet implementation class FindMember
+ */
+@WebServlet("/FindMember.do")
+public class FindMember extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public FindMember() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		List<AdminVO> list = null;
+		
+		String field_ = request.getParameter("f");
+		String query_ = request.getParameter("q");
+		String field = "title";
+		if(field_ != null) field = field_;
+		String query = "";
+		if(query_ != null) query = query_;
+		
+		//페이징
+		
+		IAdminService service = AdminServiceImpl.GetService();
+		
+		if(field.equals("class")) {
+			list = service.findClass(query);
+		}else if(field.equals("group")) {
+			list = service.findGroup(query);
+		}else if(field.equals("name")) {
+			list = service.findName(query);
+		}
+		System.out.println(field);
+		System.out.println(query);
+		request.setAttribute("memberList", list);
+		
+		request.getRequestDispatcher("/WEB-INF/admin/admin_jsp/SelectFindMember.jsp").forward(request, response);
+	}
+
+}

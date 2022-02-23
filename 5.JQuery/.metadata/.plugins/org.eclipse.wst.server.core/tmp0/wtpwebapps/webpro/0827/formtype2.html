@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+	<style>
+		form{
+			width : 70%;
+			margin : 50px;
+			border : 1px dotted orange;
+			padding : 20px;
+		}
+		
+		label{
+			display : inline-block;
+			width: 150px;
+			height: 30px;
+		}
+	</style>
+
+</head>
+<body>
+<pre>
+ input type="radio" name="gender"> :
+  여러개 중에 한개의 값을 선택, 여러개의 요소의 name속성은 모두 같아야 한다.
+ input type="checkbox" name="food"> :
+  여러개 중에 한개 또는 여러개의 값을 선택할 수 있음, 여러개의 요소의 name 속성은 모두 같아야한다.
+</pre>
+	<form action="radiocheck.jsp" method="post">
+		
+	<label>아이디</label>
+	<input type="text" name="id"><br>
+	
+	<label>이름</label>
+	<input type="text" name="name"><br>
+	
+	<label>주소</label>
+	<input type="text" name="addr" value="DaeJeon"><br>
+	
+	<label>성별</label>
+	<input type="radio" value="남자" name="gender">남자
+	<input type="radio" value="여자" name="gender">여자<br>
+	
+	<label>좋아하는 음식</label>
+	<input type="checkbox" name="food" value="떡볶이">떡볶이
+	<input type="checkbox" name="food" value="잡채">잡채
+	<input type="checkbox" name="food" value="피자">피자
+	<input type="checkbox" name="food" value="만두">만두
+	<input type="checkbox" name="food" value="김밥">김밥
+	<input type="checkbox" name="food" value="불고기">불고기<br>
+	
+	
+	<input type="submit" value="전송">
+	
+	
+	
+	
+	
+	
+	</form>
+</body>
+</html>

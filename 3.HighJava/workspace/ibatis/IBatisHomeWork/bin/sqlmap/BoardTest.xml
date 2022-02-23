@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!-- xml 파일이 여러개일 경우에 이름이 중복될 수도 있기 때문에 좀더 세부적으로 구분 짓기 위해서
+     namespace를 사용해 준다. -->
+
+<sqlMap namespace="boardTest">
+
+<!-- 
+  이 영역에 sql문에 맞는 태그를 사용하여 SQL문을 작성한다.
+  
+  사용 할 수 있는 기본적인 태그들...
+  <select> ~~~ </select>
+  <insert> ~~~ </insert>
+  <update> ~~~ </update>
+  <delete> ~~~ </delete>
+  
+  위 태그에서 사용되는 속성들
+  
+  1) id속성 : 해당 태그를 호출할때 <sqlMap> 태그의 namespace와 연결하여 사용하는 이름
+  2) parameterClass속성: sql문에 사용될 데이터가 들어있는 객체를 지정한다.
+  					   (보통VO클래스, 자바의 자료형이름 등이 사용된다.)
+  					   (typeAlias로 지정한 alias명이 사용될 수 있다.)
+  3) resultClass속성 : select문을 실행한 결과를 담을 객체를 지정한다.
+                     (보통VO클래스, 자바의 자료형이름 등이 사용된다.)
+  					 (typeAlias로 지정한 alias명이 사용될 수 있다.)
+  4) resultMap속성: 결과 레코드 컬럼명과 VO객체의 property명이 다를 경우에 적절한
+                                     매핑을 위해 사용한다.
+                                     
+ -->
+ 	
+ 	<resultMap class="BoardVO" id="bMap">
+ 		<result property="num" column="board_no"/>
+ 		<result property="title" column="board_title"/>
+ 		<result property="writer" column="board_writer"/>
+ 		<result property="date" column="board_date"/>
+ 		<result property="content" column="board_content"/>
+		 			 	
+ 	</resultMap>
+ 	
+	<insert id="insertBoard" parameterClass="BoardVO">
+		<!-- values값에 MemberVO 변수들을 적어준다. -->
+		INSERT INTO JDBC_BOARD
+	   (BOARD_NO, BOARD_TITLE, BOARD_WRITER, BOARD_DATE, BOARD_CONTENT)  
+		VALUES(BOARD_SEQ.NEXTVAL,#title#,#writer#,SYSDATE,#content#)
+	
+	</insert>
+	
+	
+	<update id="updateBoard" parameterClass="BoardVO">
+		
+		 update jdbc_board  
+		 set board_title= #title#   
+		 ,board_content= #content#   
+		 ,board_date= sysdate   
+		 where board_no = #num# 
+
+	</update>
+	
+	<delete id="deleteBoard" parameterClass="int">
+	
+		delete from jdbc_board where board_no=#num#
+	
+	</delete>
+	
+	<!-- parameterClass는 생략가능하지만 resultClass는 생략불가능하다. -->
+	<select id="displayAllBoard" resultClass="BoardVO" resultMap="bMap"> 
+	 select *
+	 from jdbc_board
+	</select>
+	
+	<select id="selectBoard" parameterClass="BoardVO" resultClass="BoardVO" resultMap="bMap">
+	
+	<!-- 위에서 매핑을 해주었기 때문에 as를 안주어도 된다. -->
+	select * from jdbc_board
+	where 1=1
+	<isNotEmpty property="title">
+	and board_title=#title#
+	</isNotEmpty>
+	<isNotEmpty property="content">
+	and board_content like '%' ||#content#|| '%'
+	</isNotEmpty>
+	<isNotEmpty property="writer">
+	and board_title=#writer#
+	</isNotEmpty>
+		
+	</select>
+	
+	<select id="searchBoard" parameterClass="int" resultClass="BoardVO" resultMap="bMap">
+	select * from jdbc_board where board_no =#num#
+	
+	</select>
+	
+	
+</sqlMap>
+
+
+
+
+
+

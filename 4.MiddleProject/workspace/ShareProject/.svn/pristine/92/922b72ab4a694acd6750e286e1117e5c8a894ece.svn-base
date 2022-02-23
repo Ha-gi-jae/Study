@@ -1,0 +1,33 @@
+package kr.or.ddit.basic;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.stream.FileImageInputStream;
+import javax.imageio.stream.FileImageOutputStream;
+
+public class tulips {
+	public static void main(String[] args) throws IOException {
+
+		FileImageInputStream tul =  null;
+		FileImageOutputStream outTul = null;
+		
+		File ori = new File("d:/D_Other/Tulips.jpg");
+		File copy = new File("d:/D_Other/복사본_Tulips.jpg");
+	
+		tul = new FileImageInputStream(ori);
+		outTul = new FileImageOutputStream(copy);
+		
+		int c;
+		while((c = tul.read()) != -1) {
+			//System.out.print((char)c);
+			outTul.write(c);
+		}
+		
+		System.out.println("작업 완료");
+		
+		tul.close();
+		outTul.close();
+		
+	}
+}

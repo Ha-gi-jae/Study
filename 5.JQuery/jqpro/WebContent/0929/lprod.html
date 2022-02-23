@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+table{
+	border : 5px solid olive;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+td{
+	border : 2px solid olive;
+	font-weight: bold;
+	color: olive;
+}
+hr{
+	border : 3px solid black;
+}
+
+</style>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+
+	$('input:button').on('click', function(){
+		
+		$.ajax({
+			
+			url : 'lprodList.jsp',
+			type : 'get',
+			success : function(res){
+				code = "<table border='1'>";
+				code += "<tr><td>아이디</td><td>상품코드</td><td>상품</td></tr>";
+				$.each(res, function(i, v){
+					code += "<tr>";
+					code += "<td>" + v.ID + "</td>";
+					code += "<td>" + v.GU + "</td>";
+					code += "<td>" + v.NM + "</td>";
+					code += "</tr>";
+				})
+				code += "</table>";
+				
+				$('#result1').html(code);
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status + "\n text : " + xhr.statusText);
+			},
+			dataType : 'json'
+			
+			
+			
+		})
+		
+		
+		
+	})
+	
+	
+	
+	
+})
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3></h3>
+ <br>
+ <br>
+ <input type="button" value ="LprodList"">
+ <hr><br>
+ <div id="result1"></div>
+</div>
+</body>
+</html>

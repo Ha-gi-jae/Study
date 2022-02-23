@@ -1,0 +1,64 @@
+package kr.or.ddit.adminClass.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.admin.dao.AdminDaoImpl;
+import kr.or.ddit.admin.dao.IAdminDao;
+import kr.or.ddit.admin.vo.AdminVO;
+import kr.or.ddit.adminClass.vo.AdminClassVO;
+import kr.or.ddit.util.SqlMapClientFactory;
+
+public class AdminClassDaoImpl implements IAdminClassDao {
+	
+	private SqlMapClient client;
+	private static IAdminClassDao dao;
+	
+	public AdminClassDaoImpl() {
+		this.client = SqlMapClientFactory.getInstance();
+	}
+	
+	public static IAdminClassDao getDao() {
+		if(dao == null) dao = new AdminClassDaoImpl();
+		return dao;
+	}
+	
+	//반 조회
+		@Override
+		public List<AdminClassVO> selectAllclass() throws SQLException {
+			return client.queryForList("admin.selectAllclass");
+		}
+		// 반등록
+		@Override
+		public int insertClass(AdminClassVO vo) throws SQLException {
+			return (Integer) client.insert("admin.insertClass", vo);
+		}
+		// 반 삭제 전 회원 반 수정
+		@Override
+		public int classUpdateMember(String class_Id) throws SQLException {
+			return client.update("admin.classUpdateMember", class_Id);
+		}
+		// 반 수정
+		@Override
+		public int updateClass(AdminClassVO vo) throws SQLException {
+			return client.update("admin.updateClass", vo);
+		}
+		// 반 삭제
+		@Override
+		public int deleteClass(String classId) throws SQLException {
+			return client.delete("admin.deleteClass", classId);
+		}
+		// 반 학생수 조회
+		@Override
+		public List<AdminVO> CountClassMember() throws SQLException {
+			return client.queryForList("admin.CountClassMember");
+		}
+
+		@Override
+		public List<AdminClassVO> selectClassMember(String classid) throws SQLException {
+			return client.queryForList("admin.selectClassMember", classid);
+		}
+		
+}

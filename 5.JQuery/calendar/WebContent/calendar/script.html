@@ -1,0 +1,18 @@
+<script type="text/javascript">
+
+var currYear = 1;
+var currMonth = 1;
+
+$(function(){
+	// 오늘 날짜 기준으로 달력 결정 및 생성
+	var now = new Date();
+	var nowYear = now.getFullYear();
+	var nowMon = now.getMonth() + 1;
+	$('#_calendarHeaderYear').val(nowYear).attr("selected", "selected");
+	$('#_calendarHeaderMonth').val(nowMon).attr("selected", "selected");
+	makeCalendar(nowYear, nowMon);
+	
+	currYear = parseInt($("#_calendarHeaderYear option:selected").val());
+	https://dotheright.tistory.com/213?category=784653
+	위 사이트 script 15행 까지만 ㅣㅊㅁ.
+})

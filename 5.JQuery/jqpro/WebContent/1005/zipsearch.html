@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<!-- http://localhost/jqpro/css/mystyle.css 요로코럼쓰는데 WebContent는 쓰지않는다. -->
+<script src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	#result1 p:hover{
+		background : lime;
+	}
+
+</style>
+<script>
+$(function(){
+	$('#dongbtn').on('click', function(){
+		dongvalue = $('#dong').val().trim();
+		
+		if(dongvalue.length < 1){
+			alert("동을 입력하세요.");
+			return false;
+		}
+		
+// 		$.post(url, data, success, dataType) // 단축키는 이따가
+		
+		$.ajax({
+			url : '/jqpro/ZipCheck.do',
+			type : 'post',
+			data : {"dong" : dongvalue},
+			success : function(res){
+				code = "";
+				
+				$.each(res, function(i, v){
+					code +="<p><span class='zip'>" + v.zip + "</span>&nbsp;<span class='addr'>" + v.addr +"</span>" + v.bunji +"</p>";
+// 					code += `<p> <span class="s1" ${v.zip} </span><span class="addr"> ${v.addr} </span> ${v.bunji} <p>`
+				})
+				$('#result1').html(code);
+				
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status + " text : " + xhr.statusText);
+			},
+			dataType : 'json'
+		})
+		
+		
+		
+	})
+	// document 대신 result1을 줘도 된다. delegate 방식!!!
+	$(document).on('click', 'p', function(){
+		
+// 		 아래의 방식을 컨텍스트 방식이라고한다.  this = p태그(부모) 이고, span은 자식이다. 
+// 		$('span', this)
+		zip = $('.zip', this).text();
+		addr = $('.addr', this).text();
+		
+		// 앞의 #zip과 #add1은 부모창의 우편번호와 주소 id 임.
+		$('#zip', opener.document).val(zip);
+		$('#add1', opener.document).val(addr);
+		
+		window.close(); // 값 보내고 창 종료!
+		
+	})
+	
+	
+})
+
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3>우편번호찾기</h3>
+ <br>
+ 찾는 동 이름을 입력하세요<br>
+ <input type="text" id="dong">
+ <input type="button" id="dongbtn" value ="확인">
+ <br><br>
+ <div id="result1"></div>
+</div>
+</body>
+</html>

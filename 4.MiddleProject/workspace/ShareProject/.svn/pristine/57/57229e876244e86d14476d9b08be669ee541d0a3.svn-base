@@ -1,0 +1,33 @@
+package kr.or.ddit.board.dao;
+
+import java.sql.SQLException;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.board.vo.NoticeVO;
+import kr.or.ddit.util.SqlMapClientFactory;
+
+public class NotiBoardDaoImpl implements INotiBoardDao{
+	private static INotiBoardDao dao ;
+	private SqlMapClient smc ;
+	
+	private NotiBoardDaoImpl() {
+		smc = SqlMapClientFactory.getInstance();
+	}
+	public static INotiBoardDao getInstance() {
+		if(dao==null) {
+			dao = new NotiBoardDaoImpl();
+		}
+		
+		return dao;
+	}
+	@Override
+	public int insertNotice(NoticeVO nv) throws SQLException {
+		return (int) smc.insert("notice.insertNotice", nv);
+	}
+	@Override
+	public int noticeSize() throws SQLException {
+		return (int) smc.queryForObject("notice.noticeSize");
+	}
+
+}

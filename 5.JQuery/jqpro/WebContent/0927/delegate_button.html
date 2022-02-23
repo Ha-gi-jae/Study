@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+// 	$(document).delegate('.btn','click',function(){}) 이렇게 써도 된다.
+	$(document).on('click', '.btn', function(){
+		
+		$('<input>', {'type' : 'button', 'class' : 'btn', 'value' : '새로운 버튼'}).appendTo('#result2');
+	})
+	
+	// <input> input[value=해제] <<< 각각의 정확한 의미
+	
+	$('input[value=해제]').on('click', function(){
+// 		$(document).off('click');
+		$(document).undelegate('click');
+		
+	})
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+})
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3>delegate 형식의 이벤트 핸들러</h3>
+ 실행 이전에 미리 만들어져 있는 요소나 실행 후 새롭게 만들어지는 요소에 대해서 <br>
+ 이벤트 핸들러가 실행되어진다. <br>
+ $(document).delegate('선택자', 'click', function(){})<br>
+ $(document).on('click', '선택자', function(){})<br>
+ <br>
+ <br>
+ <div id="result1">
+   <input type="button" class="btn" value ="버튼1">
+   <input type="button" class="btn" value ="버튼2">
+ </div>
+
+  <br><br>
+  
+  <input type="button" value="해제">
+  
+  <br><br>
+  
+  <div id="result2">
+  이 친구는 이벤트가 발생하지 않아요!
+  
+  </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+</head>
+<body>
+<a onclick="alert('나는 a태그다!');">
+<div onclick="alert('부모 div에 할당한 핸들러');">
+<div onclick="alert('div에 할당한 핸들러');">
+<em><code>EM</code>을 클릭했는데도 <code>DIV</code>에 할당한 핸들러가 동작합니다.</em>
+</div>
+</div>
+</a>
+<br>
+<br>
+<br>
+<form onclick="alert('form');">FORM
+    <div onclick="alert('div');">DIV
+        <p onclick="alert('p');">P</p>
+    </div>
+</form>
+</body>
+</html>

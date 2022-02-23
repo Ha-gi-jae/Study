@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+
+	<select id="idCheck" parameterClass="memVO" resultClass="memVO">
+	
+		select mem_id, mem_pass
+		  from mem 
+		  where mem_id=#mem_id#
+		    and mem_pass=#mem_pass#
+	
+	</select>
+	
+	<update id="memLock" parameterClass="memVO">
+		update mem
+		   set mem_chk=mem_chk+1
+		 where mem_id=#mem_id# 
+	</update>
+	
+	<select id="chkCheck" parameterClass="string" resultClass="int">
+		select mem_chk from mem where mem_id=#mem_id#
+	</select>
+
+</sqlMap>

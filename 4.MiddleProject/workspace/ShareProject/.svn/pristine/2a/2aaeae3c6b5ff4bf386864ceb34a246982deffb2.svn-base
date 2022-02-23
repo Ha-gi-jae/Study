@@ -1,0 +1,155 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% int adminbaord_id = Integer.parseInt(request.getParameter("board_id")); %>
+
+<!DOCTYPE html>
+<html ang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+ <meta name="description" content="" />
+ <meta name="author" content="Tooplate" />
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ 
+ <link href="../../Final_Main_Page/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+ <link rel="stylesheet" href="../../Final_Main_Page/assets/css/tooplate-style.css" />
+ <link rel="stylesheet" href="../../Final_Main_Page/assets/css/classStyle.css">
+
+ <script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="../../js/jquery-3.6.0.min.js"></script>
+ <script src="../../js/jquery.serializejson.min.js"></script>
+
+<title>상세글 조회</title>
+<style>
+#Writing {
+	margin : 40px;
+}
+</style>
+
+<script type="text/javascript">
+	$(function() {
+		$.ajax({
+			url:'/ShareProject/clSelectBoard.do',
+			type:'get',
+			data:{'adminboard_id' : <%=adminbaord_id %>},
+			dataType: 'html',
+			success:function(result) {
+				$('#boardBox').html(result);
+			},
+			error:function(xhr){
+				alert("에러코드 : " + xhr.status + "에러명 : " + xhr.statusText );
+			}
+		})
+				
+		
+		$(document).on('click','#update', function() {
+			fdata = $('form').serializeJSON();
+			console.log(fdata);
+			$.ajax ({
+				url:'/ShareProject/clUpdateBoard.do',
+				type:'post',
+				data:fdata,
+				dataType:'json',
+				success:function(result){
+					if(result.flag == "성공")
+						$('#UpdateModal').modal("hide");
+						location.reload();
+				},
+				error:function(xhr){
+					alert("에러코드 : " + xhr.status + "에러명 : " + xhr.statusText);
+				}
+			})
+		})
+		
+		
+		$(document).on('click','#delete', function() {
+			$.ajax ({
+				url:'/ShareProject/clDeleteBoard.do',
+				type:'post',
+				data:{'adminboard_id' : <%=adminbaord_id %>},
+				dataType:'json',
+				success:function(result){
+					if(result.flag == "성공")
+						location.href="./ClBoard.html";
+				},
+				error:function(xhr){
+					alert("에러코드 : " + xhr.status + "에러명 : " + xhr.statusText);
+				}
+			})
+		})
+	})
+</script>
+</head>
+
+
+<body>
+	<div id="page-wraper">
+		<!-- Sidebar Menu -->
+		<div class="responsive-nav">
+			<i class="fa fa-bars" id="menu-toggle"></i>
+			<div id="class_menu" class="menu">
+				<i class="fa fa-times" id="menu-close"></i> <br>
+				<div class="container">
+
+					<div class="image">
+						<div id="classNum">
+							<img src="../../img/logo-image.PNG" alt="image"> &nbsp;
+							<p>403호</p>
+						</div>
+					</div>
+
+					<div class="author-content">
+						<h4 class="infoName">공밀레</h4>
+						<div id="courseBox">
+							<span>[기업맞춤형] 전자정부 표준 프레임워크 기반 풀-스택 개발자 양성과정(15기)</span>
+						</div>
+						<span><a class="infOption"
+							href="../../whole/member/myPage.html"><i
+								class="fas fa-house-user"></i>&nbsp;마이페이지</a></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span><a class="infOption"
+							href="../../whole/member/message.html"><i
+								class="far fa-envelope"></i>&nbsp;쪽지</a></span> <br> <span><a
+							class="infOption" href="#"><i class="far fa-comments"></i>&nbsp;채팅</a></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span><a
+							class="infOption" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a></span>
+					</div>
+
+					<a href="../../Final_Main_Page/mainIndex.html"><input
+						type="button" class="clButton" value="클래스 나가기"></a>
+
+					<nav class="main-nav" role="navigation">
+					<ul class="main-menu">
+						<li><a href="#"><i class="mIcons fas fa-paperclip"></i>&nbsp;&nbsp;자료공유</a></li>
+						<li><a href="#"><i class="mIcons far fa-file-alt"></i>&nbsp;&nbsp;과제게시판</a></li>
+						<li><a href="ClQnABoard.html"><i class="mIcons fas fa-question-circle"></i>&nbsp;&nbsp;질문게시판</a></li>
+						<li><a href="../whole/board/ClFreeBoard.html"><i
+								class="mIcons fas fa-users"></i>&nbsp;&nbsp;자유게시판</a></li>
+						<li><a href="../whole/board/ClLunchBoard.html"><i
+								class="mIcons fas fa-utensils"></i>&nbsp;&nbsp;점심게시판</a></li>
+						<li><a href="#"><i
+								class="mIcons fas fa-exclamation-circle"></i>&nbsp;&nbsp;공지사항</a></li>
+						<li class="menuList"><a href="#"><i
+								class="far fa-calendar-alt"></i>&nbsp;&nbsp;시간표</a></li>
+					</ul>
+					</nav>
+
+					<div class="copyright-text">
+						<p>
+							Copyright 2021 Share Project<br> Design: 공밀레
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="boardBox">
+			
+		</div>
+
+	</div>
+
+</body>
+</html>

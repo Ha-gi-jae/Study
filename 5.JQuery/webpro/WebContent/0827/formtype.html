@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+	form{
+		border : 2px solid orange;
+		margin : 20px;
+	}
+	label, span{
+		display : inline-block;
+		width: 100px;
+		height: 30px;
+	}
+</style>
+
+<script>
+
+function proc(){
+	//입력받은 값을 가져온다. - 
+	//html의 요소의 id를 이용하여 접근하는 방법
+	var em = document.getElementById("email")
+	var col = document.getElementById("color") //"" , '', 둘중 아무거나 써도 된다. 구분하지 않음.
+	// document 내장되어있는 객체 
+	// script에서는 String,  public void 이런 타입이 없음. function만 있음.
+	// 그냥 변수명 앞에 var 쓰면 된다. 타입은 중요하지 않음 다 들어감. 
+	
+	
+	//접근한 요소의 값을 가져 온다.
+	alert(em.value + "  " + col.value);
+	
+	// id가 f2인 form요소로 접근
+	var f = document.getElementById('f2');
+	//배경색을 변경 (col.value로)
+	f.style.background = col.value;
+	
+}
+
+</script>
+
+
+
+</head>
+<body>
+	<pre>
+	입력요소 input type의 종류
+	text : 기본 입력 요소, 문자, 숫자, 날짜 등 모든 형식의 데이터 입력 가능
+	password : 비밀번호 입력
+	date : 날짜 형식의 데이터
+	submit : 전송, 제출
+	button : 초기 기능은 없고 원하는 기능을 부여하기 위해서 javascript가 필요 
+		
+		
+	</pre>
+	<form action="input.jsp" method="post">		
+	    <label>이메일</label> <input type="text" name="email" value="124@123"><br>
+	    <label>유알엘</label> <input type="url" name="url"><br>
+	    <label>전화번호</label> <input type="text" name="tel"><br>
+	    
+	    <label>색상</label> <input type="color" name="color"><br>
+
+	    <label>날짜</label> <input type="date" name="date"><br>
+	    
+	    
+	    <label>숫자</label> <input type="text" name="number" min="1" max="10" step="2"><br>
+	    
+	    
+	    <input type="hidden" name="pass" value="12345678">
+	    <input type="submit" value="제출">
+	    <input type="reset" value="초기화">
+	    <input type="image" src="../images/check.png">
+	    <input type="file" name="file">
+	    
+	    
+	    </form>
+	    <pre>
+	    &lt;input type="button" value="제출2" onclick="alert('Hello~~~')">
+	    &lt;input type="button" value="제출1" onclick="proc()">
+	    	
+	    	//id가 color인 input요소로 접근
+	    	var col = document.getElementById("color")
+	    	
+	    	//접근요소의 값을 가져오기 => value 이용
+	    	alert( col.value )
+	    	
+	    	// id가 f2인 form요소로 접근
+			var f = document.getElementById('f2');
+			
+			//배경색을 변경 (col.value로)
+			f.style.background = col.value;
+	    	
+	    	
+	    </pre>
+	    
+	
+
+		<form id="f2" action="input.jsp" method="post">		
+	    <span>이메일</span> <input type="text" id="email" name="email"><br>
+	    <span>URL</span> <input type="url" name="url"><br>
+	    <span>전화번호</span> <input type="text" name="tel"><br>
+	    
+	    <span>색상</span> <input type="color" id="color" name="color"><br>
+
+	    <span>날짜</span> <input type="date" name="date"><br>
+	    
+	    
+	    <span>숫자</span> <input type="text" name="number" min="1" max="10" step="2"><br>
+	    <input type="button" value="제출1" onclick="proc()">
+	    <input type="button" value="제출2" onclick="alert('Hello~~~')">
+	    
+	</form>
+
+</body>
+</html>

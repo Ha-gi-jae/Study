@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%
+	int cnt = (int) request.getAttribute("reInsert");
+	
+	if(cnt>0){
+%>
+	<script>
+		alert("답글등록 완료");
+		location.href="./SuggestBoard.html";
+	</script>
+	
+	
+	
+	
+	
+	
+	
+<%			
+	}else{
+%>
+	
+	<script>
+		alert("답글등록 실패");
+		location.href="./SuggestBoard.html";
+	</script>
+	
+
+<%			
+	}
+%>

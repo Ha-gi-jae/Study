@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script type="text/javascript">
+	var rect = {
+			//속성
+			width : 10,
+			height : 5,
+			
+			//메소드
+			getArea : function() {
+// 				area = this.width * this.height;
+// 				return area; 
+				return this.width * this.height;  //this 쓸 때는 람다 스면 안된다. 람다 함수 => this임. 지금은 위의 객체를 this 임.
+			},
+			getCircum : function() {
+				return (this.width + this.height) * 2;
+			}
+	}
+function proc1(){
+		// 동적으로 속성을 추가한다.
+		rect.name = "네모바지스폰지밥끼룩";
+// rlaa\rlwo
+
+		print('result1');
+		//출력
+// 		str = "이름 : " + rect.name + "<br>";
+// 		str += "가로 : " + rect.width + "<br>";
+// 		str += `세로 : ${rect.height} <br>`;
+// 		str += `면적 : ${rect.getArea()} <br>`;
+// 		str += `둘레 : ${rect.getCircum()} <br>`;
+		
+// 		document.getElementById('result1').innerHTML = str;
+}
+
+function print(result){
+	// 출력
+		str = "이름 : " + rect.name + "<br>";
+		str += "가로 : " + rect.width + "<br>";
+		str += `세로 : ${rect.height} <br>`;
+		str += `면적 : ${rect.getArea()} <br>`;
+		str += `둘레 : ${rect.getCircum()} <br>`;
+
+		document.getElementById(result).innerHTML = str;
+}
+	
+function proc2(){
+	// 가로 세로의 값을 입력 한다 - prompt - 리턴값은 문자열 - parseInt를 이용해서 숫자로 변경
+	garo = parseInt(prompt("가로길이를 입력해주세요."));
+	sero = parseInt(prompt("세로길이를 입력해주세요."));
+	
+	//이름 부여
+	rect.name = "끼룩끼룩끼루루룩";
+	// 속성 변경
+	rect.width = garo;
+	rect.height = sero;
+	
+	// 출력
+	print('result2');
+}
+	
+var circle = {
+		//속성
+		rad : 3,
+		//메소드
+		getArea : function(){
+// 			return this.rad * this.rad * Math.PI;
+			
+			return Math.pow(this.rad, 2) * Math.PI;
+		},
+		getCircum : function(){
+			return 2 * Math.PI * this.rad;
+		}
+		
+	}
+	
+function proc3() {
+	
+/* 	area = circle.getArea();
+	circum = circle.getCircum();
+	
+	a = area.toFixed(3);
+	b = circum.toFixed(3); */
+	
+	str = "반지름 : " + circle.rad + "<br>";
+	str += "면적 : " + circle.getArea().toFixed(3) + "<br>";
+// 	str += "면적 : " + a + "<br>";
+	str += "둘레 : " + circle.getCircum().toFixed(3) + "<br>";
+// 	str += "둘레 : " + b + "<br>";
+	
+	document.getElementById('result3').innerHTML = str;
+}
+</script>
+</head>
+
+<body>
+
+<div class="box">
+ <h3>Rect객체 생성</h3>
+ 속성 : width / height<br>
+ 메소드 : 면적구하기 - getArea() 둘레 구하기 - getCircum<br>
+ <br>
+ 객체는 정해진 속성과 메소드 뿐만아니라 동적으로 나중에 추가 해서 사용 할 수 있다.<br>
+ <br>
+ <input type="button" value ="확인" onclick="proc1()">
+ <input type="button" value ="확인" onclick="proc2()">
+ <br>
+ <div id="result1"></div>
+ <div id="result2"></div>
+ 
+</div>
+
+<div class="box">
+ <h3>Circle 객체 생성</h3>
+ 속성 : rad <br>
+ 메소드 : 면적구하기 - getArea() 둘레 구하기 - getCircum<br>
+ <br>
+ 객체는 정해진 속성과 메소드 뿐만아니라 동적으로 나중에 추가 해서 사용 할 수 있다.<br>
+ <br>
+ <input type="button" value ="확인" onclick="proc3()">
+ <br>
+ <div id="result3"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+package kr.or.ddit.board.vo;
+
+public class AdminreVO {
+
+	private String adminre_content;
+	private String adminre_date;
+	private int adminboard_id;
+	private String mem_id;
+	public String getAdminre_content() {
+		return adminre_content;
+	}
+	public void setAdminre_content(String adminre_content) {
+		this.adminre_content = adminre_content;
+	}
+	public String getAdminre_date() {
+		return adminre_date;
+	}
+	public void setAdminre_date(String adminre_date) {
+		this.adminre_date = adminre_date;
+	}
+	public int getAdminboard_id() {
+		return adminboard_id;
+	}
+	public void setAdminboard_id(int adminboard_id) {
+		this.adminboard_id = adminboard_id;
+	}
+	public String getMem_id() {
+		return mem_id;
+	}
+	public void setMem_id(String mem_id) {
+		this.mem_id = mem_id;
+	}
+	
+	
+}

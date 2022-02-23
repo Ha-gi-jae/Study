@@ -1,0 +1,10 @@
+package kr.or.ddit.board.dao;
+
+import java.sql.SQLException;
+
+import kr.or.ddit.board.vo.AdminreVO;
+
+public interface IAdminreDao {
+	//관리자 답글 등록
+	public int insertAdminre(AdminreVO av) throws SQLException;
+}

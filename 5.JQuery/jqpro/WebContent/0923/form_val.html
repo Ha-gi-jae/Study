@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+		$('#btnview').on('click', function(){
+			str = "이름 : " + $('#user').val() + "<br>";
+			str += "성별 : " + $('#gend:checked').val() + "<br>";
+			
+			text = $('#intro').val();
+			text = text.replace(/\r/g, "").replace(/\n/g, "<br>")
+			
+			str += "소개 <br> " + text + "<br>";
+			str += "직업 : " + $('#work option:selected').val() + "<br>";	
+			
+			$('#res1').html(str);
+		})
+	
+})
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3></h3>
+ <br>
+ <br>
+ <br>
+ 
+ <div id="result1">
+	 <form onsubmit="">
+		<label for="user">이름</label>
+		<input type="text" id="user" value="korea"><br>
+		
+		<label >성별</label> 
+		<input type="radio" id="gend" name="gend" value="남자" checked >남자
+		<input type="radio" id="gend" name="gend" value="여자"  >여자<br>
+		  
+		<label for="intro">소개</label> 
+		<textarea id="intro" cols="40" rows="4"></textarea> <br>
+		
+		<label for="work">직업</label>
+		<select id="work">
+		<option value="programmer">프로그래머</option>
+		<option value="progammer">프로게이머</option>
+		<option value="whitehand">백수</option>
+		</select><br>
+		 
+		<button type="button" id="btnview">조사하기 </button>
+		<button type="button" id="btnchange">이름변경 </button>
+	</form>
+
+ 	<div id="res1">요기에 찍을꺼임!~</div> 
+ </div>
+</div>
+</body>
+</html>

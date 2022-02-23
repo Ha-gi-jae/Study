@@ -1,0 +1,73 @@
+package kr.or.ddit.board.service;
+
+import java.sql.SQLException;
+
+import kr.or.ddit.board.dao.INotiBoardDao;
+import kr.or.ddit.board.dao.NotiBoardDaoImpl;
+import kr.or.ddit.board.vo.NoticeVO;
+
+public class NotiBoardServiceImpl implements INotiBoardService{
+	private static INotiBoardService service;
+	private INotiBoardDao dao;
+	
+	private NotiBoardServiceImpl() {
+		dao = NotiBoardDaoImpl.getInstance();
+	}
+	
+	public static INotiBoardService getInstance() {
+		if(service==null) {
+			service = new NotiBoardServiceImpl();
+		}
+		return service;
+	}
+	
+	
+	
+	@Override
+	public int insertNotice(NoticeVO nv) {
+		int cnt =0;
+		
+		try {
+			cnt = dao.insertNotice(nv);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public int noticeSize() {
+		int cnt =0;
+		
+		try {
+			cnt = dao.noticeSize();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public NoticeVO selectNotiBoard(int adminboard_id) {
+		NoticeVO nv = null;
+		
+		try {
+			nv = dao.selectNotiBoard(adminboard_id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nv;
+	}
+
+	@Override
+	public int noticeUpdate(NoticeVO nv) {
+		int cnt =0;
+		try {
+			cnt = dao.noticeUpdate(nv);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+}

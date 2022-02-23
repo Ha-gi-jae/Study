@@ -1,0 +1,19 @@
+package kr.or.ddit.admin.service;
+
+import kr.or.ddit.admin.dao.AdminDaoImpl;
+import kr.or.ddit.admin.dao.IAdminDao;
+
+public class AdminServiceImpl implements IAdminService {
+	
+	private static IAdminService service;
+	private IAdminDao dao;
+	
+	private AdminServiceImpl() {
+		dao = AdminDaoImpl.getDao();
+	}
+	
+	public static IAdminService GetService() {
+		if(service == null) service = new AdminServiceImpl();
+		return service;
+	}
+}

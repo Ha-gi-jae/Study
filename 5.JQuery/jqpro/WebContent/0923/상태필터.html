@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js">
+	// 외부
+</script>
+
+<script type="text/javascript">
+	// 내부
+	$(function() {
+		$('#enabled').on('click', function() {
+			$('#result1 form *:enabled').css('border', '2px solid red');
+			
+			str = "";
+			$('#result1 form *:enabled').each(function(q,v){ // 변수이름 생략 가능	each : 반복
+			//result1 에 있는 form 안에 있는 모든 것	
+				
+				
+				//$('form *:enabled')[q],
+				//v= $('form *:enabled')[q]
+				//this = $('form *:enabled')[q]
+				
+				//this.attr('type') 실행 불가. attr('type') = jquery메서드. this 는 dom 객체.
+				//$() 안에 this가 있어야함.
+
+				// 위의 function 뒤에 q, v 없어도 this를 이용해서 사용 가능.
+				vname = $(this).attr('name')
+				if(vname != undefined) str += `name=${vname} \n`;	//if 문에 저 조건을 안쓰면 option1,2,3,4 가 undefined로 뜸.
+			})
+			
+			alert(str);
+		})
+		
+		$('#disabled').on('click', function(){
+			$('#result1 form *:disabled').css('border', '2px solid lime');
+	
+			
+			vtype = $('#result1 form *:disabled').attr('type')
+			vname = $('#result1 form *:disabled').attr('name')
+
+			alert(vtype + " " + vname)
+		})
+		// body의 value 는 스크립트안에서 .val()
+		$('#btn2').on('click', function(){
+			str = "";
+			
+			//str += $('input[type=checkbox]:checked').val() // 속성을 이용한 선택
+			
+			$('#result2 input:checkbox:checked').each(function(){ // .each(function(){}) << 반복문임!!!!!
+			//result2 에 있는 input 박스 만 할 거기 때문에 !
+			
+			str += $(this).val() // 폼을 이용한 선택! :붙혀야함. 떨어지면 후손. 자식 붙히면 동일.
+
+			// $(this)가 체크박스 0 번째 1번째 2번째 이렇게 바뀜. 반복문을 돌면서!
+			// $('input:checkbox:checked')[0] $('input:checkbox:checked')[1]... 이런식으로
+			})
+			
+			alert(str);
+		})
+		
+		$('#btn3').on('click', function(){
+			str = "";
+			
+			str = $('#result3 input:radio:checked').val() // radio 는 하나밖에 선택을 못 하니까 for문을 돌 필요가 없음!
+			
+			alert(str);
+		})
+		
+		// str = ""; 여기에 있으면 body부분 실행할때 실행되기때문에 여기에 적으면 안된답니다.
+		$('#spring').on('change', function(){
+			str = "";
+			
+			$('option:selected', this).each(function(){
+				// 위 this는 spring
+				
+				str += $(this).val() + "\n";
+				//  위 this는 option
+			})
+			
+			// $('this option') this는 따옴표 안에 쓸 수 없음...  어떻게 써야하나?
+			// str += $('option:selected', this).val() + "\n"; // 이렇게. this를 ''안에 자식을 쓰고 ,찍고 this 를 쓰면 된다!
+			// option:selected selected 된 option.
+			// this = spring  지금 spring은 부모 option은 자식
+			
+			
+			alert(str)
+			
+		})
+		
+		
+	})
+</script>
+</head>
+
+<body>
+
+	<div class="box">
+		<h3>상태필터</h3>
+		사용불가능 $('form *:disabled')<br> 
+		사용가능 $('form *:enabled')<br>
+		요소의 속성을 가져오거나 설정 할 수 있다
+		attr('속성명') attr('type') : 타입을 가져올 수 있다.(getter)
+		attr('속성명', '값') attr('type', 'button') : 타입을 버튼으로 설정하라.(setter) <br>
+		<br>
+		<input id="enabled" type="button" value="enabled">
+		 <input id="disabled" type="button"	value="disabled">
+		 <br> <br>
+		<div id="result1">
+			<form>
+			<input type="text" name="id" disabled="disabled"><br>
+			<input	type="password" name="pass"><br> 
+			 
+			 <select name="disSelect">
+				<option>Option1</option>
+				<option>Option2</option>
+				<option>Option3</option>
+				<option>Option4</option>
+			</select>
+			<br>
+			<br>
+			<textarea name="enTextarea" rows=10 cols=20>text</textarea>
+			<br><input name="btn" type="button" value="확인" onclick="alert('hello')">
+			<br>
+
+			</form>
+
+		</div>
+	</div>
+	
+	<div class="box">
+		<h3>상태필터</h3>
+		:checked -> checkbox, radio 체크된 요소와 일치 <br>
+		<br>
+		<input id="btn2" type="button" value="확인">
+		<div id="result2">
+		<form>
+		취 미 :
+		 <input type="checkbox" name="hobby" value="여행" checked >여행 
+		<input type="checkbox" name="hobby" value="장기">장기
+		<input type="checkbox" name="hobby" value="바둑">바둑
+		<input type="checkbox" name="hobby" value="독서" >독서
+		<input type="checkbox" name="hobby" value="낚시">낚시<br><br>
+		
+		</form>
+		
+		</div>
+	</div>
+	
+	
+	
+	
+	<div class="box">
+		<h3>상태필터</h3>
+		:radio -> checkbox, radio 체크된 요소와 일치 <br>
+		
+		<br>
+		<input id="btn3" type="button" value="확인">
+		<div id="result3">
+			<form>
+			취 미 :
+			 <input type="radio" name="rhobby" value="여행"  >여행 
+			<input type="radio" name="rhobby" value="장기">장기
+			<input type="radio" name="rhobby" value="바둑">바둑
+			<input type="radio" name="rhobby" value="독서" >독서
+			<input type="radio" name="rhobby" value="낚시" checked>낚시<br><br>
+			</form>
+		</div>
+	</div>
+
+
+
+
+
+<!-- multiple이 있어야만 여러개 선택을 할 수 있다. size는 기본적으로 1인데 숫자 만큼의 갯수를 보여지게함. -->
+		<div class="box">
+		<h3>상태필터</h3>
+		selected ->select option을 대상으로 <br>
+		<br>
+		
+		<div id="result4">
+			<form>
+				봄소식 : <select name="spring" id="spring" multiple size="6"> 
+					<option value="개나리">개나리</option>
+					<option value="진달래" selected>진달래</option>
+					<option value="민들레">민들레</option>
+					<option value="벚꽃" selected>벚꽃</option>
+					<option value="목련">목련</option>
+					<option value="철쭉">철쭉</option>
+				</select>
+			</form>
+		</div>
+	</div>
+	
+	
+	
+</body>
+</html>

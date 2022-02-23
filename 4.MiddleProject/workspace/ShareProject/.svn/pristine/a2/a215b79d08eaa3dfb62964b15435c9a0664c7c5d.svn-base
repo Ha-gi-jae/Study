@@ -1,0 +1,72 @@
+/**
+ * 
+ */
+calList = function(day) {
+	
+	$('#detail').show();
+	$('#close').show();
+	
+	$.ajax({
+		url : '/ShareProject/CalList.do',
+		type : 'get',
+		data : {"day" : day},
+		success : function(res) {
+			code = "";
+			code += "<h2>[" + day.substr(0,4) + "년 "+ day.substr(4,2) + "월 " +day.substr(6) + "일 일정 목록]</h2>";
+			if(res == ""){
+				code += "<p>해당하는 일정이 없습니다.</p>"
+			}else{
+				$.each(res, function(i, v) { 
+					
+					s = v.start;
+					e = v.end;
+					code += "<div class='list'>";
+					code += "<h4>"+ v.title +"</h4>";
+					code += "<p> 시작 : " + s.substr(0,10) +"</p>" 
+					code += "<p> 종료 : " + e.substr(0,10) + "</p>";
+					code += '<input type="button" value="일정수정" class="modi">';
+					code += '<input type="button" value="일정삭제" class="del">';
+					code += "</div>";
+					
+					// 세션에 저장된 아이디가 관리자 아이디일 경우 수정버튼 추가 하기 
+					
+				})
+			}
+
+			$('#detail').append(code);
+			
+			// 관리자 아이디일 경우 수정, 삭제버튼 보여주기
+			// if(admin == "admin_id") 
+    		$('.modi').show();
+    		
+			$('#detail').append('<br><input type="button" value="닫기" id="close">');
+			
+			
+			
+		},
+		error : function(abc) {
+			alert(abc.status)
+		},
+		dataType : 'json'
+	})
+}
+
+insertCal = function(datas) {
+	
+	$.ajax({
+		url : '/ShareProject/CalInsert.do',
+		type : 'post',
+		data : datas,
+		success : function(res) {
+			
+			alert("수정 " + res.flag);
+			
+			$('#writeModal .fin').val("");
+			$('#writeModal').modal('hide');
+		}, 
+		error : function(abc) {
+			alert("상태 : " + abc.status)
+		},
+		dataType : 'json'
+	})
+}

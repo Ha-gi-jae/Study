@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="notice">
+
+<insert id="insertNotice" parameterClass="notiVO">
+insert all
+		 into adminboard values(adminboard_num_seq.nextval, 0, 'n')
+         into notice values(adminboard_num_seq.currval, #notice_title#, sysdate, #notice_content#)
+         select * from dual
+        
+         <selectKey resultClass="int">
+        	SELECT ADMINBOARD_NUM_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+</insert>
+<select id="allNotiBoard" parameterClass="pagingVO" resultClass="notiVO">
+		SELECT A.* 
+          FROM (SELECT ROWNUM AS NOTICE_NUM, AA.*  
+		          FROM (SELECT AAA.ADMINBOARD_ID,
+                               AAB.ADMINBOARD_VIEW,
+                               AAA.NOTICE_TITLE,
+                               TO_CHAR(AAA.NOTICE_DATE,'YYYY-MM-DD') AS NOTICE_DATE
+                          FROM NOTICE AAA
+                          JOIN ADMINBOARD AAB ON(AAA.ADMINBOARD_ID=AAB.ADMINBOARD_ID)
+                         ORDER BY AAA.ADMINBOARD_ID ASC) AA) A
+		 WHERE A.NOTICE_NUM BETWEEN #firstRecNo# AND #lastRecNo# 
+		 ORDER BY A.NOTICE_NUM DESC
+</select>
+
+<select id="selectNotiBoard" resultClass="notiVO" parameterClass="int">
+		SELECT A.ADMINBOARD_ID,
+	           B.ADMINBOARD_VIEW,
+	           A.NOTICE_TITLE,
+	           TO_CHAR(A.NOTICE_DATE,'YYYY-MM-DD') AS NOTICE_DATE,
+	           A.NOTICE_CONTENT
+	      FROM NOTICE A
+	      JOIN ADMINBOARD B ON(A.ADMINBOARD_ID=B.ADMINBOARD_ID)
+	     WHERE A.ADMINBOARD_ID=#adminboard_id#
+</select>
+
+<select id="noticeSize" resultClass="int">
+   select count(*) from notice
+
+</select>
+
+<update id="noticeUpdate" parameterClass="notiVO">
+	UPDATE NOTICE SET 
+     NOTICE_TITLE =#notice_title#, 
+	 NOTICE_CONTENT=#notice_content#,
+     NOTICE_DATE= SYSDATE
+	WHERE ADMINBOARD_ID=#adminboard_id#
+</update>
+
+<delete id="NoticeDelete" parameterClass="int">
+	delete  from notice where adminboard_id=#adminboard_id#
+</delete>
+
+<!-- 제목검색 -->
+	<select id="findTitle" parameterClass="pagingVO" resultClass="notiVO">
+
+	SELECT A.*
+	FROM (SELECT ROWNUM AS NOTICE_NUM, AA.*
+	FROM (SELECT ADMINBOARD_ID, NOTICE_TITLE, TO_CHAR(NOTICE_DATE,'YYYY-MM-DD') AS NOTICE_DATE, NOTICE_CONTENT
+	FROM NOTICE
+	WHERE NOTICE_TITLE LIKE '%'||#notice_title#||'%'
+	ORDER BY ADMINBOARD_ID ASC) AA) A
+	WHERE A.NOTICE_NUM BETWEEN #firstRecNo# AND #lastRecNo#
+	ORDER BY A.NOTICE_NUM DESC
+	</select>
+	
+	<select id="findtitleCount" parameterClass="String" resultClass="int">
+   	SELECT COUNT(*) FROM NOTICE
+   	WHERE NOTICE_TITLE LIKE '%'||#notice_title#||'%'
+
+	</select>
+	
+	<!-- 내용검색 -->
+	<select id="findContent" parameterClass="pagingVO" resultClass="notiVO">
+		SELECT A.*
+	FROM (SELECT ROWNUM AS NOTICE_NUM, AA.*
+	FROM (SELECT ADMINBOARD_ID, NOTICE_TITLE, TO_CHAR(NOTICE_DATE,'YYYY-MM-DD') AS NOTICE_DATE, NOTICE_CONTENT
+	FROM NOTICE
+	WHERE NOTICE_CONTENT LIKE '%'||#notice_content#||'%'
+	ORDER BY ADMINBOARD_ID ASC) AA) A
+	WHERE A.NOTICE_NUM BETWEEN #firstRecNo# AND #lastRecNo#
+	ORDER BY A.NOTICE_NUM DESC
+	</select>
+	
+	<select id="findcontentCount" parameterClass="String" resultClass="int">
+   	SELECT COUNT(*) FROM NOTICE
+   	WHERE NOTICE_CONTENT LIKE '%'||#notice_content#||'%'
+
+	</select>
+	
+	
+	<update id="countView" parameterClass="int">
+		UPDATE ADMINBOARD SET ADMINBOARD_VIEW=ADMINBOARD_VIEW+1 WHERE ADMINBOARD_ID=#adminboard_id#
+	</update>
+
+
+
+
+</sqlMap>

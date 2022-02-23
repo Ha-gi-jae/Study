@@ -1,0 +1,38 @@
+package kr.or.ddit.basic;
+
+public class EnumPlanet {
+	public enum Planet { 
+		수성(2439), 금성(6052), 지구(6371), 화성(3390), 목성(69911), 토성(58232),
+		천왕성(25362), 해왕성(24622);
+		
+		//괄호 안의 값을 넣을 변수 
+		private int str;
+
+		
+		//생성자
+		Planet(int data) {
+			this.str = data;
+		}
+
+
+		public int getStr() {
+			return str;
+		}
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		//name()
+		//ordinal()
+		//valueOf()
+		
+		System.out.println("태양계 행성의 반지름(KM)");
+		Planet [] pnArr = Planet.values();
+		for(int i = 0; i < pnArr.length; i++) {
+			System.out.println(pnArr[i].name() + "(" + pnArr[i].getStr() + ")");
+			System.out.println(pnArr[i].name()+"면적 : "+(Integer)pnArr[i].getStr() * (Integer)pnArr[i].getStr() *3.14 * 4);
+		}
+		
+	}
+}

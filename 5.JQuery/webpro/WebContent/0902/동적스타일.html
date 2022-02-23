@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+/* 스타일로 바꾸는것은 정적.  */
+div {
+	width: 50%;
+	height: auto;
+	padding: 50px;
+	border: 1px solid blue;
+	font-size: 2.0em;
+	color: red;
+}
+</style>
+<script>
+
+window.onload = function(){
+	// div요소에 접근
+	vdiv = document.getElementsByTagName('div')[0];
+}
+	
+function changeBorder(){ // var를 붙이면 지역변수 붙히지 않으면 전역변수
+	
+// 	arr = new Array() // script의 배열선언 방법
+	const arr = ["solid", "double", "dotted", "dashed", "inset", "outset" ];
+	
+	width = parseInt(Math.random()*10+1);
+	idx = parseInt(Math.random()*arr.length);
+	style = arr[idx];
+	
+	cr = parseInt(Math.random()*256);
+	cg = parseInt(Math.random()*256);
+	cb = parseInt(Math.random()*256);
+	color = "rgb(" + cr + "," + cg + "," + cb + ")";
+	
+// 	cr = cr.toString(16); // 16진수로 바꿔라.
+// 	cg = cg.toString(16);
+// 	cb = cb.toString(16);
+	
+// 	color = "#" + cr + cg + cb;	
+//  color = `#${cr}${cg}${cb}`; 공백 없애햐마ㅏ.
+// 	vdiv.style.borderWidth = width + "px";
+	vdiv.style.borderWidth = `${width}px`;
+	vdiv.style.borderStyle = style;
+	vdiv.style.borderColor = color;
+	
+	// vdiv.style.border = `${width}px ${style} ${color}`
+}
+
+changeColor = function(){
+	//0~255 난수 발생
+	cr = parseInt(Math.random()*256);
+	cg = parseInt(Math.random()*256);
+	cb = parseInt(Math.random()*256);
+	
+	
+// 	vdiv.style.color = "rgb(" + cr + "," + cg + "," + cb + ")";
+	vdiv.style.color = `rgb( ${cr}, ${cg}, ${cb} )`; // 템플릿리터럴!
+}
+
+//람다 함수	매개변수 - es6
+changeSize =() =>{
+	size = parseInt(Math.random()*26+15);
+	vdiv.style.fontSize = size + "px";
+}
+
+
+
+</script>
+</head>
+<body>
+<pre>
+ 	변수선언
+	 - var 변수명; 함수영역에서 선언시 지역변수
+	 - let 변수명; 함수영역 또는 함수의 블럭 영역(안)에서의 지역변수 - es6
+	 - const 변수명 = "값"; 값을 변경할 수 없는 변수 - es6
+	 - 변수명; 어디서나 사용가능한 전역변수
+	 
+	템플릿리터럴
+	 - 백틱(`)을 이용한 문자열
+	 `문자열 ${변수} 문자열 ${변수} 문자열..` 이런식으로 + 를 쓰지 않아도 된다. - es6
+	 
+	 
+</pre>
+
+	<input type="button" value="border" onclick="changeBorder()">
+	<input type="button" value="color" onclick="changeColor()">
+	<input type="button" value="fontsize" onclick="changeSize()">
+	<br>
+	<br>
+	<div>Hello</div>
+
+
+</body>
+</html>

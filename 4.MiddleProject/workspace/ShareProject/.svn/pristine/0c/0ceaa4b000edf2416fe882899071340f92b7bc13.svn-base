@@ -1,0 +1,37 @@
+package kr.or.ddit.reflection;
+
+import java.text.DecimalFormat;
+
+public class PlanetTest {
+
+	static DecimalFormat decFormat = new DecimalFormat("###,###");
+	
+	public enum Planet{
+		수성(2439), 금성(6052), 지구(6371), 성(3390), 목성(69911), 토성(58232), 천왕성(25362), 해왕성(24622);
+
+		// 괄호 속의 값이 저장될 변수 선언
+		private int radius;
+
+		// 생성자 만들기(열거형의 생성자는 제어자가 묵시적으로 'private'이다.)
+		Planet(int data) {
+			this.radius = data;
+		}
+
+		// 값을 반환하는 메서드 작성
+		public int getRadius() {
+			return radius;
+		}
+
+	}
+	
+	public static void main(String[] args) {		
+		Planet[] enumArr = Planet.values();
+		
+		for(int i = 0; i < enumArr.length; i++) {
+			long area=(long) ((long)4*3.14*enumArr[i].getRadius()*enumArr[i].getRadius());
+			System.out.println(enumArr[i].name()+"의 면적은 "+decFormat.format(area)+" KM입니다.");
+		}
+			
+	}
+
+}

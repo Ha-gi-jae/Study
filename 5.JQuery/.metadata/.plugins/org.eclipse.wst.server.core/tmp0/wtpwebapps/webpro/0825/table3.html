@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<title></title>
+			<meta charset="UTF-8">
+		<style>
+			table{
+				border : 3px solid green;
+				margin : 100px auto;
+			}
+			
+			td{
+				width : 200px;
+				height : 50px;
+			}
+			
+			th{
+				height : 50px;
+			}
+			#tab2{
+				border : 10px double blue;
+			}
+			#tab2 td{
+				border : 3px solid red;
+				width : 100px;
+				height : 50px;
+			}
+			#tab1{
+				text-align: center;
+				empty-cells: hide;  /* border-collapse : separate 일 때쓸 수 있음.(collapse)이면 못 쓴다. empty-cells은  기본 값은 show */
+			}
+			
+		</style>
+	</head>
+	
+	<body>
+		
+		<table id="tab1" border="1">
+			<tr>
+				<th id="head1">1</th>
+				<th>2</th>
+				<th>3</th>
+				<th>4</th>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>2</td>
+				<td>3</td>
+				<td>4</td>
+			</tr>
+			
+			<tr>
+				<td rowspan="2">1</td>
+				<td>2</td>
+				<td>3</td>
+				<td>4</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>2</td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td colspan="4">1</td>
+				
+			</tr>
+			
+		</table>
+		
+		<table id="tab2" border="1">
+			<tr>
+				<td colspan="2"></td>
+				<td colspan="2"></td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td colspan="4"></td>
+				<td colspan="2"></td>
+			</tr>
+			
+			<tr>
+				<td colspan="4"></td>
+				<td rowspan="2" colspan="2"></td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+			
+		</table>
+		
+	</body>
+	
+</html>

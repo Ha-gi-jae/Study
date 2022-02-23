@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<style>
+		table{ /* 붙혀써야지만 아이디가 t1인 테이블을 말함.  table #t1 으로하면(띄어쓰면) 테이블 밑의 자식으로있는 #t1을 뜻함.*/
+			border : 2px solid blue;
+			margin : 20px auto;  /* auto : 좌우정렬(가운데정렬)! */
+		}
+		
+		 td{
+			width : 150px;
+			height : 50px;
+		}
+		
+		table#t1 td:nth-child(1){/* 1행1열, 2행 1열, 3행 1열,4행 1열 선택 */
+			background : lightgray;
+		}
+		table#t1  td:nth-child(2n){ /* 짝수번째 */
+			background : #12f9ef;   /* 작을수록 어둡고 클수록 밝다 */
+		}
+		table#t1 td:nth-child(2n+1){
+			background : #f4d9f5;
+		} /* 여기서의 n은 0부터 시작하고 컴퓨터 화면은 1부터시작함. */
+		/* 즉 0+1이니까 화면상의 1열임.  */
+		/*  td로 이미 들어가 있기 때문에 tr은 먹히지 않는다. tr에서 띄어쓰기 또는 부등호를 이용해 td도 불러줘야한다. */
+		
+		#t2 tr:nth-child(2n+1) td{ /* 띄어쓰기말고 부등호해도된다. */
+		/* #t2와 tr 사이에 꺽새 넣으면 안먹힘. 왜그러지 */
+		/* 실행하면 table 밑에 자동으로 tbody가 생긴다. 그래서  #t2 > tr 이 아니라 #t2 > tbody > tr 을 해야한다. */
+			background : lightgreen;
+		}
+		.odd{
+			background : rgba(231, 100, 189, 0.5);
+		}   /* a 는 투명도 0.0~1.0으로 표기  */
+		.even{
+			background : rgba(98%, 80%, 67%, 0.7);
+		}
+
+	</style>
+</head>
+<body>
+	<table id="t1" border="1">
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+	
+	</table>
+	
+	<table id="t2" border="1">
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+	
+	</table>
+	
+	<table id="t3" border="1">
+		<tr class="odd">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr class="even">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr class="odd">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr class="even">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+	
+	</table>
+	
+	
+</body>
+</html>

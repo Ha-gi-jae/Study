@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.box{
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid grey;
+	background: #f3fada;
+}
+.box div{
+	border: 1px dotted orange;
+	padding: 10px;
+	
+}
+.box input[type=button]{
+	border-radius: 40px;
+	width: 60px;
+	height: 30px;
+	background: blue;
+	color: white;
+}
+.box table{
+	border: 1px solid pink;
+	border-spacing: 10px;
+}
+.box td{
+	width:50px;
+	height: 40px;
+	border: 1px dotted purple;
+	text-align: center;
+}
+</style>
+<script>
+function proc1() {
+	
+	res =""; // 선언 먼저 하고 해줘야한다.
+	for(i = 1; i<= 10; i++){
+		res += i + "&nbsp;&nbsp;"
+	}
+	document.querySelector('#result1').innerHTML = res;
+	
+}
+function proc2() {
+	res2 = 0;
+	for(i = 1; i<= 100; i++){
+		res2 += i 
+	}
+	document.querySelector('#result2').innerHTML = res2;
+	
+}
+function proc3() {
+	res3 = "<table border='1'>";
+	for(i = 1; i < 10; i++){
+		res3 += "<tr>";
+		for(k = 1; k <10; k++ ){
+			res3 += "<td>" + i * k + "</td>";
+		}res3 += "</tr>"
+	} res3 += "</table>"
+	
+	document.querySelector('#result3').innerHTML = res3;
+}
+</script>
+</head>
+<body>
+<div class="box">
+ <h3>1~10 까지 출력</h3>
+ <br>
+ <input type="button" value ="확인" onclick="proc1()">
+ <br>
+ <div id="result1"></div>
+
+</div>
+
+<div class="box">
+ <h3>1~100 까지 합출력</h3>
+ <br>
+ <input type="button" value ="확인" onclick="proc2()">
+ <br>
+ <div id="result2"></div>
+
+</div>
+
+
+<div class="box">
+ <h3>구구단을 테이블로 출력</h3>
+ <br>
+ <input type="button" value ="확인" onclick="proc3()">
+ <br>
+ <div id="result3"></div>
+
+</div>
+
+</body>
+</html>

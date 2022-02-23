@@ -1,0 +1,34 @@
+package kr.or.ddit.admin.service;
+
+import java.sql.SQLException;
+
+import kr.or.ddit.admin.dao.AdminDaoImpl;
+import kr.or.ddit.admin.dao.IAdminDao;
+
+public class AdminServiceImpl implements IAdminService {
+	
+	private static IAdminService service;
+	private IAdminDao dao;
+	
+	private AdminServiceImpl() {
+		dao = AdminDaoImpl.getDao();
+	}
+	
+	public static IAdminService GetService() {
+		if(service == null) service = new AdminServiceImpl();
+		return service;
+	}
+
+	@Override
+	public String adCheck(String admin_id) {
+		String id = null;
+		
+		try {
+			id=dao.adCheck(admin_id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
+}

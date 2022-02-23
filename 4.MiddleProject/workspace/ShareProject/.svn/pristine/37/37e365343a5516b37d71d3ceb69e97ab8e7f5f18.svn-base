@@ -1,0 +1,90 @@
+<%@page import="kr.or.ddit.member.vo.MsgVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	MsgVO mv = (MsgVO) request.getAttribute("msgVO");
+%>
+
+<html>
+<head>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="js/jquery-3.6.0.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+$(function(){
+	$('#delete').on('click', function(){
+		$.ajax({
+			url : '/ShareProject/DeleteSelectMsg.do',
+			type : 'get',
+			data : {"msg_num" : <%=mv.getMsg_num()%>},
+			dataType : 'json',
+			success : function(res){
+				alert(res.flag);
+				location.href="/ShareProject/whole/member/message.html";
+			},
+			error : function(xhr){
+				alert(xhr.status);
+			}
+		})
+	})
+	
+	$('#response').on('click', function(){
+		$('#msgModal').modal('show');
+	})
+})
+</script>
+
+</head>
+<body>
+<h1>쪽지조회</h1>
+	<div>
+		<input id="delete" type ="button" value="삭제">
+		<input id="response" type="button" value="답장">
+		<br><br>
+		
+		보낸사람:<%=mv.getMsg_to() %>
+		<br>
+		받은시간:<%=mv.getMsg_date() %>
+		<br>
+		내용<br>
+		<%=mv.getMsg_content() %>
+	</div>
+	
+	
+	<div id="msgModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+    
+        <h3>쪽지보내기</h3>
+        <form action="/ShareProject/MsgResponse.do" method="post">
+        	
+        	<input type="hidden" class="msg_from" name="msg_from" value="<%=mv.getMsg_to()%>">
+        	<input type="submit" class="msend" value="보내기">
+        	<br>
+        	<textarea name="msg_content" rows="5" cols="50">
+        	</textarea>
+        	
+        </form>
+   		
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	
+</body>
+</html>

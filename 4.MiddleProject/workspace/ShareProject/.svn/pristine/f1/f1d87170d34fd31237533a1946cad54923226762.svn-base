@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>반 관리</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="../../../js/jquery-3.6.0.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../../../js/jquery.serializejson.min.js"></script>
+<script>
+pageNo = 1;
+$(function(){
+	groupByAllClass();
+	
+	$(document).on('click', '.page', function(){
+		pageNo = $(this).html();
+		groupByAllClass();
+	})
+	
+	$(document).on('click', '.pre', function(){
+		pageNo = $(this).attr('name');
+		groupByAllClass();
+	})
+	
+	$(document).on('click', '.next', function(){
+		pageNo = $(this).attr('name');
+		groupByAllClass();
+	})
+	
+	class_id = '';
+	chk = '';
+	
+	chkList = function(){
+		$("input[name=class_chk]:checked").each(function(){
+			chk += $(this).val()+",";
+		})
+	}
+	
+	$(document).on('click', '#deleteclass', function(){
+		chkList();
+		$.ajax({
+			url: '/ShareProject/ClassUpdateMember.do',
+			type: 'post',
+			data: {"chk" : chk},
+			dataType: 'json',
+			success : function(res){
+				$.ajax({
+					url: '/ShareProject/DeleteClass.do',
+					type: 'get',
+					data: {"chk" : chk},
+					dataType: 'json',
+					success:function(res2){
+						location.reload();
+						alert("반삭제 성공");
+					},
+					error:function(xhr2){
+						alert(xhr2.status);
+					}
+				})
+			},
+			error: function(xhr){
+				alert(xhr.status);
+			}
+		})
+	})
+	// 반
+	$(document).on('click', '.classid', function(){
+		class_id = $(this).parents('.tr1').find('.classid').text();
+		class_name = $(this).parents('.tr1').find('.classname').text();
+		
+		$('#updateClassModal .classnm').val(class_name);
+		$('#updateClassModal .classi').val(class_id);
+		
+		$('#updateClassModal').modal('show');
+		
+		
+		$(document).on('click', '#bupdate', function(){
+			datas = $('#updateClassModal form').serialize();
+			$.ajax({
+				url: '/ShareProject/UpdateClass.do',
+				data: datas,
+				type: 'post',
+				dataType: 'json',
+				success: function(res){
+					$('#updateClassModal .fin').val("");
+					$('#updateClassModal').modal('hide');
+					location.href="/ShareProject/whole/admin/admin_html/adminClass.html";
+				},
+				error: function(xhr){
+					alert(xhr.status);
+				}
+			})
+		})
+	})
+		
+	$(document).on('click', '.classname', function(){
+		class_id = $(this).parents('.tr1').find('.class_chk').val();
+				location.href="/ShareProject/SelectClassMember.do?classid=" + class_id +"";
+	})
+	
+})
+
+	groupByAllClass = function(){
+		$.ajax({
+			url: '/ShareProject/SelectAllClass.do',
+			type: 'get',
+			data: {'pageNo' : pageNo},
+			dataType: 'html',
+			success: function(res){
+				$('#dv2').html(res);
+			},
+			error: function(xhr){
+				alert(xhr.status);
+			}
+		})
+	}
+
+
+</script>
+</head>
+<body>
+<h2> 반 관리 페이지</h2>
+	<div id="dv2">
+	</div>
+	
+	<!-- Modal -->
+<div id="updateClassModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">반 수정</h4>
+      </div>
+      <div class="modal-body">
+   <h3>^_^</h3>
+           <form action="/ShareProject/UpdateClass.do" method="post">
+         	  <br>
+         	  <label>반 이름</label>
+         	  <input class="fin classnm" type="text" name="class_name"><br>
+
+			  <input class="fin classi" type="hidden" name="class_id">
+         	  <button type="button" id="bupdate" class="btn btn-success">등록</button>
+           </form> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

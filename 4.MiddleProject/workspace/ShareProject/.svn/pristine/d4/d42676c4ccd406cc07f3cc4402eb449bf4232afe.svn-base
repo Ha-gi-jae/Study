@@ -1,0 +1,83 @@
+package kr.or.ddit.board.controller;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.fileupload.FileItem;
+
+import kr.or.ddit.at.service.AtchFileServiceImpl;
+import kr.or.ddit.at.service.IAtchFileService;
+import kr.or.ddit.at.vo.AtVO;
+import kr.or.ddit.board.service.BoardServiceImpl;
+import kr.or.ddit.board.service.IBoardService;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.util.FileUploadRequestWrapper;
+
+/**
+ * Servlet implementation class InsertBoard
+ */
+@WebServlet("/InsertBoard.do")
+public class InsertBoard extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public InsertBoard() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		String mem_id = (String) session.getAttribute("mem_id");
+		if(mem_id==null) {
+			mem_id=(String)session.getAttribute("admin_id");
+		}
+		BoardVO bv = new BoardVO();
+		
+		bv.setBoard_title(request.getParameter("title"));
+		bv.setBoard_content(request.getParameter("cont"));
+		bv.setBoard_title_id(request.getParameter("id"));
+		bv.setMem_id(mem_id);
+		
+		IBoardService service = BoardServiceImpl.getInstance();
+		int num = service.InsertBoard(bv);
+		
+		AtVO fileVO = new AtVO();
+		fileVO.setAdminboard_id(num);
+		
+		if(((FileUploadRequestWrapper)request).isMultipartContent()) {
+			IAtchFileService fileService = AtchFileServiceImpl.getInstance();
+			
+			Map<String, FileItem[]> fileItemMap = ((FileUploadRequestWrapper)request).getFileItemMap();
+			
+			if(fileItemMap.size() > 0) {
+				try {
+					fileVO = fileService.saveAtchFileList(fileItemMap);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		request.setAttribute("adminboard_id", num);
+		
+		request.getRequestDispatcher("/WEB-INF/whole/board_jsp/InsertBoard.jsp").forward(request, response);
+	}
+
+}

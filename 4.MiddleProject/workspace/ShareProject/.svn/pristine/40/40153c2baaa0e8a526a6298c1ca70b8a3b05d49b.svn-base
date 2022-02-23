@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="admin">
+	
+	<select id="adCheck" parameterClass="adminVO" resultClass="adminVO">
+		select admin_id, 
+		       admin_pw 
+		  from admin 
+		  where admin_id=#admin_id#
+		    and admin_pw=#admin_pw#
+	</select>
+	
+	<select id="groupByAllMem" resultClass="adminVO" parameterClass="pagingVO">
+		<![CDATA[
+			select A.* from (
+		    	select rownum as rnum, B.*  from (
+		        	select * from mem) B
+				 where rownum <= #lastRecNo#) A 
+			where A.rnum >= #firstRecNo#
+		 ]]>
+	</select>
+	
+	<select id="groupByFindCls" resultClass="adminVO" parameterClass="pagingVO">
+	<![CDATA[
+		select D.* 
+ 		  from (select rownum as rnum,
+		               C.*
+		          from (select A.mem_id,
+		          			   A.class_id,
+		          			   A.mem_group,
+		          			   A.mem_name,
+		          			   A.mem_hp
+		                  from mem A, class B
+		                 where A.class_id = B.class_id
+		                   and A.class_id = #class_id#) C
+		         where rownum <= #lastRecNo#) D
+		 where D.rnum >= #firstRecNo#
+		]]>
+	</select>
+	
+	<select id="memSize" resultClass="int">
+		select count(*) from mem
+	</select>	
+	
+<!-- 회원 상세 조회 완료 -->
+	<select id="selectMemberDetail" resultClass="adminVO" parameterClass="String">
+		select *
+		  from mem A, class B
+		 where A.class_id = B.class_id
+		   and mem_id = #data#
+		
+	</select>
+	
+<!-- 회원 조건 검색 -->
+	<select id="findClass" resultClass="adminVO" parameterClass="String">
+		 select *
+ 		   from mem A, class B
+		  where A.class_id = B.class_id
+		    and A.class_id like '%'||#class_id#||'%'
+	</select>
+	
+	<select id="findGroup" resultClass="adminVO" parameterClass="String">
+		select *
+		  from mem
+		 where mem_group like '%'||#mem_group#||'%'
+	</select>
+	
+	<select id="findName" resultClass="adminVO" parameterClass="String">
+		select *
+		  from mem
+		 where mem_name like '%'||#mem_name#||'%'
+	</select>
+	
+<!-- 검색 사이즈 페이징 -->
+	<select id="findclasssize" resultClass="int" parameterClass="String">
+		select count(*)
+		  from mem A, Class B
+		 where A.class_id = B.class_id
+		   and A.class_id = #class_id#
+	</select>
+<!-- 회원 정보 수정 완료 -->
+	<update id="updateMember" parameterClass="adminVO">
+		update mem
+		   set mem_addr1 = #mem_addr1#,
+		       mem_addr2 = #mem_addr2#,
+		       mem_hp = #mem_hp#,
+		       mem_name = #mem_name#,
+		       mem_chk = 0
+		 where mem_id = #mem_id#
+	</update>
+	
+<!-- 비밀번호 초기화 완료 -->
+	<update id="passwordReset" parameterClass="String">
+		update mem
+		   set mem_pass = birth,
+		       mem_chk = 0
+		 where mem_id = #mem_id#
+	</update>
+	
+<!-- 회원삭제 완료 -->
+	<delete id="deleteMember" parameterClass="String">
+		delete mem where mem_id = #data#
+	</delete>
+	
+	<insert id="insertMember" parameterClass="adminVO">
+		insert into mem values(#mem_id#, #mem_pass#, #mem_group#, #mem_addr1#, #mem_addr2#, #mem_hp#, #mem_name#, #mem_sub#, #class_id#, to_number(#mem_chk#), #birth#)
+	</insert>
+	
+</sqlMap>

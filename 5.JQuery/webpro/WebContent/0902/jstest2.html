@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	div{
+		height: auto; /* auto로 하면 글자에 맞춰서 늘어남.  */
+		width: 80%;
+		border : 1px solid blue;
+	}
+</style>
+
+<script>
+	
+	function proc1(){ /* 필드와 속성을 쓰면 객체가 된다. append를 쓰려면 객체가 필요하다. */
+		now = new Date();
+		// 기존의 실행된 document를 덮어쓰기 한다.
+		//document.write(now); ㄴ> body태그에 무엇인가 있을때는 쓰지 않는다. 
+		
+		// div인 요소로 접근 - 배열로 리턴.
+		var vdiv = document.getElementsByTagName('div'); // s가 붙음 Elements<<<
+		
+		// 접근된 요소에 출력
+		vdiv[0].innerHTML = now + "<br>";
+		
+		now1 = now.toLocaleString();
+		now2 = now.toLocaleDateString();
+		now3 = now.toLocaleTimeString();
+		
+		vdiv[0].innerHTML += now1 + "<br>"; //이렇게하면 덮어쓰기된다. 위의 값이 사라짐.
+		vdiv[0].innerHTML += now2 + "<br>";
+		vdiv[0].innerHTML += now3 + "<br>";
+		
+	}
+
+
+
+</script>
+</head>
+<body>
+<input type="button" value="확인" onclick="proc1()"><br><br>
+
+<div id="d1"></div>
+</body>
+</html>

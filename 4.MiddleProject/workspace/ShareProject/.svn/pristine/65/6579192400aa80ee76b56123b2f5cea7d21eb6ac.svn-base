@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="board">
+
+	
+	<select id="groupByAllBoard" parameterClass="pagingVO" resultClass="boardVO">
+		<![CDATA[ 
+			 SELECT A.* 
+		      FROM (SELECT ROWNUM AS RNUM, B.*  
+		              FROM (SELECT * 
+		                      FROM BOARD WHERE BOARD_GROUP=#group# ORDER BY BOARD_NUM DESC) B) A
+		     WHERE A.RNUM BETWEEN #firstRecNo# AND #lastRecNo#
+		]]>
+	</select>
+	<select id="selectTotalCnt" resultClass="int">
+		 SELECT COUNT(*) FROM BOARD WHERE BOARD_GROUP=#group#
+	</select>
+	
+</sqlMap>			
+

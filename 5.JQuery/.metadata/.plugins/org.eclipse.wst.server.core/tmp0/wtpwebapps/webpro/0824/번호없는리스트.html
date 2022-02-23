@@ -1,0 +1,157 @@
+<html>
+	<head>
+		<title></title>
+			<meta charset="UTF-8">
+			<link rel="stylesheet" href="../css/mystyle.css">
+		<style>
+		ul {
+			border : 1px; solid blue;
+		}
+		li {
+			border : 1px solid green; 
+		}
+		
+		img{
+		width : 100px;
+		height : 100px;
+		}
+		div{
+			border : 1px dotted orange;
+			width : 200px;
+			
+			 float : left; 
+			margin : 20px ;
+		}
+		.d1{
+		}
+		
+		.d2{
+			float : right;
+		}
+		
+		
+		hr{ 
+			clear : both;
+		}
+		
+		#circle{
+			list-style-type : circle;
+			list-style-position : inside;   /*  기본적으로 아웃사이드임.  */
+		}
+		#square{
+			list-style-type : square;
+		}
+		#typeimg{
+			list-style-image : url(../images/check.png);
+			
+		}
+		
+		</style>
+	</head>
+	
+	<body>
+		  <pre>
+	  ul : 번호 없는 리스트(unordered list)
+	  li : 리스트 아이템(list item)
+	  ul 을 계속 쓰면 ●(disk) ○(circle) ■(square) 순으로 나온다.
+		
+	  </pre>
+		<div class="d1">
+			<ul>
+				<li>에스프레소</li>
+				<li>아메리카노</li>
+				<li>카페라떼</li>
+				<li>카푸치노</li>
+			</ul>
+		</div>
+		
+		<div class="d1">
+			<ul>
+				<li><img src="../images/에스프레소.jpg" alt="이미지"></li>
+				<li><img src="../images/아메리카노.jpg" alt="이미지"></li>
+				<li><img src="../images/카페라떼.jpg" alt="이미지"></li>
+				<li><img src="../images/카푸치노.jpg" alt="이미지"></li>
+			</ul>
+		</div>
+		
+		<div class="d1">
+			<ul>
+				<li><a href="../images/에스프레소.jpg">에스프레소</a></li>
+				<li><a href="../images/아메리카노.jpg">아메리카노</a></li>
+				<li><a href="../images/카페라떼.jpg">카페라떼</a></li>
+				<li><a href="../images/카푸치노.jpg">카푸치노</a></li>
+			</ul>
+		</div>
+		
+		<hr></hr>
+		
+		<div class="d2">
+			<ul>
+				<li><a href="../images/에스프레소.jpg"><img src="../images/에스프레소.jpg" alt="이미지"></a></li>
+				<li><a href="../images/아메리카노.jpg"><img src="../images/아메리카노.jpg" alt="이미지"></a></li>
+				<li><a href="../images/카페라떼.jpg"><img src="../images/카페라떼.jpg" alt="이미지"></a></li>
+				<li><a href="../images/카푸치노.jpg"><img src="../images/카푸치노.jpg" alt="이미지"></a></li>
+			</ul>
+		</div>
+		
+		<div class="d2">
+			<ul>
+				
+			<li>에스프레소
+				<ul>
+					<li>신맛</li>
+					<li>구수한맛</li>
+						<ol>
+							<li>기재꺼</li>
+							<li>건이꺼</li>
+							<li>민영이형꺼</li>
+						</ol>
+					<li>쓴맛</li>
+				</ul>
+					<li>아메리카노</li>
+					<li>카페라떼</li>
+					<li>카푸치노</li>
+		</div>
+		
+		<hr>
+		
+		<div class="d1">
+			<h3>list-style-type:disk</h3>
+			<ul>
+				<li>에스프레소</li>
+				<li>아메리카노</li>
+				<li>카페라떼</li>
+				<li>카푸치노</li>
+			</ul>
+		</div>
+		<div class="d1">
+			<h3>list-style-type:circle</h3>
+			<ul id="circle">
+				<li>에스프레소</li>
+				<li>아메리카노</li>
+				<li>카페라떼</li>
+				<li>카푸치노</li>
+			</ul>
+		</div>
+		<div class="d1">
+			<h3>list-style-type:square</h3>
+			<ul id="square">
+				<li>에스프레소</li>
+				<li>아메리카노</li>
+				<li>카페라떼</li>
+				<li>카푸치노</li>
+			</ul>
+		</div>
+		<div class="d1">
+			<h3>list-style-image:</h3>
+			<ul id="typeimg">
+				<li>에스프레소</li>
+				<li>아메리카노</li>
+				<li>카페라떼</li>
+				<li>카푸치노</li>
+			</ul>
+		</div>
+		
+	</body>
+	
+</html>

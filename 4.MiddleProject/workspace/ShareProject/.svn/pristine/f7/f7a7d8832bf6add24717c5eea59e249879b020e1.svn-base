@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	
+	$('#selectAllMember').on('click', function(){
+		$.ajax({
+			url: '/ShareProject/SelectAllMember.do',
+			type: 'get',
+			dataType: 'json',
+			success : function(res){
+				code = "<table border='1'>";
+				
+				$.each(res, function(i,v){
+					code += "<tr id='" + v.memid + "'><td>" + v.classid(/null/g, "") + "</td>";
+					code += "<td>" + v.memgroup + "</td>";
+					code += "<td>" + v.memname + "</td>";
+					code += "<td>" + v.memhp + "</td></tr>";
+				})
+				code += '</table>';
+				$('#allmember').html(code);
+			},
+			error: function(xhr){
+				alert("상태 : " + xhr.status);
+			}
+			
+		})
+	})
+	
+	
+})
+</script>
+</head>
+<body>
+<input id="selectAllMember" type="button" value = "학생조회">
+<div id="allmember">
+</div>
+<br>
+<br>
+
+<input id="selectAllClass" type="button" value="반조회">
+
+</body>
+</html>

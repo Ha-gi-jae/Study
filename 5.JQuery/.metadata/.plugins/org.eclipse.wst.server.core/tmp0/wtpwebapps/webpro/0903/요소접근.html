@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	p{
+		font-size: 1.5em;
+	}
+</style>
+
+
+<script>
+
+</script>
+</head>
+<body>
+ <p> id 접근 : document.getElementById('x')</p>
+ <p> class 접근 : document.getElementsByClassName('abc')</p> 
+ <p> 태그 이름 접근 : document.getElementsByTagName('div')</p>
+ <hr>
+ <!-- 하나만 리턴 ID의 경우 무조건 1개임. class 및 태그는 여러개 올 수 있음. -->
+ <p> id 접근 : document.querySelector('#x')</p>
+ <p> class 접근 : document.querySelector('.abc')</p> 
+ <p> 태그 이름 접근 : document.querySelector('div')</p>
+
+ <!-- 배열로 리턴 -->
+ <p> 모든 class 접근 : document.querySelectorAll('.abc')</p> 
+ <p> 모든 태그 이름 접근 : document.querySelectorAll('div')</p>
+
+ <p> form이름을 이용한 접근 : document.formname.요소name </p>
+ document.ff.id <br>
+ document.ff.pass <br>
+ <br>
+ &lt;form name="ff"> <br>
+ 	아이디 &lt;input type="text" name="id"> <br>
+ 	비밀번호 &lt;input type="password" name="pass"> <br>
+ &lt;/form> <br>
+ 
+ 
+ 
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

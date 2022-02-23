@@ -1,0 +1,55 @@
+<%@page import="kr.or.ddit.member.vo.MemVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%    
+MemVO mv = (MemVO) request.getAttribute("check");
+int chk =(int)request.getAttribute("count");
+if(chk==5) {
+%>
+
+	<script>
+	alert("로그인 5회실패(계정잠김)");
+	document.location.href='./loginPage.html';
+    </script>
+<%
+}
+%>
+
+<%
+if(mv != null){
+	
+%>	
+	{
+		"flag"	: "로그인 성공"
+	
+	}
+	
+	<script>
+		alert("로그인 성공");
+		document.location.href='./myPage.html';
+	</script>
+	
+	
+<% 
+   }else{
+     
+%>	   
+
+	<script>
+		alert("로그인 실패");
+		document.location.href='./loginPage.html';
+	</script>
+	
+	
+	
+	{
+	
+		"flag" : "로그인 실패",
+		"count" : "<%=chk %>"
+	}   
+	   
+	   
+	   
+<%	   
+   }
+%>

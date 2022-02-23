@@ -1,0 +1,21 @@
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.admin.vo.AdminVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	AdminVO vo = (AdminVO) request.getAttribute("vo");
+%>
+	{
+		"classname" : "<%= vo.getClass_name() %>",
+		"memgroup" : "<%= vo.getMem_group() %>",
+		"memname" : "<%= vo.getMem_name() %>",
+		"memaddr1" : "<%= vo.getMem_addr1() %>",
+		"memaddr2" : "<%= vo.getMem_addr2() %>",
+		"memhp" : "<%= vo.getMem_hp() %>",
+		"memsub" : "<%= vo.getMem_sub() %>",
+		"memid" : "<%= vo.getMem_id() %>",
+		"mempass" : "<%= vo.getMem_pass() %>",
+		"birth" : "<%= vo.getBirth() %>",
+		"classstart" : "<%= vo.getClass_start() %>",
+		"classend" : "<%= vo.getClass_end() %>"
+	}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="msg">
+	
+	<select id="groupByAllMsg" parameterClass="pagingVO" resultClass="msgVO">
+		SELECT AA.*
+		FROM
+		(SELECT ROWNUM AS RNUM, A.*
+		FROM
+		(SELECT MSG_CONTENT, TO_CHAR(MSG_DATE, 'YYYY-MM-DD') as msg_date, MSG_READ, MSG_FROM, MSG_TO, MSG_NUM 
+		FROM MSG WHERE MSG_FROM=#msg_from# ORDER BY MSG_NUM ASC)A) AA
+		WHERE AA.RNUM BETWEEN #firstRecNo# AND #lastRecNo#
+		ORDER BY ROWNUM DESC
+	</select>
+	
+	<!-- selectTotalCnt -->	
+	<select id="msgSize" parameterClass="string" resultClass="int">
+		select count(*) from msg where msg_from =#data#
+	</select>
+	
+	
+	<select id="msgList" parameterClass="string" resultClass="msgVO">
+		select  MSG_CONTENT, TO_CHAR(MSG_DATE, 'YYYY-MM-DD') as msg_date, MSG_READ, MSG_FROM, MSG_TO, MSG_NUM  from msg where msg_from=#msg_from#
+	</select>
+	
+	<insert id="sendMsg" parameterClass="msgVO">
+		insert into msg (msg_content, msg_date, msg_read, msg_from, msg_to, msg_num)
+		   values(#msg_content#, sysdate, 'N', #msg_from#, #msg_to#, msg_num_seq.nextval)
+	
+	</insert>
+	
+	
+	<delete id="deleteMsg" parameterClass="int">
+		delete from msg where msg_num=#msg_num#
+	
+	</delete>
+	
+	<select id="selectMsg" parameterClass="int" resultClass="msgVO">
+		select  MSG_CONTENT, TO_CHAR(MSG_DATE, 'YYYY-MM-DD') as msg_date, MSG_READ, MSG_FROM, MSG_TO, MSG_NUM  from msg where msg_num=#data#
+	</select>
+	
+</sqlMap>

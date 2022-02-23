@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	
+	// $('.pp').click(function(){ }) 이렇게 써도된다. jquery 3.0부터
+	// $('.pp').bind('click', funtion(){ }) 잘 안씀.
+	
+	$('.pp').on('click', function(){
+		$(this).css('font-size', '+=5px'); //글씨 크기 크게
+	})
+	
+	$('#clone').on('click', function(){
+		$('#result1 .pp').clone().appendTo('#result2');
+		
+		
+		//변수로 클론 쓰기
+// 		vpp = $('.pp').clone();
+// 		vpp.appendTo('#result2');
+	})
+	
+	$('#clonetrue').on('click', function(){
+		$('#result1 .pp').clone(true).appendTo('#result3');
+	})
+	
+	
+	
+	
+})
+</script>
+<style>
+	.pp{
+		background: pink;
+	}
+</style>
+</head>
+<body>
+
+<div class="box">
+ <h3>복사메소드</h3>
+ CTRL + C에 해당 - append, prepend, before, after를 이용해서 붙여넣기 한다.
+ <br><br>
+ clone() : 복사<br>
+ clone(true) : 이벤트를 포함해서 복사<br>
+ <input id="clone" type="button" value ="clone">
+ <input id="clonetrue" type="button" value ="clonetrue">
+ <br>
+ <div id="result1">
+ 	<p class="pp" id="p1">무궁화 꽃이 피었습니다.</p>
+ 	<p class="pp" id="p2">나의 Hero~   임영웅</p>
+ 	<p class="pp" id="p3">오메~~ 단풍 들것네</p>
+ </div>
+ 
+ <div id="result2">
+ 	
+ </div>
+ 
+ <div id="result3">
+ 	
+ </div>
+ 
+ 
+</div>
+</body>
+</html>

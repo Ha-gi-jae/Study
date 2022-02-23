@@ -1,0 +1,36 @@
+<%@page import="kr.or.ddit.admin.vo.AdminClassVO"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.admin.vo.AdminVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	AdminVO avo = (AdminVO) request.getAttribute("vo");
+	List<AdminClassVO> classList = (List<AdminClassVO>) request.getAttribute("classList"); 
+	String class_name = null;
+%>
+[
+<%
+	for(int i = 0; i < classList.size(); i++){
+		AdminClassVO acvo = classList.get(i);
+		if(avo.getClass_id() == acvo.getClass_id()){
+			class_name = acvo.getClass_name();
+		}
+	}
+%>
+	{
+		"classname" : "<%= class_name %>",
+		"memgroup" : "<%= avo.getMem_group() %>",
+		"memname" : "<%= avo.getMem_name() %>",
+		"memaddr1" : "<%= avo.getMem_addr1() %>",
+		"memaddr2" : "<%= avo.getMem_addr2() %>",
+		"memhp" : "<%= avo.getMem_hp() %>",
+		"memstart" : "<%= avo.getMem_start() %>",
+		"memend" : "<%= avo.getMem_end() %>",
+		"memsub" : "<%= avo.getMem_sub() %>",
+		"memid" : "<%= avo.getMem_id() %>",
+		"mempass" : "<%= avo.getMem_pass() %>"
+	}
+
+
+
+]

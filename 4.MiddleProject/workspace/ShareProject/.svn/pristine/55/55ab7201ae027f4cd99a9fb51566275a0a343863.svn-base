@@ -1,0 +1,23 @@
+<%@page import="kr.or.ddit.member.vo.MsgVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	MsgVO mv = (MsgVO) request.getAttribute("msgVO");
+%>
+
+<html>
+<head>
+
+</head>
+<body>
+<h1>쪽지조회</h1>
+	<div>
+		보낸사람:<%=mv.getMsg_to() %>
+		<br>
+		받은시간:<%=mv.getMsg_date() %>
+		<br>
+		내용<br>
+		<%=mv.getMsg_content() %>
+	</div>
+</body>
+</html>

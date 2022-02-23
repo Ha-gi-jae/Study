@@ -1,0 +1,10 @@
+package kr.or.ddit.adminReport.vo;
+
+public class AdminReportVO {
+	private String adminboard_id;
+	private String adminboard_view;
+	private String adminboard_blind;
+	private String adminre_content;
+	private String adminre_date;
+	private String mem_id;
+}

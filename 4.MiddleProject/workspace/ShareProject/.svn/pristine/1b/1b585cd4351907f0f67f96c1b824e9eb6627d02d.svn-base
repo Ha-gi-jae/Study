@@ -1,0 +1,73 @@
+<%@page import="kr.or.ddit.board.vo.PagingVO"%>
+<%@page import="kr.or.ddit.adminReport.vo.AdminReportVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%
+	List<AdminReportVO> allreportlist = (List<AdminReportVO>) request.getAttribute("allreportlist");
+	PagingVO pv = (PagingVO) request.getAttribute("pv");
+	List<AdminReportVO> contentlist = (List<AdminReportVO>) request.getAttribute("reportcontent");
+%>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script>
+function myFunction(id){
+	var x = document.getElementById(id);
+	if(x.className.indexOf("w3-show") == -1){
+		x.className += " w3-show";
+		x.previousElementSibling.className =
+		x.previousElementSibling.className.replace("w3-orange", "w3-orange");
+	} else{
+		x.className = x.className.replace(" w3-show", "");
+		x.previousElementSibling.className =
+		x.previousElementSibling.className.replace("w3-orange", "w3-orange");
+	}
+}
+</script>
+<%
+	for(int i = 0; i < allreportlist.size(); i++){
+		AdminReportVO vo = allreportlist.get(i);
+%>
+<div class="w3-container">
+<button onclick="myFunction(<%=vo.getAdminboard_id()%>)" class="w3-button w3-block w3-orange w3-left-align">아이디 : <%= vo.getAdminboard_id() %>  신고횟수: <%=vo.getReportcount() %>  블라인드처리여부: <%=vo.getAdminboard_blind() %></button>
+<div id="<%=vo.getAdminboard_id()%>" class="w3-hide w3-container">
+<%
+		for(int j = 0; j < contentlist.size(); j++){
+			AdminReportVO co = contentlist.get(j);
+%>
+			<%
+			if(vo.getAdminboard_id().equals(co.getAdminboard_id())){
+			%>
+	<p>신고자 아이디 : <%=co.getMem_id() %>  사유 : <%=co.getReport_reason() %> 신고 날짜 : <%=co.getReport_date() %></p>
+	<%
+			}
+		}
+	%>
+</div>
+
+</div>
+
+<%
+	}
+%>
+
+		<%if(pv.getTotalCount() > 0){ %>
+			<tr>
+				<td colspan="6" align="center">
+				<%if(pv.getFirstPageNo() > pv.getPageSize()){ %>
+				<a class="pre" name="<%=pv.getFirstPageNo() - pv.getPageSize() %>">[이전]</a>
+				
+				<%} %>
+				<%for(int pNo = pv.getFirstPageNo(); pNo <= pv.getLastPageNo(); pNo++){ %>
+				<a class="page<%if(pNo==pv.getCurrentPageNo()){%>select<%} %>"><%=pNo%></a>
+				<%} %>
+				
+				<%if(pv.getLastPageNo() < pv.getTotalCount()){ %>
+				<a class="next" name="<%=pv.getFirstPageNo() + pv.getPageSize() %>">[다음]</a>
+				<%} %>
+				</td>
+			</tr>
+			
+		<%} %>

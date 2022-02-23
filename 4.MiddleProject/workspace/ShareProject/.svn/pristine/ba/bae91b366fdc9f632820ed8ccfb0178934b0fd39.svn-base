@@ -1,0 +1,107 @@
+/**
+ * 
+ */
+calList = function(day) {
+	
+	$.ajax({
+		url : '/ShareProject/CalList.do',
+		type : 'get',
+		data : {"day" : day},
+		success : function(res) {
+			code = "<br><br>";
+			code += "<h2 class='a'>[" + day.substr(0,4) + "년 "+ day.substr(4,2) + "월 " +day.substr(6) + "일]</h2><br>";
+			code += '<button type="button" class="calInsert pin" data-toggle="modal" data-target="#writeModal">일정등록</button>';
+			if(res == ""){
+				code += "<br><p class='a'>해당하는 일정이 없습니다.</p>"
+			}else{
+				$.each(res, function(i, v) { 
+					
+					s = v.start;
+					e = v.end;
+					code += "<div class='list a'>";
+					code += "<br><p class='id a'>" + v.id + "</p>";
+					code += "<h4 class='ti a'>"+ v.title +"</h4>";
+					code += "<p class='s a'> 시작 : " + s.substr(0,10) +"</p>";
+					code += "<p class='e a'> 종료 : " + e.substr(0,10) + "</p>";
+					code += "<p class='col a'>" + v.color + "</p>"
+					code += '<input type="button" value="일정수정" class="modi a" data-toggle="modal" data-target="#updateModal">';
+					code += '<input type="button" value="일정삭제" class="del a"><br><br>';
+					code += "</div>";
+					
+					// 세션에 저장된 아이디가 관리자 아이디일 경우 수정버튼 추가 하기 	
+				})
+			}
+
+			$('#detail').html(code);
+			
+			// 관리자 아이디일 경우 수정, 삭제버튼 보여주기
+			// if(admin == "admin_id") 
+    		$('.modi').show();
+    		$('.del').show();
+    		
+			$('#detail').append('<br><input type="button" value="닫기" class="a" id="close">');
+			
+			
+			
+		},
+		error : function(abc) {
+			alert(abc.status)
+		},
+		dataType : 'json'
+	})
+}
+
+insertCal = function(datas) {
+	
+	$.ajax({
+		url : '/ShareProject/CalInsert.do',
+		type : 'post',
+		data : datas,
+		success : function(res) {
+			
+			alert("등록 " + res.flag);
+			
+			$('#writeModal .fin').val("");
+			$('#writeModal').modal('hide');
+		}, 
+		error : function(abc) {
+			alert("상태 : " + abc.status)
+		},
+		dataType : 'json'
+	})
+}
+
+deleteCal = function(id) {
+
+	$.ajax({
+		url : '/ShareProject/CalDelete.do',
+		type : 'get',
+		data : {"id" : id},
+		success : function(res) {
+			
+			alert("삭제" + res.flag);
+			
+		}, 
+		error : function(abc) {
+			alert("상태 : " + abc.status)
+		},
+		dataType : 'json'
+	})
+}
+
+updateCal = function(updatas) {
+	$.ajax({
+		url : '/ShareProject/CalUpdate.do',
+		type : 'post',
+		data : updatas,
+		success : function(res) {
+			alert("수정" + res.flag);
+			$('#updateModal').modal('hide');
+			location.reload();
+		}, 
+		error : function(abc) {
+			alert("상태 : " + abc.status)
+		},
+		dataType : 'json'
+	})
+}

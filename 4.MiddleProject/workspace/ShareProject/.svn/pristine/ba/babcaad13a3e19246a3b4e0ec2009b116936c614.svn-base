@@ -1,0 +1,11 @@
+package kr.or.ddit.board.service;
+
+import kr.or.ddit.board.vo.NoticeVO;
+
+public interface INotiBoardService {
+
+	public int insertNotice(NoticeVO nv);
+	
+	//공지사항 총 사이즈
+	public int noticeSize();
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="../../js/jquery-3.6.0.min.js"></script>
+<title>Insert title here</title>
+<script type="text/javascript">
+	$('#submit').on('click', function(){
+		
+	})
+</script>
+</head>
+<body>
+	<form>
+		<input type="hidden" id="group" name="group" value="">
+		<input type="text" id="board_title" name="board_title" placeholder="제목을 입력해 주세요"/><br>
+		<textarea cols="50" rows="20" id="board_content" style="resize: none;" name="board_content" placeholder="내용을 입력해주세요"></textarea>
+	</form>
+	<input type="button" id="submit" value="등록">
+	<input type="button" id="cancel" value="취소">
+</body>
+</html>

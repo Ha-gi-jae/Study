@@ -1,0 +1,20 @@
+package kr.or.ddit.board.dao;
+
+import java.sql.SQLException;
+
+import kr.or.ddit.board.vo.NoticeVO;
+
+public interface INotiBoardDao {
+	
+	public int insertNotice(NoticeVO nv) throws SQLException;
+	
+	//공지사항 총 사이즈 
+	public int noticeSize() throws SQLException;
+	
+	public NoticeVO selectNotiBoard(int adminboard_id) throws SQLException;
+	
+	public int noticeUpdate(NoticeVO nv) throws SQLException;
+	
+	public int NoticeDelete(int adminboard_id) throws SQLException;
+
+}

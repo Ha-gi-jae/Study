@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="Tooplate" />
+<link href="../../Final_Main_Page/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../../Final_Main_Page/assets/css/tooplate-style.css" />
+<link rel="stylesheet" href="../../Final_Main_Page/assets/css/classStyle.css">
+<script type="text/javascript" src="../../js/jquery-3.6.0.js"></script>
+
+<title>질문게시판</title>
+
+<style type="text/css">
+	.select {
+		color: orange;
+	}
+</style>
+
+
+<script type="text/javascript">
+pageNo = 1;
+group = 'BR06';
+
+ $(function() {
+	 groupByAllBoard();
+	 
+	 $(document).on('click', '.page', function() {
+		 pageNo = $(this).html();
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.pre', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.next', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.title', function() {
+		 adminboard_id = $(this).attr('id');
+		 location.href="./ClSelectBoard.jsp?board_id=" + adminboard_id;
+	 })
+	 
+ })
+ 
+ groupByAllBoard = function(){
+	 $.ajax({
+		 url:'/ShareProject/clListBoard.do',
+		 type:'get',
+		 data: {
+			 	'group': group,
+			    'pageNo' : pageNo
+			   },
+		 dataType: 'html',
+		 success:function(result){
+			 $('body').html(result);
+		 },
+		 error:function(xhr){
+			 alert("에러코드 : " + xhr.status + " \n에러명 : " + xhr.statusText);
+		 }
+	 })
+ }
+</script>
+</head>
+<body>
+	<h2>이게 보인다면 ClBoard.html에서 삭제하시오</h2>
+</body>
+</html>

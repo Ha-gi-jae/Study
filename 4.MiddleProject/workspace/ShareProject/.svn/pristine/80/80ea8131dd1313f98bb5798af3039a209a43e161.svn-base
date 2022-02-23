@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="notice">
+
+<insert id="insertNotice" parameterClass="notiVO">
+insert all
+		 into adminboard values(adminboard_num_seq.nextval, 0, 'n')
+         into notice values(adminboard_num_seq.currval, #notice_title#, sysdate, #notice_content#)
+         select * from dual
+        
+         <selectKey resultClass="int">
+        	SELECT ADMINBOARD_NUM_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+</insert>
+
+
+</sqlMap>

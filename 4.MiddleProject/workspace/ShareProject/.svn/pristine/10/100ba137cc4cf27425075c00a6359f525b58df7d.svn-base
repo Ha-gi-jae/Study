@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="Tooplate" />
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tooplate-style.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+
+    <title>Share Project Main Page</title>
+  </head>
+
+  <body>
+    <div id="page-wraper">
+      <!-- Sidebar Menu -->
+      <div class="responsive-nav">
+        <div id="menu" class="menu">
+          <i class="fa fa-times" id="menu-close"></i>
+          <img id="menulogo" src="../img/menulogo.PNG" alt="mainlogo">
+          <br>
+          <div class="container">
+            <div class="author-content">
+              <h4 class="infoName">공밀레</h4>
+              <div id="courseBox">
+                <span>[기업맞춤형] 전자정부 표준 프레임워크 기반
+                  풀-스택 개발자 양성과정(15기)</span>
+              </div>
+              <span><a class="infOption" href="../whole/member/myPage.html"><i class="fas fa-house-user"></i>&nbsp;마이페이지</a></span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span><a class="infOption" href="../whole/member/message.html"><i class="far fa-envelope"></i>&nbsp;쪽지</a></span>
+              <br>
+              <span><a class="infOption" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a></span>
+            </div>
+            <a href="classIndex.html"><input type="button" class="clButton" value="클래스 입장하기"></a>
+            <nav class="main-nav" role="navigation">
+              <ul class="main-menu">
+                <li class="menuList"><a href="/ShareProject/Cal.do"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;기관일정</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-paperclip"></i>&nbsp;&nbsp;자료공유</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons far fa-file-alt"></i>&nbsp;&nbsp;보강자료</a></li>
+                <li class="menuList"><a href="../whole/board/board.html"><i class="mIcons fas fa-question-circle"></i>&nbsp;&nbsp;질문게시판</a></li>
+                <li class="menuList"><a href="../whole/board/FreeBoard.html"><i class="mIcons fas fa-users"></i>&nbsp;&nbsp;자유게시판</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-shopping-basket"></i>&nbsp;&nbsp;장터게시판</a></li>
+                <li class="menuList"><a href="../whole/board/ReviewBoard.html"><i class="mIcons fas fa-user-graduate"></i>&nbsp;&nbsp;수료후기</a></li>
+                <li class="menuList"><a href="../whole/board/ComBoard.html"><i class="mIcons far fa-building"></i>&nbsp;&nbsp;회사정보</a></li>
+                <li class="menuList"><a href="../whole/board/SuggestBoard.html"><i class="mIcons fas fa-wrench"></i>&nbsp;&nbsp;건의사항</a></li>
+                <li class="menuList"><a href="../whole/board/NoticBoard.html"><i class="mIcons fas fa-exclamation-circle"></i>&nbsp;&nbsp;공지사항</a></li>
+              </ul>
+            </nav>
+            <div class="copyright-text">
+              <p>Copyright 2021 Share Project<br>
+                Design: 공밀레</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div id="boardBox">
+        <img class="cssImg" id="computer" src="assets/images/computer.jpg" alt="img">
+        <div id="quickContainer">
+          <div class="quickBox">
+            <div class="quickTitle">
+              <h3>게시판 제목</h3>
+            </div>
+            <ul id="quickCont1">
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+            </ul>
+          </div>
+          <div class="quickBox">
+            <div class="quickTitle">
+              <h3>게시판 제목</h3>
+            </div>
+            <ul id="quickCont2">
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+  </body>
+</html>

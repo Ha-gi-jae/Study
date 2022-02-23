@@ -1,0 +1,76 @@
+package kr.or.ddit.member.service;
+
+import java.sql.SQLException;
+
+import kr.or.ddit.member.dao.IMemberDao;
+import kr.or.ddit.member.dao.MemberDaoImpl;
+import kr.or.ddit.member.vo.MemVO;
+
+public class MemberServiceImpl implements IMemberService{
+
+    private static IMemberService service;
+	
+	private IMemberDao dao;
+	
+	private MemberServiceImpl() {
+		dao = MemberDaoImpl.getInstance();
+	}
+	
+	public static IMemberService getInstance() {
+		if(service == null) {
+			service = new MemberServiceImpl();
+		}
+		return service;
+	}
+	
+	
+	@Override
+	public MemVO idCheck(MemVO mv) {
+		MemVO mv2 = null;
+		
+		try {
+			mv2 = dao.idCheck(mv);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mv2;
+	}
+
+	@Override
+	public int memLock(MemVO mv) {
+		int cnt =0;
+		try {
+			cnt = dao.memLock(mv);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public int chkCheck(String mem_id) {
+		int chk = 0;
+		
+		try {
+			chk = dao.chkCheck(mem_id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return chk;
+	}
+
+	@Override
+	public MemVO memAll(String mem_id) {
+		MemVO mv = null;
+		
+		try {
+			mv = dao.memAll(mem_id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return mv;
+	}
+	
+}

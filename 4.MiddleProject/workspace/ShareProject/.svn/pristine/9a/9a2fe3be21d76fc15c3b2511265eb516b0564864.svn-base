@@ -1,0 +1,248 @@
+<%@page import="kr.or.ddit.at.vo.AtVO"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.clboard.vo.ClBoardVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+	ClBoardVO bv = (ClBoardVO) request.getAttribute("bv");
+	int id_chk = (int) request.getAttribute("id_chk");
+	System.out.println(bv.getBoard_title_id());
+	String name = bv.getMem_name().substring(0, 1) + "**";
+	String board_title_id = (String)request.getAttribute("board_title_id");
+	String boardtitle_id = request.getParameter("boardtitle_id");
+%>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="/ShareProject/js/jquery.serializejson.min.js"></script>
+ 
+  <script type="text/javascript" src="/ShareProject/js/jquery-3.6.0.min.js"></script>
+  
+  <link rel="icon" type="image/png" href="/ShareProject/Real_Main_Pages/images/logoIcon.PNG" sizes="96x93">
+
+  <title><%=bv.getBoard_title_name() %></title>
+  
+<style>
+.clButton {
+	color : black;
+}
+#stuInfoBox h2 {
+	margin-top : 0px;
+    margin-bottom : 15px;
+    color : white;
+}
+#subjectBox {
+    display: flex;
+    align-items: center;
+    width : 230px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+p#subject {
+	font-size: 13px;
+	width : 100%;
+	height: 100%;
+}
+#boardTable {
+	width: 650px;
+	height: 600px;
+	margin-top : 60px;
+	margin-bottom: 10px;
+	margin-left : 230px;
+	font-size: 20px
+}
+.tr1 {
+	height: 80px;
+	background-color: lightgray;
+	font-weight: bold;
+}
+.tr2 {
+	height: 60px;
+	text-align: center;
+	font-size: 15px;
+}
+.tr3 {
+	height: 460px;
+}
+td {
+	padding : 10px;
+}
+.td1 {
+	width : 100px;
+	text-align: center;
+}
+.td2 {
+	vertical-align: top;
+}
+.topHr {
+	border : 1px solid navy;
+	margin-top : 25px;
+}
+.bottomHr {
+	border : 1px solid navy;
+	margin-top: 30px;
+}
+.buttonBox {
+	width : 230px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+</style>
+
+<script>
+$(function() {
+	
+	$(document).on('click', '#back', function() {
+		if("<%=board_title_id%>" =="BR06"){
+			//반 질문게시판
+			 location.href="/ShareProject/whole/clBoard/ClQnABoard.html";
+		}else if("<%=board_title_id%>" == "BR07"){
+			//반 점심게시판
+			location.href="/ShareProject/whole/clBoard/ClLunchBoard.html";
+		}else if("<%=board_title_id%>" == "BR08"){
+			//반 자유게시판
+			location.href="/ShareProject/whole/clBoard/ClFreeBoard.html";
+		}else if("<%=board_title_id%>" == "BR03"){
+			// 건의사항
+			location.href="/ShareProject/whole/clBoard/ClNoticeBoard.html";
+		}
+	})
+	
+	$(document).on('click', '#reportBtn', function() {
+			reportData = $('#reportForm').serialize();
+			console.log(reportData)
+			$('#reportModal').modal('hide');
+			$.ajax({
+				url:'/ShareProject/Report.do',
+				type:'post',
+				data: reportData,
+				dataType:'json',
+				success:function(result){
+					if(result.flag == "성공"){
+						alert("신고가 완료되었습니다.")
+					}		
+				},
+				error:function(xhr){
+					alert("에러코드 : " + xhr.status + "에러명 : " + xhr.statusText);
+				}
+			})
+		})
+		
+})
+</script>
+
+	<hr class="topHr">
+	<table id="boardTable" border="1">
+		<tr class="tr1">
+			<td class="td1">제목</td>
+			<td><%=bv.getclBoard_title()%></td>
+		</tr>
+		
+		<tr class="tr2">
+			<td colspan="2">
+				작성자 : <%=name%>&#09;&nbsp;&nbsp;&nbsp;&nbsp;
+				작성일 : <%=bv.getclBoard_date()%>&#09;&nbsp;&nbsp;&nbsp;&nbsp;
+				조회수 : <%=bv.getAdminboard_view()%>&#09;&nbsp;&nbsp;&nbsp;&nbsp; 
+				댓글수 : <%=bv.getReply_count()%>
+			</td>
+		</tr>
+		
+		<tr class="tr3">
+			<td class="td1">내용</td>
+			<td class="td2"><%=bv.getclBoard_content()%></td>
+		</tr>
+
+	</table>
+	<br>
+
+<center><div class="buttonBox">
+	<input type="button" id="back" value="뒤로">
+	
+	<%
+		if (id_chk > 0) {
+	%>
+	<input type="button" data-toggle="modal" data-target="#UpdateModal" value="수정">
+	<input type="button" id="delete" value="삭제">
+	
+	<%
+		}
+	
+		if (board_title_id.equals("BR07")) {
+	%>
+		<input type="button" id="report" data-toggle="modal" data-target="#reportModal" value="신고하기"> 
+	<%
+		} 
+		
+		if (board_title_id.equals("BR06") || board_title_id.equals("BR07") || board_title_id.equals("BR08")) {
+	%>
+		<input type="button" id="response" data-toggle="modal"	data-target="#ResponseModal" value="답글">
+		
+		<%
+		}
+		%>
+</div></center>
+
+<hr class="bottomHr">
+
+	<!-- Modal 수정하기-->
+	<div class="modal fade" id="UpdateModal" role="dialog">
+		<div class="modal-dialog">
+		
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4	class="modal-title">글 수정</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+					<input type="hidden" name="adminboard_id" value="<%=bv.getAdminboard_id() %>">
+					<input type="text" name="clBoard_title" value="<%=bv.getclBoard_title() %>"/><br>
+					<textarea cols="50" rows="20" style="resize: none;" name="clBoard_content"><%=bv.getclBoard_content() %></textarea>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input type="button" id="update" class="btn btn-default" value="수정" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal 신고하기-->
+				<div class="modal fade" id="reportModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">신고하기</h4>
+							</div>
+							<div class="modal-body">
+								<form id="reportForm"> 
+									<input type="hidden" name="adminboard_id"
+										value="<%=bv.getAdminboard_id()%>"> <input
+										type="hidden" name="mem_id" value="<%=bv.getMem_id() %>">
+									신고사유:<br>
+									<textarea cols="30" rows="20" style="resize: none;"
+										name="report_reason" placeholder="신고 이유를 작성해주세요."></textarea>
+									<input type="submit" id="reportBtn" class="btn btn-default"
+										data-dismiss="modal" value="신고" />
+								</form>
+							</div>
+							<div class="modal-footer">
+
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal" id="cancel">취소</button>
+							</div>
+						</div>
+					</div>
+				</div>

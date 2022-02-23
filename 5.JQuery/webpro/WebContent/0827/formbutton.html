@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../css/mystyle.css">
+<title>Insert title here</title>
+	<style>
+	form{
+			width : 70%;
+			margin : 50px;
+			border : 1px dotted orange;
+			padding : 20px;
+		}
+		
+		label{
+			display : inline-block;
+			width: 150px;
+			height: 30px;
+		}
+		span{
+			border : 2px solid red;
+		}
+		</style>
+</head>
+<body>
+<pre>
+	&lt;button>전송&lt;/button>
+	&lt;button type="submit">전송&lt;/button>
+	
+	type = button 은 기능이 없다.
+	기능을 부여하기 위해서 javascript를 이용한다.
+	&lt;button type="button" <span>onclick="alert('hello')"</span>>확인&lt;/button>
+</pre>
+<form action="fbutton.jsp" method="post">
+		
+	<label>아이디</label>
+	<input type="text" name="id"><br>
+	
+	<label>이름</label>
+	<input type="text" name="name"><br>
+	
+	<label>주소</label>
+	<input type="text" name="addr" value="DaeJeon"><br>
+	
+	<label>성별</label>
+	<input type="radio" value="남자" name="gender">남자
+	<input type="radio" value="여자" name="gender">여자<br>
+	
+	<label>좋아하는 음식</label>
+	<input type="checkbox" name="food" value="떡볶이">떡볶이
+	<input type="checkbox" name="food" value="잡채">잡채
+	<input type="checkbox" name="food" value="피자">피자
+	<input type="checkbox" name="food" value="만두">만두
+	<input type="checkbox" name="food" value="김밥">김밥
+	<input type="checkbox" name="food" value="불고기">불고기<br>
+	
+	<br>소개</br>
+	<textarea rows="10" cols="60" name="area"></textarea>
+	<!-- 초기 값이 10줄에 60칸 입력일뿐, 늘리고 줄이고 선택가능하다. -->
+	<br><br>
+	
+	
+	<button>전송</button>  
+	<button type="submit">전송</button>	
+<!-- 	위 두개는 같음. 즉, 버튼에서는 타입이 없으면 submit임. -->
+<!-- 	input에서는 텍스트가 기본임. 타입을 넣어줘야함 -->
+<!-- 	<input type="submit" 이렇게 안하면 텍스트처리된다. -->
+	<button type="reset">취소</button>
+	<button type="button" onclick="alert('Hello')">확인</button>
+	<!-- input타입 button에 기능 없듯이 button타입 button도 기능이 없음. -->	
+	
+	</form>
+</body>
+</html>

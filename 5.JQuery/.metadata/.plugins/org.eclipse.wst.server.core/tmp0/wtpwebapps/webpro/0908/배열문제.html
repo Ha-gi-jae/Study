@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script>
+	function proc1() {
+
+		names = new Array();
+
+		str = "저장 전 배열 : " + names + "<br>";
+		while (true) {
+			//입력
+			indata = prompt("이름을 입력하세요.");
+
+			// 			leng = indata.trim().length < 1
+			// 			if(indata == ""){break;}
+
+			// !String 안쓰시고 ""만 쓰심.
+			if (indata == !String || indata == null) {
+				break;
+			}
+			names.push(indata.trim());
+		}
+		str += "저장 후 배열 : " + names + "<br>"
+
+		document.getElementById('result1').innerHTML = str;
+
+	}
+
+	function proc2() {
+
+		num = new Array();
+
+		while (num.length < 5) {
+			// 입력
+			indata = prompt("숫자를 입력하세요.");
+
+			// arr에 입력한 값이 있는지 비교 -indexOf(입력한값)
+			idx = num.indexOf(indata);
+			if (idx < 0) {
+				num.push(indata);
+			} else {
+				alert("중복")
+			}
+		}
+		document.getElementById('result2').innerHTML = num;
+	}
+</script>
+</head>
+<body>
+
+	<div class="box">
+		<h3>사람 이름을 계속 입력 받아 배열에 저장하고 그 저장된 이름을 출력하는 프로그램을 작성하시오.</h3>
+		단, 입력은 prompt 명령을 이용하고, 입력의 마지막은 공백문자를 입력하거나 "취소" 버튼을 눌렀을 때로 한다. "취소"
+		버튼은 null 이 입력될 때이다.<br> <br> <input type="button" value="확인"
+			onclick="proc1()"> <br>
+		<div id="result1"></div>
+	</div>
+
+	<div class="box">
+		<h3>서로 중복되지 않은 정수 5개를 입력 받아 출력하는 프로그램을 작성하시오.</h3>
+		<br> <br> <input type="button" value="확인" onclick="proc2()">
+		<br>
+		<div id="result2"></div>
+	</div>
+
+</body>
+</html>

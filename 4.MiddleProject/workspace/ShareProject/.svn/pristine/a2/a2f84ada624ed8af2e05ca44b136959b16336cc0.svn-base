@@ -1,0 +1,11 @@
+package kr.or.ddit.board.dao;
+
+import java.sql.SQLException;
+
+import kr.or.ddit.board.vo.NoticeVO;
+
+public interface INotiBoardDao {
+	
+	public int insertNotice(NoticeVO nv) throws SQLException;
+
+}

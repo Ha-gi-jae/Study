@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+
+</style>
+<script>
+function calc(a){
+// 	alert(a);
+	// 입력한 값 가져오기. - value
+	xvalue = parseInt(document.getElementById('x').value);
+	yvalue = parseInt(document.getElementById('y').value);
+	
+
+	switch (a) {
+	case "+":
+		str = xvalue + yvalue;
+		break;
+
+	case "-":
+		str = xvalue - yvalue;
+		break;
+
+	case "/":
+		str = xvalue / yvalue;
+		break;
+		
+	case "*":
+		str = xvalue * yvalue;
+		break;
+	}
+	
+	// 출력
+	document.getElementById("sum").value = str;
+	
+	document.getElementById('sp1').textContent = xvalue;
+	document.getElementById('sp2').textContent = yvalue;
+	document.getElementById('sp3').textContent = str;
+}
+
+function proc1(){
+	// 1 ~ 100 사이의 랜덤 을 5개
+	str = "";
+	
+	for(i = 0; i < 5; i++){
+		str += parseInt(Math.random()* 100 + 1) + " ";
+// 		str += Math.floor(Math.random()* 100 + 1) + " ";
+// 		rand = Math.random() * 100 + 1;
+// 		rand = rand.toFixed(0); // number라는 객체 안에 있는 메서드.
+		
+// 		str += rand + " ";
+	}
+	document.getElementById('result2').innerHTML += str + "<br>";
+} // 멘탈 바사삭
+
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3>함수</h3>
+ textContent	: input, select option, textarea 제외한 요소의 값을 get, set<br>
+ innerHTML		: input, select option, textarea 제외한 요소의 값을 get, set<br>
+ <br>
+ value - input, select option, textarea 요소의 값을 - get, set
+ <br>  
+   첫번째 :<input type="text" id="x"><br>
+   두번째 :<input type="text" id="y"><br>
+   결과 :<input type="text" id="sum"><br>
+ <br>                <!-- value = -->
+ <input type="button" value ="+" onclick="calc('+')">
+ <input type="button" value ="-" onclick="calc('-')">
+ <input type="button" value ="/" onclick="calc('/')">
+ <input type="button" value ="*" onclick="calc('*')"> <!-- calc('+')에서 + - / * 는 파라미터 값임. -->
+ <br><br>
+ <div id="result1">
+ <p>첫번째 값 :<span id="sp1"></span> </p>
+ <p>두번째 값 :<span id="sp2"></span> </p>
+ <p>결과 값 :<span id="sp3"></span> </p>
+ 		<!-- textContent = -->
+ </div>
+</div>
+
+<div class="box">
+ <h3>버튼을 클릭하면 1~100사이의 랜덤수 5개를 발생해서 출력 </h3>
+ <br>
+ <br>
+ <input type="button" value ="확인" onclick="proc1()">
+ <br>
+ <div id="result2"></div>
+</div>
+
+
+</body>
+</html>

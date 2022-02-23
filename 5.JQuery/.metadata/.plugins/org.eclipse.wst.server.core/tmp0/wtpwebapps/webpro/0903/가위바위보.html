@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+	div{
+ 		padding : 20px;
+ 		height: auto;
+ 		width : 50%;
+ 		border: 1px dotted blue;
+	}
+</style>
+<script>
+
+window.onload = () =>{
+	a1 = prompt("첫번째 사람의 가위 바위 보를 입력하세요.");
+	a2 = prompt("두번째 사람의 가위 바위 보를 입력하세요.");
+	
+	res = `첫번째 사람 : ${a1}  <br>`;
+	res += `두번째 사람 :  ${a2} <br>`;
+	res += `결과 :  `;
+	if(a1 == a2){
+		res += "비김";
+	}else if(a1 == "가위" && a2 == "보" ||
+			 a1 == "바위" && a2 == "가위" ||
+			 a1 == "보" && a2 == "바위"){
+	 res += "첫번째 사람 이김"
+	}else{
+		res += "두번째 사람 이김"
+	}
+	
+	document.querySelector('#d2').innerHTML = res;
+	//출력 
+}
+
+</script>
+</head>
+<body>
+<pre>
+두 사람의 가위바위보 입력하는 게임
+</pre>
+<div id="d2"></div>
+</body>
+</html>

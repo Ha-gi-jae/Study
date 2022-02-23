@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>로그인 페이지</title>
+<script src="../js/jquery-3.6.0.min.js"></script>
+
+<script>
+$(function({
+	
+	$('.loginBtn').on('click', function(){
+		
+		
+	})
+	
+	
+	
+}))
+
+</script>
+<style>
+ .loginbox{
+ 	
+ 	border: 1px solid gray;
+ 	width: 300px;
+ }
+ .loginBtn{
+ 	position: absolute;
+ 	left : 200px;
+ 	top : 27px;
+ 	
+ 	width: 60px;
+ 	height : 55px;
+ }
+</style>
+</head>
+<body>
+	
+	<div class="loginbox">
+		<form>
+			<p>
+				<input type="text" name="logid" id="logid">
+			</p>
+			<p>
+				<input type="password" name="logpw" id="logpw">
+			</p>
+			<p>
+				<input class="loginBtn" type="button" value="로그인">
+			</p>
+			<p>
+				<input class="loginInfo" type="button" value="아이디 비빌번호 안내">
+			</p>
+			
+			
+		</form>
+	</div>
+			
+		
+</body>
+</html>

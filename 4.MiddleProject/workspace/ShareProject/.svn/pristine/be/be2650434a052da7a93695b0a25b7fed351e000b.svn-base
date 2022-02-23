@@ -1,0 +1,188 @@
+package kr.or.ddit.tcp;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class MultiChatSever {
+	// 대화명, 클라이언트의Socket을 저장하기 위한 Map변수 선언
+	Map<String, Socket> clients;
+	
+	// 생성자
+	public MultiChatSever() {
+		clients = Collections.synchronizedMap(new HashMap<String, Socket>());
+	}
+	
+	// 서버시작
+	public void serverStart() {
+		Socket socket = null;
+		
+		try (ServerSocket server = new ServerSocket(7777)){ // try안에다가 객체를 생성하면 finally에서 close할 필요가 없음
+			System.out.println("서버가 시작되었습니다.");
+			
+			while(true) {
+				//클라이언트의 접속을 대기한다.
+				socket = server.accept();
+				
+				System.out.println("[" + socket.getInetAddress() + " : " + socket.getLocalPort() + "] 에서 접속하였습니다/");
+				
+				// 메시지 전송처리를 하는 스레드 생성 및 실행
+				ServerReceiver receiver = new ServerReceiver(socket); // 접속하는 사람이 생기면 각자의 스레드 객체 생성해줌
+				receiver.start();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 서버에서 클라이언트로 메시지를 전송할 Thread를 Inner클래스로 정의
+	// Inner클래스에서는 부모 클래스의 멤버들을 직접사용할 수 있다
+	class ServerReceiver extends Thread {
+		private Socket socket;
+		private DataInputStream dis;
+		private String name;
+		
+		public ServerReceiver(Socket socket) {
+			this.socket = socket;
+			
+			try {
+				// 수신용
+				dis = new DataInputStream(socket.getInputStream()); // 기반객체가 필요하기 때문에 socket에서 불러옴
+				
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void run() {
+			//String receiveData;
+			try {
+				// 서버에서는 클라이언트가 보내는 최초의 메시지 즉, 대화명을 수신해야한다.
+				name = dis.readUTF(); // 나중에 Map에 저장할 키
+				
+				//대화명을 받아서 다른 모든 클라이언트에게 대화방 참여 메시지를 보낸다.
+				sendMessage("#" + name + "님이 입장했습니다.");
+				
+				// 대화명과 socket을 Map에 저장한다
+				clients.put(name, socket);
+				
+				System.out.println("현재 서버 접속자 수는 " + clients.size() + "명 입니다.");
+				
+				// 이후의 메시지 처리는 반복문으로 처리한다.
+				// 한 클라이언트가 보낸 메서드를 다른 모든 클라이언트에게 보내준다.
+				while(dis != null) { // 무한루프임
+					//receiveData = dis.readUTF();
+					
+					sendMessage(dis.readUTF(), name); // 보내는 메시지를 읽어서 다른 사람들에게 보여줌
+				}
+				
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+				
+			}finally {
+				// 이 finally영역이 실행된다는 것은 클라이언트의 접속이 종료되었다는 의미이다.
+				sendMessage(name + "님이 나갔습니다.");
+				
+				// Map에서 해당 대화명을 삭제한다
+				clients.remove(name);
+				
+				System.out.println("[" + socket.getInetAddress() 
+									+ " : " + socket.getPort() + "]에서 접속을 종료했습니다.");
+				System.out.println("현재 접속자 수는 " + clients.size() + "명 입니다.");
+			}
+		}
+
+	}
+	
+	/**
+	 * 대화방 즉, Map에 저장된 전체 유저에게 안내메시지를 전송하는 메서드 
+	 * @param msg 전송할 메세지
+	 */
+	public void sendMessage(String msg) {
+		// Map에 저장된 유저의 대화명 리스트 추출하기
+		Iterator<String> it = clients.keySet().iterator();
+		while(it.hasNext()) {
+			try {
+				String name = it.next(); // 대화명 추출
+				
+				// 대화명에 해당하는 Socket의 OutputStream객체  가져오기
+				DataOutputStream dos = new DataOutputStream(clients.get(name).getOutputStream());
+				
+				dos.writeUTF(msg); // 메시지 보내기	
+				
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public void sendMsgOne(String receiveData, String id) {
+		Iterator<String> it = clients.keySet().iterator();
+		String[] user = null;
+		user = receiveData.split(" ");
+		String msg = receiveData.substring(receiveData.indexOf(" ", 3)).trim();
+		
+		while(it.hasNext()) {
+			try {
+				String name = it.next();
+				
+				if(user[1].equals(name)) {
+					DataOutputStream dos = new DataOutputStream(clients.get(user[1]).getOutputStream());
+					
+					String amsg = "[" + id + "가 보낸 귀속말] " + msg;
+					dos.writeUTF(amsg);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	/**
+	 * 대화방 즉, Map에 저장된 전체 유저에게 대화 메시지를 전송하는 메서드 
+	 * @param msg 전송할 메세지
+	 * @param from 보내는 사람
+	 */
+	public void sendMessage(String msg, String from) {
+		if(msg.startsWith("/")) {
+			sendMsgOne(msg, from);
+		}else {
+			sendMessage("[" + from + "] " + msg);
+		}
+	}
+
+	public static void main(String[] args) {
+		new MultiChatSever().serverStart();
+	}
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

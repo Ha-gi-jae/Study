@@ -1,0 +1,52 @@
+package kr.or.ddit.adminClass.controller;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.adminClass.service.AdminClassServiceImpl;
+import kr.or.ddit.adminClass.service.IAdminClassService;
+
+/**
+ * Servlet implementation class DeleteClass
+ */
+@WebServlet("/DeleteClass.do")
+public class DeleteClass extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DeleteClass() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String classId = request.getParameter("classId");
+		
+		IAdminClassService service = AdminClassServiceImpl.GetService();
+		
+		int cnt = 0;
+		String chk = request.getParameter("chk");
+		String[] num = chk.split(",");
+		for(int i = 0; i < num.length; i++) {
+			System.out.println(num[i]);
+			String class_id = num[i];
+			cnt = service.deleteClass(class_id);
+		}
+		
+		request.setAttribute("result", cnt);
+		
+		request.getRequestDispatcher("/whole/admin/admin_jsp/result.jsp").forward(request, response);
+	}
+
+}

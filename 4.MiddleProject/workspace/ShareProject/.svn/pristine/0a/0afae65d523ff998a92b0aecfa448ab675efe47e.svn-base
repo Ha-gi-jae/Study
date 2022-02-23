@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="msg">
+	<select id="msgList" parameterClass="string" resultClass="msgVO">
+		select * from msg where msg_from=#msg_from#
+	</select>
+	
+	<insert id="sendMsg" parameterClass="msgVO">
+		insert into msg (msg_content, msg_date, msg_read, msg_from, msg_to)
+		   values(#msg_content#, sysdate, 'N', #msg_from#, #msg_to#, msg_num_seq.nextval)
+	
+	</insert>
+	
+	<select id="msgSize" resultClass="int">
+		select count(*) from msg
+	</select>
+	
+	<delete id="deleteMsg" parameterClass="int">
+		delete from msg where msg_num=#msg_num#
+	
+	</delete>
+	
+</sqlMap>

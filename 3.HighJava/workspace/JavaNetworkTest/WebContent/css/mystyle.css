@@ -1,0 +1,320 @@
+@charset "UTF-8";
+header {
+	background: white;
+	width: 99%;
+	height: 5%;
+}
+header h1{
+}
+header h1 img{
+	width: 90px;
+	height: 60px;	
+}
+header a{
+	text-decoration: none;
+}
+nav{
+	width: 99%;
+	height: 3%;
+	background: white;
+}
+
+nav ul li{
+	display: inline;
+	list-style-type: none;
+	margin-left: 100px;
+	margin-right: 100px ;
+	
+}
+nav ul li a{
+	text-decoration: none;
+}
+
+
+#left {
+	float: left;
+	background: black;
+	width: 15%;
+	height: 600px;
+	border-style: solid;
+}
+
+
+#left a{
+	display:inline-block;
+	width: 100%;
+	height 100px;
+	border: 2px solid silver;
+	text-decoration: none;
+	border-collapse: separate;
+	color: white;
+	
+}
+section {
+	display: inline-block;
+	width: 65%;
+	height: 600px;
+
+}
+section article{
+	width: 99%;
+	height: 600px;
+}
+section article iframe{
+	width: 99%;
+	height: 600px;
+
+}
+
+
+#right {
+	display:inline-block;
+	width: 19%;
+	height: 600px;
+	float: right;
+	border: 1px solid black;
+	background: white;
+}
+
+footer{
+	background: white;
+	clear: both;
+}
+footer p{
+	text-align: center;
+}
+
+.computer_outdiv{
+	margin: auto;
+	border: 1px solid black;
+}
+
+.computer_div1{
+	width: 48%;
+	height: 560px;
+	display: inline-block;
+	padding: 1px;
+	
+}
+.computer_div2{
+	padding-left: 2px;
+	width: 48%;
+	height: 580px;
+	display: inline-block;
+	border-left: 1px solid black;
+	
+}
+.computer_img{
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.clothing_outdiv{
+	margin: auto;
+	border: 1px solid black;
+}
+
+.clothing_div1{
+	width: 48%;
+	height: 510px;
+	display: inline-block;
+	padding: 1px;
+	
+}
+.clothing_div2{
+	padding: 10px;
+	padding-left: 5px;
+	width: 48%;
+	height: 560px;
+	display: inline-block;
+	border-left: 1px solid black;
+}
+.clothing_img1{
+	padding : 5px;
+	width: 250px;
+	height: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+
+}
+.clothing_img2{
+	padding : 5px;
+	width: 250px;
+	height: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.food_outdiv{
+	margin: auto;
+	border: 1px solid black;
+}
+
+.food_div1{
+	width: 48%;
+	height: 490px;
+	display: inline-block;
+	padding: 1px;
+}
+.food_div2{
+	padding: 10px;
+	padding-left: 5px;
+	width: 48%;
+	height: 560px;
+	display: inline-block;
+	border-left: 1px solid black;
+}
+.food_img1{
+	padding : 5px;
+	width: 300px;
+	height: 290px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.food_img2{
+	padding : 5px;
+	width: 300px;
+	height: 340px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.interior_outdiv{
+	margin: auto;
+	border: 1px solid black;
+}
+
+.interior_div1{
+	width: 48%;
+	height: 500px;
+	display: inline-block;
+	padding: 1px;
+}
+.interior_div2{
+	padding: 10px;
+	padding-left: 5px;
+	width: 48%;
+	height: 550px;
+	display: inline-block;
+	border-left: 1px solid black;
+}
+.interior_img1{
+	padding : 5px;
+	width: 300px;
+	height: 290px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.interior_img2{
+	padding : 5px;
+	width: 300px;
+	height: 340px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.sport_outdiv{
+	
+	border: 1px solid black;
+}
+
+.sport_div1{
+	width: 48%;
+	height: 510px;
+	display: inline-block;
+	padding: 1px;	
+}
+.sport_div2{
+	padding: 10px;
+	padding-left: 5px;
+	width: 48%;
+	height: 560px;
+	display: inline-block;
+	border-left: 1px solid black;
+}
+.sport_img1{
+	padding : 5px;
+	width: 300px;
+	height: 290px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.sport_img2{
+	padding : 5px;
+	width: 300px;
+	height: 340px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+
+.register_fieldset{
+	border : 1px dotted grey;
+	width : 25%;
+	padding : 5px;
+}
+
+.register_label{
+	display : inline-block;
+	width : 110px;
+	height : 25px;
+}
+.register_button{
+	margin-left: 5px;
+}
+.register_div_gend{
+	margin-left: 50px;
+}
+.register_label_gend{
+	margin-left: 100px;
+}
+
+.register_button{
+	text-align: center;
+}
+.music_outdiv{
+		border: 1px solid black;
+	display: inline-block;
+}
+.music_div1{
+		border-right: 1px solid black;
+	display: inline-block;
+}
+.music_div2{
+		border-right: 1px solid black;
+	display: inline-block;
+}
+.music_div3{
+	display: inline-block;
+}
+.music_img{
+	width: 200px;
+	height: 200px;
+}
+.mov_video{
+	width: 75%;
+	height: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.mov_img{
+	width: 300px;
+	height: 300px;
+	margin-left: auto;
+}
+.shopcart_table{
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+table td{
+	text-align:center;
+	border: 1px solid black;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+
+<script>
+
+/*  a = prompt("수 입력").trim();
+ 
+ console.log(a); // 아무것도 입력 안했을 때, 공백만 입력 했을 때 0으로 인식한다. 
+ 
+ //숫자비교 - inNan(a) : a가 숫자가 아니냐 ???
+		 // 그렇다 (숫자가 아니다) - true
+		 // 아니다 (숫자다 ) - false
+ if(isNaN(a) || a == 0){ continue;}
+	 // 숫자인 경우
+	 alert("숫자가 아니다")
+ }else{
+	 // 문자인경우
+	 alert("숫자다.")
+ } */
+		 
+		 
+ function proc1(){
+	
+	 	str = "";
+	while(true){
+		// 입력 - prompt
+		input = prompt("입력하세요.").trim(); // trim() 공백
+		
+		// input이 공백인지 숫자가 아닌지 체크
+		if(!Number(input) || input == 0){ // isNaN 을 써두됨.
+			alert("숫자를 입력하세요.");
+			continue;
+		}
+		
+		str += "<br>---" + input + "단---<br>"
+		for(k=1; k<10; k++){
+			str += input + " * " + k + " = " + input * k + "<br>";
+		}
+		
+		str += "<br>";
+		
+		// 계속 여부 판단
+		cont = confirm("계속 하겠습니까?");
+		if(!cont){ // cont == false와 같음		
+			break;	
+		}
+	}
+		document.getElementById('result1').innerHTML = str;
+	
+} 
+</script>
+
+</head>
+<body>
+
+<div class="box">
+ <h3>수를 입력한다 - prompt를 이용</h3>
+  구구단을 출력 <br>
+  계속 실행 여부를 입력한다 - confirm 를 이용
+ <br>
+ <input type="button" value ="확인" onclick="proc1()">
+ <br>
+ <div id="result1"></div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>배열</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script>
+
+function print(result){ // fruits는 전역변수
+	
+	str = "";
+	for(i = 0; i < fruits.length; i++){
+		str += fruits[i] + "<br>";
+	}
+	document.getElementById(result).innerHTML = str; // 파라미터로 받은 변수. 변수 니까 '' 가 없음.
+}
+
+// function print(fr, res){} 메서드 오버로딩과 메서드 오버 라이딩의 차이
+						  // 파라미터 다름  <..> 상속의 개념
+proc1 = () =>{
+	fruits = [ "사과", "복숭아", "참외", "수박", "바나나"];
+// 	document.querySelector('#result1').innerHTML = fruits; 스크립트에서는 바로 사과,복숭아,참외,수박,바나나 출력된다.
+	/* str = "";
+	for(i = 0; i < fruits.length; i++){
+		str += fruits[i] + "<br>"
+	}
+// 	document.getElementById('result1').innerHTML = str; // ById에는 #이 들어가있다고 생각하면 된다.
+	document.querySelector('#result1').innerHTML = str;  */
+	
+	print("result1");
+}
+
+proc2 = function(){
+	fruits = new Array("사과", "파인애플", "자두", "수박", "배");
+	print("result2");
+}
+
+function proc3(){
+	fruits = new Array();
+	fruits[0] = "사과";
+	fruits[1] = "복숭아";
+	fruits[2] = "참외";
+	fruits[3] = "수박";
+	fruits[4] = "바나나";
+	
+	print("result3");
+}
+
+</script>
+</head>
+<body>
+<div class="box">
+ <h3>배열 - 리터럴로 생성</h3>
+ -fruits = [ "사과", "복숭아", "참외", "수박", "바나나"]<br>
+ <br>
+ <input type="button" value ="확인" onclick="proc1()">
+ <br>
+ <div id="result1"></div>
+</div>
+
+<div class="box">
+ <h3>배열 - 객체 생성</h3>
+ - fruits = new Array("사과", "파인애플", "자두", "수박", "배")<br>
+ <br>
+ <input type="button" value ="확인" onclick="proc2()">
+ <br>
+ <div id="result2"></div>
+</div>
+
+<div class="box">
+ <h3>배열 - 객체 생성</h3>
+ -fruits = new Array();<br>
+ fruits[0] = "사과";<br>
+ fruits[1] = "복숭아";<br>
+ fruits[2] = "참외";<br>
+ fruits[3] = "수박";<br>
+ fruits[4] = "바나나";<br>
+ <br>
+ <input type="button" value ="확인" onclick="proc3()">
+ <br>
+ <div id="result3"></div>
+</div>
+
+
+</body>
+</html>

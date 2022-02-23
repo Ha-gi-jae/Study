@@ -1,0 +1,33 @@
+<%@page import="kr.or.ddit.board.vo.PagingVO"%>
+<%@page import="kr.or.ddit.member.vo.MsgVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	List<MsgVO> msgList = (List<MsgVO>) request.getAttribute("msg_list");
+	
+%>
+
+[
+
+<%
+	for(int i=0; i<msgList.size(); i++){
+		MsgVO mv = msgList.get(i);
+		if(i>0) out.print(",");
+%>
+	{
+		"msg_content" : "<%=mv.getMsg_content() %>",
+		"msg_date" : "<%=mv.getMsg_date() %>",
+		"msg_read" : "<%=mv.getMsg_read() %>",
+		"msg_from" : "<%=mv.getMsg_from() %>",
+		"msg_to" :   "<%=mv.getMsg_to() %>"
+	
+	}	
+		
+<%		
+	}
+%>
+
+
+
+]

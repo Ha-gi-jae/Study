@@ -1,0 +1,34 @@
+<%@page import="kr.or.ddit.admin.vo.AdminVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	AdminVO av = (AdminVO) request.getAttribute("admin");
+	
+	if(av!=null){
+%>
+	
+		{
+			"flag" : "admin"
+		}
+		
+	<script>
+	alert("관리자 로그인 성공");
+	document.location.href='./Final_Main_Page/mainIndex.html';
+	</script>
+		
+		
+<%
+	}else{
+		
+%>		
+	
+	<script>
+	alert("로그인 실패");
+	document.location.href='./Final_Main_Page/loginPage.html';
+	</script>
+	
+	
+		
+<%		
+	}
+%>

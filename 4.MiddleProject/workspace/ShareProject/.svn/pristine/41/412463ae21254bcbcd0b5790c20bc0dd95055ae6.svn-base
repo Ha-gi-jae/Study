@@ -1,0 +1,148 @@
+<%@page import="org.w3c.dom.NodeList"%>
+<%@page import="java.util.List"%>
+<%@page import="java.io.File"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	List<String> nodeList = (List<String>) request.getAttribute("nodeList");
+	String folderName = (String) request.getAttribute("folderName");
+%>    
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+	<head>
+		<title>aimaraJS Simple Example</title>
+		<link rel="stylesheet" type="text/css" href="test/css/Aimara.css">
+		<link rel="stylesheet" type="text/css" href="test/css/Example.css">
+		<script src="test/lib/Aimara.js" type="text/javascript"></script>
+		<script src="js/jquery-3.6.0.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			loc = "";
+			window.onload = function() {
+
+				//Initializing Tree
+
+				//우클릭 동작
+				//Tree Context Menu Structure
+				var contex_menu = {
+					'context1' : {
+						elements : [
+							{
+								text : '파일 컨트롤',
+								icon: 'test/images/blue_key.png',
+								action : function(node) {
+
+								},
+								submenu: {
+									elements : [
+										{
+											text : '파일 만들기',
+											icon: 'test/images/leaf.png',
+											action : function(node) {
+												copyNode = node;
+												filePath = copyNode.getText() + "/";
+												do {
+													copyNode = parent(copyNode);
+													filePath = copyNode.getText() + "/" + filePath;
+												} while (!(copyNode.getText() == "<%=folderName %>"));
+												
+												console.log(filePath);
+												
+												$.ajax({
+													url:'/ShareProject/UploadFile.do',
+													type:'get',
+													data:{ "path": filePath },
+													success:function(result) {
+														node.createChildNode('NewFolder',false,'test/images/folder.png',null,'context1');
+														tree.expandNode(node);
+													},
+													error:function(xhr) {
+														alert("에러코드 : " + xhr.status + "\n에러명 : " + xhr.statusText)
+													}
+												
+												})
+											}
+										},
+										{
+											text : '이름 수정',
+											icon: 'test/images/leaf.png',
+											action : function(node) {
+											var input = prompt('이름 변경');
+											node.setText(input);
+											}
+										},
+										
+									]
+								}
+							},
+							{
+								text : '다운로드 관리',
+								icon: 'test/images/blue_key.png',
+								action : function(node) {
+
+								},
+								submenu: {
+									elements : [
+										{
+											text : '다운로드',
+											icon: 'test/images/add1.png',
+											action : function(node) {
+												node.createChildNode('Created',false,'test/images/folder.png',null,'context1');
+											}
+										},
+										{
+											text : 'Create 1000 Child Nodes',
+											icon: 'test/images/add1.png',
+											action : function(node) {
+												for (var i=0; i<1000; i++)
+													node.createChildNode('Created -' + i,false,'test/images/folder.png',null,'context1');
+											}
+										},
+										
+									]
+								}
+							}
+						]
+					}
+				};
+
+				//Creating the tree
+				tree = createTree('div_tree','white',contex_menu);
+
+				div_log = document.getElementById('div_log');
+
+				//Setting custom events
+				tree.nodeAfterOpenEvent = function(node) {
+
+					
+				}
+
+				tree.nodeBeforeCloseEvent = function(node) {
+					div_log.innerHTML += node.text + ': 닫음<br/>';
+				}
+		
+				<%
+					for(int i = 0; i < nodeList.size(); i++){
+						out.println(nodeList.get(i));
+					}
+				%>
+				
+				//Rendering the tree
+				tree.drawTree();
+
+
+			};
+		parent = function(node) {
+			return node.getParent();
+			
+		}
+		</script>
+	</head>
+	<body>
+
+		<div id="div_log"></div>
+		<div id="div_tree"></div>
+
+	</body>
+</html>

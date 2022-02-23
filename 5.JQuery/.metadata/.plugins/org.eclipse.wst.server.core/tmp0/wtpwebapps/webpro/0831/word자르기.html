@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	div{
+		width: 50%;
+		border: 1px solid green;
+		padding: 20px;
+		margin : 20px;
+	}
+	#d1{
+		word-wrap : break-word; /* 긴거 잘라서 들어감 깔끔하게 */
+	}
+	#d1, #d2{
+		word-wrap : break-word;
+	}
+</style>
+<script>
+	var	cnt = 0; // 함수안에는 초기화되니까 밖에 써줘야함.
+	function proc1(){
+		//버튼을 클릭할 때 마다 id가 d2인 div에 Hello 문자를 추가한다.
+		
+		//id가 d2인 요소 접근
+	var vd2 = document.getElementById('d2'); /* 스크립트에서는 변수 타입 var를 씀. */
+		cnt ++;
+	
+	
+	
+	
+// 		vd2에 값(Hello)을 추가한다.
+// 		vd2.textContent = "Hello" + cnt;
+// 		vd2.innerHTML = "<h1>Hello" + cnt + "</h1>"  /* innerHTML 에서 HTML은 반드시 대문자 */
+		//글자에 태그를 쓸수 있냐 없냐 차이가 있다.
+		
+		//vd2에 값(Hello)을 덮어쓰기한다. 부모요소.append('자식요소')
+											//글자가 아닌 자식요소 객체를 넣어야함.
+		var child = document.createTextNode('hello'); // 띄어쓰기없으면 길게들어감 근데 스타일에서 word-wrap : break-word; 이걸써주면 해당 칸 넘어가면 알아서 이쁘게 넘어가줌.
+		//사실 var 안 써도됨..
+		vd2.append(child);
+		
+		
+	}
+</script>
+</head>
+<body>
+ <div>
+ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 
+ </div>
+
+ <div id="d1">
+<h1> word-wrap : break-word</h1>
+ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 
+ </div>
+
+ <div id="d2">
+<h1> word-wrap : break-word</h1>
+ </div>
+<input type= "button"  onclick="proc1()" value="확인">
+
+</body>
+</html>

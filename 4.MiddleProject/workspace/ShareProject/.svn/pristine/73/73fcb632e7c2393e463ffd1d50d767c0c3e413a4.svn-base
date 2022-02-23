@@ -1,0 +1,42 @@
+package kr.or.ddit.basic;
+
+public class EnumPlanet {
+	
+	public enum Planet {
+		
+		수성(2439), 금성(6052), 지구(6371), 화성(3390), 
+		목성(69911), 토성(58232), 천왕성(25362), 해왕성(24622);
+		
+		private int rad;
+				
+		Planet(int data) {
+			this.rad = data;
+		}
+		
+		public int getRad() {
+			return rad;
+		}
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		/*Planet planet1 = Planet.수성;
+		Planet planet2 = Planet.금성;
+		Planet planet3 = Planet.지구;
+		Planet planet4 = Planet.화성;
+		Planet planet5 = Planet.목성;
+		Planet planet6 = Planet.토성;
+		Planet planet7 = Planet.천왕성;
+		Planet planet8 = Planet.해왕성;*/
+		
+		
+		Planet[] planetArr = Planet.values();
+		for (int i = 0; i < planetArr.length; i++) {
+			System.out.println(planetArr[i].name() + "의 면적 : " 
+					+ Math.round((double)(4*Math.PI*Math.pow(planetArr[i].getRad(), 2)))
+					+ " Km²");
+		}
+	}
+}

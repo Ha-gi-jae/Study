@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="itt">
+
+	<select id="selectItt" resultClass="calVO">
+		SELECT * FROM ITT
+	</select>
+	
+	<select id="selectIttDetail" resultClass="calVO" parameterClass="String">
+	<![CDATA[ 
+		select * 
+		  from itt 
+		 where to_date(to_char(itt_start, 'YYYY/MM/DD')) <= to_date(#itt_start#)
+		   and to_date(to_char(itt_end, 'YYYY/MM/DD')) >=  to_date(#itt_end#)
+	]]>
+	</select>
+    
+    <select id="selectTtId" parameterClass="ttVO" resultClass="int">
+    	
+    	select tt_id 
+    	  from tt
+    	 where tt_title = #tt_title#
+    	   and tt_start = #tt_start#
+    	   and tt_end = #tt_end#
+    	   and tt_color = #tt_color#
+    	 
+    </select>
+    
+    <select id="selectTt" resultClass="ttVO">
+    
+    	select * from tt
+    
+    </select>
+    
+    <insert id="insertItt" parameterClass="calVO">
+    
+    	insert into itt
+    	values(cal_id_seq.nextval, 
+    	       #itt_title#, 
+    	       to_date(#itt_start#,'YYYY/MM/DD HH24:MI'), 
+    	       to_date(#itt_end#,'YYYY/MM/DD HH24:MI'),
+    	       #itt_color#,
+    	       #itt_overlap#)
+    	       
+    	<selectKey keyProperty="itt_id" resultClass="int">
+    		select cal_id_seq.currval from dual
+    	</selectKey> 
+    </insert>
+    
+    <insert id="insertTt" parameterClass="ttVO">
+    
+    	insert into tt
+    	values(cal_id_seq.nextval, 
+    	       #tt_title#, 
+    	       to_date(#tt_start#,'YYYY/MM/DD HH24:MI'), 
+    	       to_date(#tt_end#,'YYYY/MM/DD HH24:MI'),
+    	       #tt_allday#,
+    	       #tt_color#,
+    	       #tt_overlap#)
+    	       
+    	<selectKey keyProperty="tt_id" resultClass="int">
+    		select cal_id_seq.currval from dual
+    	</selectKey> 
+    </insert>
+    
+     <delete id="calDelete" parameterClass="int">
+     
+    	delete from itt 
+    	where itt_id = #itt_id#
+      
+    </delete>
+    
+    <delete id="ttDelete" parameterClass="int">
+     
+    	delete from tt 
+    	where tt_id = #tt_id#
+      
+    </delete>
+    
+    
+    <update id="calUpdate" parameterClass="calVO">
+    	UPDATE ITT 
+    	   SET ITT_TITLE =#itt_title#,
+    	       ITT_START = to_date(#itt_start#,'YYYY/MM/DD HH24:MI'),
+    	       ITT_END = to_date(#itt_end#,'YYYY/MM/DD HH24:MI'),
+    	       ITT_COLOR = #itt_color#,
+    	       ITT_OVERLAP =#itt_overlap#
+    	 WHERE ITT_ID=#itt_id#       
+    </update>
+    
+    <update id="ttUpdate" parameterClass="ttVO">
+    	UPDATE TT 
+    	   SET TT_TITLE =#tt_title#,
+    	       TT_START = to_date(#tt_start#,'YYYY/MM/DD HH24:MI'),
+    	       TT_END = to_date(#tt_end#,'YYYY/MM/DD HH24:MI'),
+    	       TT_ALLDAY = #tt_allday#,
+    	       TT_COLOR = #tt_color#,
+    	       TT_OVERLAP =#tt_overlap#
+    	 WHERE TT_ID=#tt_id#       
+    </update>
+</sqlMap>			
+
+
+
+
+

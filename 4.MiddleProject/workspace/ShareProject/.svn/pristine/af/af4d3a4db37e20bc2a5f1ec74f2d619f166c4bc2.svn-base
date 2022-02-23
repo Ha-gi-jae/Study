@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="Tooplate" />
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Additional CSS Files -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="assets/css/tooplate-style.css" />
+  <link rel="stylesheet" href="assets/css/classStyle.css">
+
+  <title>Share Project MyClass</title>
+</head>
+
+
+<body>
+  <div id="page-wraper">
+    <!-- Sidebar Menu -->
+    <div class="responsive-nav">
+      <i class="fa fa-bars" id="menu-toggle"></i>
+      <div id="class_menu" class="menu">
+        <i class="fa fa-times" id="menu-close"></i>
+        <br>
+        <div class="container">
+
+          <div class="image">
+            <div id="classNum"><img src="../img/logo-image.PNG" alt="image">
+              &nbsp;<p>403호</p>
+            </div>
+          </div>
+
+          <div class="author-content">
+            <h4 class="infoName">공밀레</h4>
+            <div id="courseBox">
+              <span>[기업맞춤형] 전자정부 표준 프레임워크 기반
+                풀-스택 개발자 양성과정(15기)</span>
+            </div>
+            <span><a class="infOption" href="../whole/member/myPage.html"><i class="fas fa-house-user"></i>&nbsp;마이페이지</a></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span><a class="infOption" href="../whole/member/message.html"><i class="far fa-envelope"></i>&nbsp;쪽지</a></span>
+            <br>
+            <span><a class="infOption" href="#"><i class="far fa-comments"></i>&nbsp;채팅</a></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span><a class="infOption" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a></span>
+          </div>
+
+          <a href="mainIndex.html"><input type="button" class="clButton" value="클래스 나가기"></a>
+
+          <nav class="main-nav" role="navigation">
+            <ul class="main-menu">
+              <li><a href="#"><i class="mIcons fas fa-paperclip"></i>&nbsp;&nbsp;자료공유</a></li>
+              <li><a href="#"><i class="mIcons far fa-file-alt"></i>&nbsp;&nbsp;과제게시판</a></li>
+              <li><a href="../whole/board/ClQnABoard.html"><i class="mIcons fas fa-question-circle"></i>&nbsp;&nbsp;질문게시판</a></li>
+              <li><a href="../whole/board/ClFreeBoard.html"><i class="mIcons fas fa-users"></i>&nbsp;&nbsp;자유게시판</a></li>
+              <li><a href="../whole/board/ClLunchBoard.html"><i class="mIcons fas fa-utensils"></i>&nbsp;&nbsp;점심게시판</a></li>
+              <li><a href="#"><i class="mIcons fas fa-exclamation-circle"></i>&nbsp;&nbsp;공지사항</a></li>
+              <li class="menuList"><a href="#"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;시간표</a></li>
+            </ul>
+          </nav>
+
+          <div class="copyright-text">
+            <p>Copyright 2021 Share Project<br>
+              Design: 공밀레</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="boardBox">
+      <div id="clCenterBox">
+        <div id="topLine">
+          <div class="topbox tbx1">
+            <div class="quickTitle">
+              <h3>공지사항</h3>
+            </div>
+            <ul id="quickCont1">
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+            </ul>
+          </div>
+
+          <div class="topbox tbx2">
+            <img class="tbx2_img cssImg" src="assets/images/to-learn-gb9c3fde6f_1920 - 복사본 (2).jpg" alt="study">
+          </div>
+
+          <div class="topbox tbx3">
+            <div class="quickTitle">
+              <h3>질문게시판</h3>
+            </div>
+            <ul id="quickCont1">
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="bottomLine">
+          <div class="bottomBox bbx1">
+            <img class="bbx1_img cssImg" src="assets/images/cat-gd8ef5271c_1920 - 복사본.jpg" alt="study">
+          </div>
+
+          <div class="bottomBox bbx2">
+            <div class="quickTitle">
+              <h3>점심게시판</h3>
+            </div>
+            <ul id="quickCont1">
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+              <li>게시글 제목이 들어갑니다.</li>
+            </ul>
+          </div>
+
+          <div class="bottomBox bbx3">
+            <img class="bbx3_img cssImg" src="assets/images/bulletin-board-gfdb3f34b1_1920 - 복사본.jpg" alt="study">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+</body>
+
+</html>

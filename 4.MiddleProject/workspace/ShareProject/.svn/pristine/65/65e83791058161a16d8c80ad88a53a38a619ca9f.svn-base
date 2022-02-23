@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="adminreport">
+
+	<select id="groupByAllReport" resultClass="adminReportVO" parameterClass="pagingVO">
+		<![CDATA[
+			select D.*
+			  from (select rownum as rnum,
+			               C.*
+			          from (select count(B.adminboard_id) as reportcount,
+			                       B.adminboard_id,
+			                       A.adminboard_blind
+			                  from adminboard A, report B
+			                 where A.adminboard_id = B.adminboard_id
+			                 group by A.adminboard_id, A.adminboard_blind
+			                 order by 1 desc) C
+			         where rownum <= #lastRecNo#) D
+			 where D.rnum >= #firstRecNo#
+		]]>
+	</select>
+	
+	<select id="reportSize" resultClass="int">
+		select count(*) from adminboard
+	</select>
+	
+	<select id="reportcontent" resultClass="adminReportVO">
+		select report_reason,
+			   to_char(report_date, 'YYYY-MM-DD') as report_date,
+			   adminboard_id,
+			   mem_id
+		  from report
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,37 @@
+package kr.or.ddit.admin.vo;
+
+import java.util.Date;
+
+public class AdminVO {
+	
+	private String admin_id;
+	private String admin_pw;
+	private String class_id;
+	private String class_name;
+	private String mem_id;
+	private String mem_pass;
+	private String mem_group;
+	private Date mem_start;
+	private Date mem_end;
+	private String mem_addr1;
+	private String mem_addr2;
+	private String mem_hp;
+	private String mem_name;
+	private String mem_sub;
+	
+	
+	public String getAdmin_id() {
+		return admin_id;
+	}
+	public void setAdmin_id(String admin_id) {
+		this.admin_id = admin_id;
+	}
+	public String getAdmin_pw() {
+		return admin_pw;
+	}
+	public void setAdmin_pw(String admin_pw) {
+		this.admin_pw = admin_pw;
+	}
+	
+	
+}

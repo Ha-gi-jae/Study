@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+
+	<style>
+		span{
+			border-bottom: 3px solid red;
+		}
+	</style>
+</head>
+<body>
+	<h2>한개의 항목을 선택 </h2>
+	<form action="select.jsp" method="get">    <!-- get으로하면 비밀번호입력시 유출 된다 하나만 전송할때 get. 전송 정보 유출없이 여러개를 보낼때는 post -->
+		<select name="car1">
+			<option value="bmw">BMW</option>
+			<option value="소나타" selected>소나타</option>     <!-- selected : 초기값을 지정해준다. 중복해서 지정할 시 마지막 selected가 초기값이 된다. -->
+			<option value="랜드로바">랜드로바</option>
+			<option value="제네시스">제네시스</option>
+			<option value="그랜저" selected>그랜저</option>			
+		</select>
+		
+		<button type="submit">전송</button>
+		
+	</form>
+	
+	<pre>
+		&lt;select name="car2" <span>multiple="multiple" size="5" </span>>
+	</pre>
+	
+		<h2>여러개의 항목을 선택 </h2>
+	<form action="select.jsp" method="get">    <!-- get으로하면 비밀번호입력시 유출 된다 하나만 전송할때 get. 전송 정보 유출없이 여러개를 보낼때는 post -->
+		<select name="car2" multiple="multiple" size="5">    <!-- multiple 이용시 여러개 선택가능. size를 이용해 보여지는것을 정할 수 있음. ctrl을 이용해서 여러개 선택가능 -->
+			<option value="bmw">BMW</option>
+			<option value="소나타">소나타</option>
+			<option value="랜드로바" selected>랜드로바</option>   <!-- multiple에서 selected를 쓰면 쓴 갯수만큼 초기값이 지정된다. -->
+			<option value="제네시스">제네시스</option>
+			<option value="그랜저" selected>그랜저</option>			
+		</select>
+		
+		<button type="submit">전송</button>
+		
+	</form>
+	
+</body>
+</html>

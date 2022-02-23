@@ -1,0 +1,5 @@
+127.0.0.1 - - [18/Oct/2021:19:55:09 +0900] "GET / HTTP/1.1" 404 1074
+0:0:0:0:0:0:0:1 - - [18/Oct/2021:19:55:19 +0900] "GET /boardpro/board/board.html HTTP/1.1" 200 13192
+0:0:0:0:0:0:0:1 - - [18/Oct/2021:19:55:19 +0900] "GET /boardpro/js/board.js HTTP/1.1" 200 8735
+0:0:0:0:0:0:0:1 - - [18/Oct/2021:19:55:19 +0900] "GET /boardpro/js/jquery.serializejson.min.js HTTP/1.1" 200 3196
+0:0:0:0:0:0:0:1 - - [18/Oct/2021:19:55:20 +0900] "POST /boardpro/List.do HTTP/1.1" 200 1195

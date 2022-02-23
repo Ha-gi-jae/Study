@@ -1,0 +1,81 @@
+package kr.or.ddit.admin.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.admin.service.AdminServiceImpl;
+import kr.or.ddit.admin.service.IAdminService;
+import kr.or.ddit.admin.vo.AdminVO;
+import kr.or.ddit.board.vo.PagingVO;
+
+/**
+ * Servlet implementation class FindMember
+ */
+@WebServlet("/FindMember.do")
+public class FindMember extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public FindMember() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		List<AdminVO> list = null;
+		
+		String field_ = request.getParameter("f");
+		String query_ = request.getParameter("q");
+		System.out.println(field_);
+		System.out.println(query_);
+		System.out.println("끼룩끼룩끼룩끼룩끼룩끼룩끼룩끼룩끼룩끼룩");
+		String field = "title";
+		if(field_ != null) field = field_;
+		String query = "";
+		if(query_ != null) query = query_;
+		
+		//페이징
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt(request.getParameter("pageNo"));
+		
+		IAdminService service = AdminServiceImpl.GetService();
+		
+		// 페이징
+		int totalCnt = service.memSize();
+		PagingVO pv = new PagingVO();
+		pv.setCountPerPage(20);
+		pv.setCurrentPageNo(pageNo);
+		pv.setPageSize(3);
+		pv.setTotalCount(totalCnt);
+		if(field_.equals("class")) {
+			list = service.findClass(query_);
+			System.out.println("11111111111111111111111111111111111111");
+		}else if(field_.equals("group")) {
+			list = service.findGroup(query_);
+			System.out.println("222222222222222222222222222222222222");
+		}else if(field_.equals("name")) {
+			list = service.findName(query_);
+			System.out.println("333333333333333333333333333333333333333333");
+		}
+//		else{ list = service.groupByAllMem(pv);}
+		
+		request.setAttribute("pv", pv);
+		request.setAttribute("memberList", list);
+		System.out.println("444444444444444444444444444444");
+		
+		request.getRequestDispatcher("/WEB-INF/admin/admin_jsp/SelectAllMember.jsp").forward(request, response);
+		System.out.println("5555555555555555555555555555555555555555555");
+	}
+
+}

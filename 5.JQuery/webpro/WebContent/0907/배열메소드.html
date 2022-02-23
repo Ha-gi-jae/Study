@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script>
+ fruits = ["사과", "복숭아", "딸기", "사과", "포도", "파인애플", "사과"];
+
+ function proc1(){
+	 item = prompt("과일을 찾고있나?");
+	 
+	idx = fruits.indexOf(item);
+	console.log("idx = " + idx);
+	
+	str = " 찾는 과일 : " + item;
+	if(idx < 0){
+		str = "자네가 찾는과일은 없다네"
+	}else {
+		str += "<br>";
+	str += idx + "번째 있습니다." + "<br>";
+	}
+	
+	
+	document.getElementById('result1').innerHTML = str;
+}
+ function proc2(){
+	 item = prompt("과일을 입력해주겠니?");
+	 
+	 idx = fruits.lastIndexOf(item);
+	 str = " 찾는 과일 : " + item + "<br>";
+	 if(idx < 0){
+		 str = "뭐 ? " + item +"? 그런거 없어"
+	 }else{
+	 str += idx + "번째 있습니다." + "<br>";
+	 }
+	 document.getElementById('result2').innerHTML = str;
+ }
+function proc3(){
+	item = prompt("과일을 입력하렴!!");
+	
+	idx = 0;
+	itemidx = "";
+	while(true){
+		idx = fruits.indexOf(item, idx);
+		if(idx < 0){break;}
+		itemidx += idx + " ";
+		
+		idx++;
+	}
+	str = "찾는 과일 : " + item;
+		str += "<br>" + itemidx + "번째 있습니다."
+	document.getElementById('result3').innerHTML = str;
+ }
+
+function proc4(){
+	
+	str = "추가하기전 : " + fruits + "<br>";
+	
+	item1 = prompt("추가할 과일을 입력");
+	item2 = prompt("추가할 과일을 입력");
+	item3 = prompt("추가할 과일을 입력");
+	
+	fruits.push(item1, item2, item3);
+	
+	str += "추가 후 : " + fruits + "<br>";
+	
+	document.getElementById('result4').innerHTML = str;
+}
+
+function proc5(){
+	
+	str = "삭제하기전 : " + fruits + "<br>";
+	
+	fruits.pop();
+	
+	str += "삭제 후 : " + fruits + "<br>";
+	
+	document.getElementById('result5').innerHTML = str;
+}
+function proc6(){
+	// 1 ~ 3 (마지막 숫자는 포함되지 않는다.)
+	newf = fruits.slice(1, 5); //뀨? 뀨뀨뀨 
+	str = "원래배열 : " + fruits + "<br>";
+	
+	str += "자르기 한 배열 : " + newf + "<br>";
+	
+	document.getElementById('result6').innerHTML = str;
+}
+ 
+proc7 =() =>{
+	str = "수정 전 배열 : " + fruits + "<br>";
+	
+	fruits.splice(1, 2, "딸기", "자몽");
+	
+	str = "수정 후 배열 splice(1, 2, '딸기', '자몽') : " + fruits + "<br>";
+
+	fruits.splice(3, 0, "토마토", "오이");
+	
+	str += "수정 splice(1, 2, '토마토', '오이') : " + fruits + "<br>";
+	
+	fruits.splice(5, 2);
+	
+	str += "수정 splice(5, 2) : " + fruits + "<br>";
+	
+	document.getElementById('result7').innerHTML = str;
+}
+
+proc8 =() =>{
+	a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	
+	str = "수정 전 배열 : " + fruits + "<br>";
+
+	fa = fruits.concat(a);
+	
+	str += "수정 후 배열 : " + fa + "<br>";
+	
+	document.getElementById('result8').innerHTML = str;
+}
+function proc9(){
+	
+	str = "수정 전 배열 : " + fruits + "<br>";
+	str += "갯수 : " + fruits.length + "<br>"; 
+	
+	//배열을 문자열로 변경
+	fa = fruits.join("/");
+
+	str += "수정 후 문자열 : " + fa + "<br>";
+	str += "갯수 : " + fa.length + "<br>";
+	document.getElementById('result9').innerHTML = str;
+}
+
+function proc10(){
+	str = " 원래 배열 : " + fruits + "<br>";
+	
+	fruits.reverse();
+	
+	str += " reverse 수행 후 배열 : " + fruits + "<br>";
+	
+	document.getElementById('result10').innerHTML = str;
+	
+}
+
+function proc11(){
+	str = " 원래 배열 : " + fruits + "<br>";
+	
+	fruits.sort();
+	
+	str += " sort 수행 후 배열 : " + fruits + "<br>";
+	
+	document.getElementById('result11').innerHTML = str;
+}
+function proc12(){
+	su = [10, 89, 26, 33, 456, 41, 50, 200];
+	
+	str = " 원래 배열 : " +  su + "<br>";
+	
+	
+	//su.sort(); : 사전순으로 나열 - 10, 200, 26, 33, 41, 456, 50, 89
+	
+	/* su.sort(function(a,b){// 크기순으로 나열 - 오름차순
+		return a-b; // 양수 이면 자리 바꿈
+	}) */
+	su.sort(function(a,b){// 크기순으로 나열 - 내림차순
+		return b-a; // 양수 이면 자리 바꿈
+	})
+	
+	str += " sort 수행 후 배열 : " + su + "<br>"
+	
+	document.getElementById('result12').innerHTML = str;
+	
+	
+}
+
+</script>
+</head>
+<body>
+
+	<div class="box">
+		<h3>배열 메소드</h3>
+		indexOf(item, start) : item의 위치를 리턴, start는 옵션(생략가능), 생략시 start를 지정하지
+		않으면 0부터 시작한다.<br> lastIndexOf(item, start) : 뒤에서부터 검색 item의 위치를
+		리턴, 마찬가지로 생략가능 지정하지않으면 마지막부터.<br> <input type="button"
+			value="indexOf" onclick="proc1()"> <input type="button"
+			value="lastIndexOf" onclick="proc2()"> <input type="button"
+			value="lastIndexOf" onclick="proc3()"> <br>
+		<div id="result1"></div>
+		<div id="result2"></div>
+		<div id="result3"></div>
+	</div>
+
+
+	<div class="box">
+		<h3>배열 메소드</h3>
+		push(a, b, c) : 배열의 끝에 a, b, c를 추가 <br> pop() : 배열의 끝(마지막)의 요소를
+		제거 <br> <input type="button" value="push" onclick="proc4()">
+		<input type="button" value="pop" onclick="proc5()"> <br>
+		<div id="result4"></div>
+		<div id="result5"></div>
+	</div>
+
+
+	<div class="box">
+		<h3>배열 메소드</h3>
+		slice(start, end) : start~end 사이의 요소를 추출해서 새로운 배열을 만든다. <br>
+		splice(index, n, a, b, c) : index위치에서 n개를 삭제하고 a, b, c 를 추가한다.<br>
+		<input type="button" value="slice" onclick="proc6()"> <input
+			type="button" value="splice" onclick="proc7()"> <br>
+		<div id="result6"></div>
+		<div id="result7"></div>
+	</div>
+
+	<div class="box">
+		<h3>배열 메소드</h3>
+		a.concat(b,c) : a배열과 b배열 c배열을 하나로 합친다. <br> join("/") : 하나의 배열을
+		문자열로 변환한다. <br> <input type="button" value="concat"
+			onclick="proc8()"> <input type="button" value="join"
+			onclick="proc9()"> <br>
+		<div id="result8"></div>
+		<div id="result9"></div>
+	</div>
+
+	<div class="box">
+		<h3>배열 메소드</h3>
+		reverse() : 배열의 순서 뒤집기 <br> sort() : 사전순으로 나열 <br> <input
+			type="button" value="reverse" onclick="proc10()"> <input
+			type="button" value="sort" onclick="proc11()"> <input
+			type="button" value="sort" onclick="proc12()"> <br>
+		<div id="result10"></div>
+		<div id="result11"></div>
+		<div id="result12"></div>
+	</div>
+
+</body>
+</html>

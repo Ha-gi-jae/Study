@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+html {
+	margin : 0px;
+	padding : 0px;
+	background: #E0EAFC; 
+	/* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC); 
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #CFDEF3, #E0EAFC);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	margin-top : 45px;
+}
+body {
+	margin : 0px;
+	padding : 0px;
+}
+#main {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1500px;
+	height : 850px;
+	background: white;
+	display: flex;
+}
+#leftAside {
+	width: 280px;
+	height : 850px;
+	background: #ebf2ff; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #ebf2ff, #c2d2e9);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #ebf2ff, #c2d2e9);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+#centerBox {
+	width: 1175px;
+	height : 850px;
+	background: white;
+	display: flex;
+	flex-direction: column;
+}
+#header {
+	width: 1170px;
+	height : 80px;
+	background: pink;
+}
+#nav {
+	width: 1170px;
+	height : 40px;
+	background: yellow;
+}
+hr {
+	margin : 0px;
+}
+#mainBox {
+	width: 1170px;
+	height : 670px;
+	background: white;
+}
+#footer {
+	width: 1170px;
+	height : 60px;
+	background: green;
+}
+#rightAside {
+	width: 60px;
+	height : 850px;
+	background: #102347;
+}
+
+</style>
+<script></script>
+</head>
+<body>
+	<div id="main">
+		<div id="leftAside"></div>
+		
+		<div id="centerBox">
+			<header id="header">header</header>
+			<hr>
+			<nav id="nav">nav</nav>
+			<hr>
+			<div id="mainBox">mainBox</div>
+			<footer id="footer">footer</footer>
+		</div>
+		
+		<div id="rightAside"></div>
+	</div>
+</body>
+</html>

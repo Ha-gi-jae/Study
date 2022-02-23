@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원관리페이지</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- <script src="/JSP_HGJ/js/jquery-3.6.0.min.js"></script> -->
+<script src="/JSP_HGJ/js/jquery.serializejson.min.js"></script>
+<script>
+pageNo = 1;
+$(function(){
+	
+	SelectList();// 리스트 출력
+	
+	$(document).on('click', '.page', function(){
+		pageNo = $(this).html();
+		SelectList();
+	})
+	
+	$(document).on('click', '.pre', function(){
+		pageNo = $(this).attr('name');
+		SelectList();
+	})
+	
+	$(document).on('click', '.next', function(){
+		pageNo = $(this).attr('name');
+		SelectList();
+	})
+	
+	find = "";
+	// 찾기 버튼
+	$(document).on('click', '#findbutton', function(){
+		field_ = $('form option:selected').val();
+		query_ = $('#q').val();
+		$.ajax({
+			url: '/JSP_HGJ/FindList.do',
+			type: 'post',
+			data:{'f' : field_, 'q' : query_},
+			dataType: 'html',
+			success: function(res){
+				$('#Box').html(res);
+			},
+			error: function(xhr){
+				alert("검색버튼부분" + xhr.status);
+			}
+		})
+		
+	})
+	
+	$(document).on('click', 'input[name=allchk]', function(){
+		
+		if($("input[name=allchk]").prop("checked")){
+			
+			$("input[name=mem_chk]").prop("checked", true);
+			
+		}else{
+			$("input[name=mem_chk]").prop("checked", false);
+		}
+	})
+	
+	
+	$(document).on('click', '.detail', function(){ // 상세조회
+		id = $(this).parents('.tr2').find('.mem_chk').val();
+		$.ajax({
+			url: '/JSP_HGJ/SelectDetail.do',
+			data: {id},
+			type: 'get',
+			dataType: 'html',
+			success: function(res){
+				location.href="/JSP_HGJ/SelectDetail.do?id=" + id;
+				$('#Box').html(res);
+			},
+			error : function(xhr){
+				alert("상세조회부분" + xhr.stat);
+			}
+		})
+	})
+	
+	chk = '';
+	
+	// 체크된 회원
+	chkList = function(){
+		$("input[name=mem_chk]:checked").each(function(){
+			chk += $(this).val() + ",";
+		})
+	}
+	
+	// 체크된 회원 삭제
+	$(document).on('click', '#deletemember', function(){
+		chkList();
+		$.ajax({
+			url: '/JSP_HGJ/DeleteMember.do',
+			type: 'post',
+			data : {"chk" : chk},
+			dataType : 'json',
+			success : function(res){
+				location.reload();
+			},
+			error : function(xhr){
+				alert("회원삭제부분" + xhr.status);
+			}
+		})
+	})
+	
+	//회원 등록 모달띄우기
+	$(document).on('click', '#insertmember', function(){
+		$('#insertMemberModal').modal('show');
+	})
+	
+	$(document).on('click', '#binsert', function(){
+		mem_info = $('#insertMemberModal form').serialize();
+		$.ajax({
+			url: '/JSP_HGJ/InsertMember.do',
+			type: 'post',
+			data: mem_info,
+			dataType: 'json',
+			success: function(res){
+				$('#insertMemberModal .fin').val("");
+				$('#insertMemberModal').modal('hide');
+				location.reload();
+			},
+			error: function(xhr){
+				alert("모달 등록버튼 부분" + xhr.status);
+			}
+		})
+	})
+	// 아이디 정규화
+	$('#insertMemberModal .id').on('keyup', function(){
+		idvalue = $('.id').val();
+		idreg = /^[a-z][a-zA-Z0-9]{3,11}$/;
+		if(!(idreg.test(idvalue))){
+			$(this).css('border', '3px solid red');
+			$('#Check').prop('disabled', true);
+		}else{
+			$(this).css('border', '3px solid blue');
+			$('#Check').prop('disabled', false);
+		}
+		
+	})
+	
+	// 비밀번호 정규화
+	$('#insertMemberModal .pwd').on('keyup', function(){
+		pwdvalue = $('.pwd').val();
+		pwdreg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+
+		if(pwdreg.test(pwdvalue)){
+			$(this).css('border', '2px solid blue');
+			$('#pwdcheck').html("좋은 비밀번호 입니다.");
+		}else{
+			$(this).css('border', '2px solid red');
+			$('#pwdcheck').html("8자이상, 영어와 숫자를 써야합니다.");
+		}
+	})
+	
+	// 이메일 정규화
+	$('#insertMemberModal .email').on('keyup', function(){
+		emailvalue = $(this).val().trim();
+	emailreg = /^([a-zA-Z0-9]+)@([a-zA-z0-9]+)(\.[a-zA-Z0-9]+){1,2}$/
+	
+	if(emailreg.test(emailvalue)){
+		$(this).css('border' , '2px solid blue');
+			$('#emailcheck').html("");
+	}else{
+		$(this).css('border' , '2px solid red');
+			$('#emailcheck').html("올바른 이메일 형식을 입력해주세요.");
+		}
+	})
+
+	id = '';
+	$(document).on('click', '#Check', function(){
+		id = $('.id').val();
+		$.ajax({
+			url: '/JSP_HGJ/IdCheck.do',
+			type: 'post',
+			data: {'id' : id},
+			dataType: 'json',
+			success: function(res){
+				if(res.flag == "가능"){
+					alert("가입 가능한 아이디 입니다.");
+					$('#binsert').prop('disabled', false);
+				}else{
+					alert("이미 존재하는 아이디입니다.");
+					$('#binsert').prop('disabled', true);
+				}
+			},
+			error: function(xhr){
+				alert("아이디중복체크부분" + xhr.status);
+			}
+		})
+	})
+	
+})
+	// 전체 리스트 출력
+	SelectList = function(){
+	$.ajax({
+		url: '/JSP_HGJ/SelectList.do',
+		type: 'get',
+		data: {'pageNo' : pageNo},
+		dataType: 'html',
+		success: function(res){
+			$('#Box').html(res);
+		},
+		error: function(xhr){
+			alert("리스트 출력부분" + xhr.status);
+		}
+	})
+	
+}
+
+</script>
+<style>
+
+table{
+	text-align: center;
+	font-size: 1.5em;
+}
+th{
+	text-align: center;
+}
+label{
+	width: 100px;
+}
+</style>
+</head>
+<body>
+<div id="Box">
+
+</div>
+
+<!-- Modal -->
+<div id="insertMemberModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">회원 등록</h4>
+      </div>
+      <div class="modal-body">
+   <h3>회원 등록</h3>
+           <form>
+         	  <br>
+         	  <label>아이디</label>
+         	  <input class="fin id" type="text" name="id"><input type="button" id="Check" value="중복검사"><br>
+         	  <label>비밀번호</label>
+         	  <input class="fin pwd" type="password" name="pwd"><div id="pwdcheck"></div><br>
+         	  <label>이메일</label>
+         	  <input class="fin email" type="text" name="email"><div id="emailcheck"></div><br>
+         	  <label>사진</label>
+         	  <input type="button" value="사진등록" name="picture" value="noImage.jpg"><br>
+         	  <input type="hidden" value="1" name="enabled">
+         	  <label>입사일</label>
+         	  <input class="fin regdate" type="date" name="regdate"><br>
+         	  <label>휴대폰번호</label>
+         	  <input class="fin phone" type="text" name="phone"><br>
+         	  <label>이름</label>
+         	  <input class="fin name" type="text" name="name"><br>
+         	  <label>등록자</label>
+         	  <input class="fin register" type="text" name="register"><br>
+         	  <label>주소</label>
+         	  <input class="fin address" type="text" name="address"><br>
+         	  <label>권한</label>
+         	  <input class="fin authority" type="text" name="authority"><br>
+         	  <button type="button" id="binsert" class="btn btn-success" disabled>등록</button>
+           </form> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

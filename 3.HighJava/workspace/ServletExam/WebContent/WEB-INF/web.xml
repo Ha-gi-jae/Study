@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>ServletExam</display-name>
+  
+  <servlet>
+    <servlet-name>ListMemberServlet</servlet-name>
+    <servlet-class>kr.or.ddit.member.controller.ListMemberServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ListMemberServlet</servlet-name>
+    <url-pattern>/member/list.do</url-pattern>
+  </servlet-mapping>
+  
+  	<filter>
+	  <filter-name>CustomCharacterEncoding</filter-name>
+	  <filter-class>kr.or.ddit.cmm.filter.CustomCharacterEncoding</filter-class>
+	  <init-param>
+	    <param-name>encoding</param-name>
+	    <param-value>UTF-8</param-value>
+	  </init-param>
+	</filter>
+
+	<filter-mapping>
+	  <filter-name>CustomCharacterEncoding</filter-name>
+	  <url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter>
+	  <filter-name>MultipartParser</filter-name>
+	  <filter-class>kr.or.ddit.cmm.filter.MultipartParser</filter-class>
+	</filter>
+  	
+  	<filter-mapping>
+  	  <filter-name>MultipartParser</filter-name>
+  	  <url-pattern>*.do</url-pattern>
+  	</filter-mapping>
+  
+  
+</web-app>

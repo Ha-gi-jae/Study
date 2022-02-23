@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+</style>
+
+<script>
+
+function calc() {	
+	// 입력요소에 접근한다. -> id가 x와 y인 요소
+// 	vx = document.getElementById('x'); // 아이디는 중복이 없으므로 getElement임
+// 	vy = document.getElementById('y');
+	
+	vx = document.querySelector('#x'); // #을 붙혀준다. => id인걸 알려주기 위해서.
+	vy = document.querySelector('#y');
+	// 태그 네임에는 'div' 이런식으로 주면 된다.
+	
+	xvalue = parseInt(vx.value);
+	yvalue = parseInt(vy.value);
+	
+	sum = xvalue + yvalue;
+// 	console.log("x=" + xvalue + "y=" + yvalue +)
+	
+	// id가 sum인 요소로 접근
+	vsum = document.getElementById('sum');
+	
+	// 출력
+	vsum.value = sum;
+	
+}
+</script>
+</head>
+<body>
+<pre>
+ ----- value 사용하기 -----
+ input요소, select option, textarea에서 사용한다.
+ value : 값을 얻기 => get -> 결과값은 문자열[parseInt]
+ value = 값 : 값을 출력 => set
+
+ 1. html요소에서 입력받은 값을 script로 전달하기
+  - value 
+ 
+ 2. script에서 계산된 값을 다시 html input 요소에 출력하기
+  - value = 값
+
+  ---input요소, select option, textarea를 제외한 요소에서 사용
+  ----- textContent(get), textContent = '내용'(set)
+  ----- innerHTML(get), innerHTML = '내용'(set)
+</pre>
+<form>
+ 첫번째 수 :<input type="text" id="x"><br>
+ 두번째 수 :<input type="text" id="y"><br>
+ <br>
+ <input type="button" value="계산" onclick="calc()"><br><br>
+ 결과 : <input type="text" id="sum">
+ 
+ 										<!-- 호출 -->
+
+
+</form>
+</body>
+</html>

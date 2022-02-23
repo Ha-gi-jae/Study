@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="adminreport">
+
+	<select id="groupByAllReport" resultClass="adminReportVO" parameterClass="pagingVO">
+		<![CDATA[
+			select D.*
+			  from (select rownum as rnum,
+			               C.*
+			          from (select count(B.adminboard_id) as reportcount,
+			                       B.adminboard_id,
+			                       A.adminboard_blind
+			                  from adminboard A, report B
+			                 where A.adminboard_id = B.adminboard_id
+			                 group by B.adminboard_id, A.adminboard_blind
+			                 order by 1 desc) C
+			         where rownum <= #lastRecNo#) D
+			 where D.rnum >= #firstRecNo#
+		]]>
+	</select>
+	
+	<select id="reportSize" resultClass="int">
+		select count(*) from report
+	</select>
+	
+	<select id="reportcontent" resultClass="adminReportVO">
+		select report_reason,
+			   to_char(report_date, 'YYYY-MM-DD') as report_date,
+			   adminboard_id,
+			   mem_id
+		  from report
+		 order by 2
+	</select>
+	
+	<select id="boardcontent" resultClass="adminReportVO">
+		select A.adminboard_id,
+			   B.board_title,
+			   B.board_content,
+			   B.mem_id
+		  from adminboard A, board B
+		 where A.adminboard_id = B.adminboard_id
+	</select>
+	
+	<select id="clboardcontent" resultClass="adminReportVO">
+		select A.adminboard_id,
+			   B.clboard_title,
+			   B.clboard_content,
+			   B.mem_id
+		  from adminboard A, clboard B
+		 where A.adminboard_id = B.adminboard_id
+	</select>
+	
+	<update id="boardblind" parameterClass="String">
+		update board
+		   set board_title = '블라인드처리된 게시글 입니다.'
+		 where adminboard_id = to_number(#adminboard_id#)
+	</update>
+	
+	<update id="clboardblind" parameterClass="String">
+		update clboard
+		   set clboard_title = '블라인드 처리된 게시글 입니다.'
+		 where adminboard_id = to_number(#adminboard_id#)
+	</update>
+	
+	<update id="blindchange" parameterClass="String">
+		update adminboard
+		   set adminboard_blind = 'Y'
+		 where adminboard_id = to_number(#adminboard_id#)
+	</update>
+	
+</sqlMap>

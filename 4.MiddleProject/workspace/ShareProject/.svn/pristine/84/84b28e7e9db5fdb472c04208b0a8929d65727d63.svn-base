@@ -1,0 +1,71 @@
+package kr.or.ddit.clboard.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import kr.or.ddit.board.service.BoardServiceImpl;
+import kr.or.ddit.board.service.IBoardService;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.board.vo.PagingVO;
+
+/**
+ * Servlet implementation class ListBoard
+ */
+@WebServlet("/clListBoard.do")
+public class ListBoard extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ListBoard() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 요청 페이지 번호
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt(request.getParameter("pageNo"));
+		String group = request.getParameter("group");
+		HttpSession session = request.getSession();
+		
+		String mem_id = (String) session.getAttribute("mem_id");
+	
+		// 1.서비스 객체 생성하기
+		IBoardService service = BoardServiceImpl.getInstance();
+
+		// 1.2 페이징 객체 생성
+		int totalCnt = service.selectTotalCnt(group);
+		String endDate = service.getClassEndDate(mem_id);
+		
+		PagingVO pv = new PagingVO();
+		pv.setCountPerPage(5);
+		pv.setCurrentPageNo(pageNo);
+		pv.setPageSize(3);
+		pv.setTotalCount(totalCnt);
+		pv.setGroup(group);
+		// 2. group에 해당하는 boardList
+		List<BoardVO> boardList = service.groupByAllBoard(pv); 
+		String boardTitle = service.getBoardTitle(group);
+		boardList.get(0).setBoard_title_name(boardTitle);
+		boardList.get(0).setBoard_title_id(group);
+		
+		request.setAttribute("class_end", endDate);
+		request.setAttribute("pv", pv);
+		request.setAttribute("boardList", boardList);
+		
+		request.getRequestDispatcher("/WEB-INF/whole/board_jsp/ListBoard.jsp").forward(request, response);
+	}
+}

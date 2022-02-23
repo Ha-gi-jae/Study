@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>쪽지 페이지</title>
+<script src="../../js/jquery-3.6.0.js"></script>
+
+<script>
+$(function(){
+	$.ajax({
+		url : '/ShareProject/ListMsg.do',
+		type : 'get',
+		dataType : 'json',
+		success : function(res){
+			code="<input class='msgsend' type='button' value='쪽지보내기'>";
+			code+="<table border='1'>";
+			code+="<tr><th>보낸사람</th>";
+			code+="<th>내용</th>";
+			code+="<th>날짜</th></tr>"
+			
+			$.each(res, function(i, v){
+				code+="<tr><td>"+v.msg_to+"</td>";
+				code+="<td class='content'>"+v.msg_content+"</td>";
+				code+="<td>"+v.msg_date+"</td></tr>";
+			})
+			code+="</table>";
+			
+			$('#dv2').html(code);
+			
+		},
+		error : function(xhr){
+			alert(xhr.status);
+		}
+	})
+	
+	$('.msgsend').on('click', function(){
+		$('#updateModal').modal('show');
+	})
+	
+})
+
+
+</script>
+</head>
+<body>
+	<h2>쪽지페이지</h2>
+	<div id="dv2">
+	
+	
+	</div>
+	
+	<!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+    
+        <h3>수정하기</h3>
+        <form>
+        	
+        	<label>아이디</label>
+        	<input  type="text" class="mem_id" name="mem_id" disabled="disabled"><br>
+        
+        	<label>비밀번호</label>
+        	
+        	<input  type="password" class="mem_pass" name="mem_pass"><br>
+        	
+        	<label>비밀번호환인</label>
+        	<input  type="password" class="mem_passCh" name="mem_passCh"><br>
+        	
+        	<label>연락처</label>
+        	<input  type="text" class="mem_hp" name="mem_hp"><br>
+        	<label>우편번호</label>
+        	
+        	
+        	
+        	
+        	<br>
+        	<button type="button" id="bupdate" class="bupdate">확인</button>
+        </form>
+   		
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	
+	
+</body>
+</html>

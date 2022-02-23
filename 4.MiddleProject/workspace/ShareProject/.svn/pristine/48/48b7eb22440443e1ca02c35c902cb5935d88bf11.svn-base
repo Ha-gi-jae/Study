@@ -1,0 +1,63 @@
+package collectionFramework;
+
+public class EnumPlanet {
+	
+	public enum Planet {
+		수성(2439), 금성(6052), 지구(6371), 화성(3390), 목성(69911), 토성(58232), 천왕성(25362), 해왕성(24622);
+		
+		private int r;
+		
+		// 생성자 만들기
+		Planet(int data) {
+			this.r = data;
+		}
+		
+		public int getR() {
+			return r;
+		}
+		// 리턴타입 행성이름 : 반지름 , 면적 출력
+		// list에 담기
+		// for돌려서 출력하기
+	}
+	
+	//행성면적 구하는 거 : 반지름  x 4 x 파이 x 반지름 
+	public static void main(String[] args) {
+		Planet p1; // 수성
+		Planet p2; // 금성
+		Planet p3; // 지구
+		Planet p4; // 화성
+		Planet p5; // 목성
+		Planet p6; // 토성
+		Planet p7; // 천왕성
+		Planet p8; // 해왕성
+		
+		p1 = Planet.수성;
+		p2 = Planet.금성;
+		p3 = Planet.지구;
+		p4 = Planet.화성;
+		p5 = Planet.목성;
+		p6 = Planet.토성;
+		p7 = Planet.천왕성;
+		p8 = Planet.해왕성;
+		
+		System.out.println(p1.name() + "\t반지름 : " + p1.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p1.getR(), 2)));
+		System.out.println(p2.name() + "\t반지름 : " + p2.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p2.getR(), 2)));
+		System.out.println(p3.name() + "\t반지름 : " + p3.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p3.getR(), 2)));
+		System.out.println(p4.name() + "\t반지름 : " + p4.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p4.getR(), 2)));
+		System.out.println(p5.name() + "\t반지름 : " + p5.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p5.getR(), 2)));
+		System.out.println(p6.name() + "\t반지름 : " + p6.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p6.getR(), 2)));
+		System.out.println(p7.name() + "\t반지름 : " + p7.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p7.getR(), 2)));
+		System.out.println(p8.name() + "\t반지름 : " + p8.getR() + "\t면적 : " +  (long)(4 * 3.14 * Math.pow(p8.getR(), 2)));
+		System.out.println();
+		
+		System.out.println("---------------------------------------------");
+		System.out.println();
+		
+		System.out.println("[향상된 for문 사용하여 출력하기]");
+		for(Planet p : Planet.values()) {
+			System.out.println(p.name() + "\t반지름 : " + p.getR() + "\t면적 : " + (long)(4 * 3.14 * Math.pow(p.getR(), 2)));
+		}
+		
+	}
+
+}

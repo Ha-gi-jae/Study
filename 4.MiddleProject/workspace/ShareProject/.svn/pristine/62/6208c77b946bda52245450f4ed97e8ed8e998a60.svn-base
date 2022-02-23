@@ -1,0 +1,20 @@
+package kr.or.ddit.board.service;
+
+import kr.or.ddit.board.vo.NoticeVO;
+
+public interface INotiBoardService {
+
+	public int insertNotice(NoticeVO nv);
+	
+	//공지사항 총 사이즈
+	public int noticeSize();
+	
+	//공지사항 상세조회
+	public NoticeVO selectNotiBoard(int adminboard_id);
+	
+	//공지사항 수정
+	public int noticeUpdate(NoticeVO nv);
+	
+	//공지사항 삭제
+	public int NoticeDelete(int adminboard_id);
+}

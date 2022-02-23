@@ -1,0 +1,31 @@
+package kr.or.ddit.member.service;
+
+import java.util.List;
+
+import kr.or.ddit.member.vo.ClassVO;
+import kr.or.ddit.member.vo.MemVO;
+import kr.or.ddit.member.vo.MsgVO;
+
+public interface IMemberService {
+
+	public MemVO idCheck(MemVO mv); 
+	
+	public int memLock(MemVO mv);
+	public int chkCheck(String mem_id);
+	
+	public MemVO memAll(String mem_id);
+	
+	public ClassVO memClass(String class_id);
+	
+	public int updateMem(MemVO mv);
+	
+	public List<MsgVO> msgList(String msg_from);
+	
+	public int senMsg(MsgVO mv);
+	
+	public int msgSize();
+	
+	public int deleteMsg(int msg_num);
+	
+	public MsgVO selectMsg(int msg_num);
+}

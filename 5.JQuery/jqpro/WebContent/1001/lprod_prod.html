@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../css/mystyle.css">
+
+<style>
+table {
+	border-collapse: collapse;
+}
+</style>
+<script>
+$(function(){
+	$('input:button').on('click', function(){
+		
+		//lprod의 gu, nm 가져오기
+		$.ajax({
+			url : '/jqpro/LprodList.do',
+			type : 'get',
+			dataType : 'json',
+			success : function(res){
+				
+				code = "";
+
+				$.each(res, function(i, v){
+				
+					code += "<option value='" + v.gu +"'>" + v.nm + "</option>";
+				})
+				
+				$('#lprod').html(code);
+				$('#lprod').trigger('change');
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status + "text : " + xhr.statusText);
+			}
+				
+		})
+	})
+	
+	$('#lprod').on('change', function(){
+		
+		// lprod_gu값을 파라미터로 하여 prod의 id와 name을 출력.
+		lprod_gu = $(this).val();
+		
+// 		if(lprod_gu == >= 400) //400이상이 없으니까 지금은 이렇게함. 근데 이러면 나중에 추가해도 걸러지게된다. 확장성을 대비하려면? 어떻게해야할까? jsp에서 해야함.
+		
+		$.ajax({
+			
+			url : '/jqpro/ProdServlet.do',
+			data : {'lprod_gu' : lprod_gu},
+			type : 'get',
+			success : function(res){
+				code = "";
+				
+				if(res.flag == "ok"){
+					$.each(res.datas, function(i, v){
+						code += "<option value='" + v.id + "'>" + v.name +"</option>";
+						// res.datas[i].id  res.datas[i].name 이런식으로 써주면된다.
+					})
+				}else{
+						code += "<option value='0'>데이터가 없습니다.</option>";
+						noData = $("<img src='../images/h1.gif' alt='h1.gif' width = '400px' height = '400px'>")
+						$('#detail').html(noData)
+				}
+				
+				$('#prod').html(code);
+				if(res.flag == "ok"){
+				$('#prod').trigger('change');
+				}
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status + "text : " + xhr.statusText);
+			},
+			dataType : 'json'
+			
+		})
+		
+	})
+	
+	$('#prod').on('change', function(){
+		//prod_id를 파라미터로 하여 prod의 상세보기를 출력.
+		
+		
+		// 선택한 prod option의 value값을 가져온다.
+		prod_id = $(this).val();
+		
+		console.log(prod_id);
+		if(prod_id != 0){
+			
+			$.ajax({
+				url : '/jqpro/ProdServlet.do',
+				data : {'prod_id' : prod_id},
+				type : 'post',
+				success : function(res){
+					code = "<table class='table table-striped' border='1'";
+					
+					code += "<tr><td>PROD_ID</td>"
+					code +="<td>"+ res.id +"</td></tr>"
+					
+					code += "<tr><td>PROD_NAME</td>"
+					code +="<td>"+ res.name +"</td></tr>"
+					
+					code += "<tr><td>PROD_LGU</td>"
+					code +="<td>"+ res.lgu +"</td></tr>"
+					
+					code += "<tr><td>PROD_BUYER</td>"
+					code +="<td>"+ res.buyer +"</td></tr>"
+					
+					code += "<tr><td>PROD_COST</td>"
+					code +="<td>"+ res.cost +"</td></tr>"
+					
+					code += "<tr><td>PROD_PRICE</td>"
+					code +="<td>"+ res.price +"</td></tr>"
+					
+					code += "<tr><td>PROD_SALE</td>"
+					code +="<td>"+ res.sale +"</td></tr>"
+					
+					code += "<tr><td>PROD_SIZE</td>"
+					code +="<td>"+ res.size +"</td></tr>"
+					
+					code += "<tr><td>PROD_COLOR</td>"
+					code +="<td>"+ res.color +"</td></tr>"
+					
+					code += "</table>"
+					
+					$('#detail').html(code);
+				},
+				error : function(xhr){
+					alert("상태 : " + xhr.status + "text : " + xhr.statusText);
+				},
+				dataType : 'json'
+			}) // ajax
+		
+		}	// if문
+
+	}) // change 이벤트
+	
+}) // $(function)
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3></h3>
+ <br>
+ <br>
+ <input type="button" value ="확인">
+ <br>
+ <div id="result1">
+ 
+	 <div class="container">
+	  <form>
+	    <div class="form-group">
+	      <label for="lprod">LPROD 리스트</label>
+	      <select class="form-control" id="lprod">
+
+	      </select>
+	      <br>
+	      
+	      <label for="prod">PROD 리스트</label>
+	      <select class="form-control" id="prod">
+
+	      </select>
+	      
+	    </div>
+	  </form>
+	</div>
+
+<!--  	<select id="lprod"> -->
+
+<!--  	</select> -->
+
+ 	
+<!--  	<select id="prod"> -->
+ 	
+<!--  	</select> -->
+
+
+<!--  	<div id="detail"> -->
+ 	
+<!--  	</div> -->
+
+	<div id="detail">
+	
+	
+	</div>
+
+
+ </div>
+</div>
+</body>
+</html>

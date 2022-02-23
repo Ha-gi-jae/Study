@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	
+	$('#selectAllMember').on('click', function(){
+		$.ajax({
+			url : '/ShareProject/SelectAllMember.do',
+			type : 'get',
+			dataType : 'json',
+			success : function(res){
+				code = "<table border='1'>";
+				
+				$.each(res, function(i,v){
+					code += "<tr id='" + v.memid + "'><td>"	+ v.classname + "</td>";
+					code += "<td>" + v.memgroup + "</td>";
+					code += "<td>" + v.memname + "</td>";
+					code += "<td>" + v.memhp + "</td></tr>";
+				})
+				code += '</table>';
+				$('#allmember').html(code);
+				
+			},
+			error: function(xhr){
+				alert("상태 : " + xhr.status + "메시지 : " + xhr.statusText);
+			}
+			
+		})
+	})
+	
+	// 상세조회
+	$(document).on('click', '#allmember', function(){
+		
+		memid = $(this).attr('id');
+		$.ajax({
+			url: '/ShareProject/SelectMemberDetail.do',
+			type: 'get',
+			data: {'memId' : memid},
+			dataType: 'json',
+			success: function(res){
+				code ="";
+				code += "<p>" + res.classname + "</p>";
+				code += "<p>" + res.memgroup + "</p>";
+				code += "<p>" + res.memname + "</p>";
+				code += "<p>" + res.memaddr1 + "</p>";
+				code += "<p>" + res.memaddr2 + "</p>";
+				code += "<p>" + res.memhp + "</p>";
+				code += "<p>" + res.memsub + "</p>";
+				code += "<p>" + res.memid + "</p>";
+				code += "<p>" + res.classstart + "</p>";
+				code += "<p>" + res.classend + "</p>";
+				$('#selectMemberDetail').html(code);
+			},
+			error: function(xhr){
+				alert('상태 : ' + xhr.status);
+			}
+		})
+		
+	})
+	
+	
+})
+</script>
+</head>
+<body>
+<input id="selectAllMember" type="button" value = "학생조회">
+<div id="allmember">
+</div>
+<div id="selectMemberDetail"></div>
+<br>
+<br>
+
+<input id="selectAllClass" type="button" value="반조회">
+
+</body>
+</html>

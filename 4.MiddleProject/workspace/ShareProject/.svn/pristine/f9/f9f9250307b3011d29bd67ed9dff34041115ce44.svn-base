@@ -1,0 +1,108 @@
+<%@page import="kr.or.ddit.at.vo.AtVO"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.board.vo.BoardVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	BoardVO bv = (BoardVO) request.getAttribute("bv");
+	int id_chk = (int) request.getAttribute("id_chk");
+	
+	String name = bv.getMem_name().substring(0, 1) + "**";
+	
+	String board_title_id = (String)request.getAttribute("board_title_id");
+	System.out.println(board_title_id);
+	List<AtVO> list = (List<AtVO>)request.getAttribute("fileList");
+%>
+<table>
+	<tr>
+		<th><%=bv.getBoard_title() %></th>
+		<td>
+<%
+		if(id_chk > 0){
+%>
+		<input type="button" data-toggle="modal" data-target="#UpdateModal" value="수정">
+		<input type="button" id="delete" value="삭제">
+<%
+		} 
+%>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">작성자 <%=name %>&#09; 작성일 <%=bv.getBoard_date() %>&#09; 조회수 <%=bv.getAdminboard_view() %>&#09; 댓글수 <%=bv.getReply_count() %></td>
+	</tr>
+	<tr>
+		<td><%=bv.getBoard_content() %></td>
+	</tr>
+	
+	<%
+		if(list != null){
+	%>
+			<tr>
+			<td>첨부파일</td>
+			
+	<% 		
+			for(AtVO fileVO : list){
+				System.out.println(fileVO.getFile_extsn());
+				if(fileVO.getFile_extsn().equals("png") || fileVO.getFile_extsn().equals("jpg")){
+	%>
+					<td>
+					<img src="<%=request.getContextPath()%>/filedownload.do?fileId=<%=fileVO.getAtch_file_id()%>&fileSn=<%=fileVO.getFile_sn()%>">
+				    </td>
+	<%
+				}else {
+	%>
+					<td>
+					<a href="<%=request.getContextPath()%>/filedownload.do?fileId=<%=fileVO.getAtch_file_id()%>&fileSn=<%=fileVO.getFile_sn()%>"><%=fileVO.getOrignl_file_nm()%></a>
+				    </td>
+	<%
+				}
+	%>
+			
+	<%
+			}
+		}
+	%>
+	<%-- 
+	// 여기에 널이 들어가서 오류가 발생함 
+		if(board_title_id.equals("BR11")){
+			%>
+			<!-- 파라미터를 넘겨줘서 ?mem_id=<%=bv.getMem_id() %> 받는 사람 아이디에 뜨게 만들까 고민중 -->
+			 <a href="../member/message.html" id="m">쪽지보내기</a>
+     		 <input type="button" id="end" value="판매완료">
+			<%
+	 --%>
+	
+	</tr>
+	<tr>
+		<td><input type="button" id="back" value="뒤로" ></td>
+	<tr>
+	
+</table>
+
+	<!-- Modal -->
+	<div class="modal fade" id="UpdateModal" role="dialog">
+		<div class="modal-dialog">
+		
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4	class="modal-title">글 수정</h4>
+				</div>
+				<div class="modal-body">
+					<form id="updateFile" action="insert.do" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="board_title_id" value="<%= bv.getBoard_title_id()%>">
+					<input type="hidden" name="adminboard_id" value="<%=bv.getAdminboard_id() %>">
+					<input type="text" name="board_title" value="<%=bv.getBoard_title() %>"/><br>
+					<textarea cols="50" rows="20" style="resize: none;" name="board_content"><%=bv.getBoard_content() %></textarea>
+					<input type="file" name="atchFile">
+					<input type="submit" id="update" class="btn btn-default" data-dismiss="modal" value="수정" />
+					</form>
+				</div>
+				<div class="modal-footer">
+					
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="board">
+
+	
+	<select id="groupByAllBoard" parameterClass="pagingVO" resultClass="boardVO">
+		SELECT A.* 
+          FROM (SELECT ROWNUM AS BOARD_NUM, AA.*  
+		          FROM (SELECT AAA.ADMINBOARD_ID,
+                               AAB.ADMINBOARD_VIEW,
+                               NVL(AAC.REPLY_COUNT,0) AS REPLY_COUNT,
+                               AAA.BOARD_TITLE,
+                               TO_CHAR(AAA.BOARD_DATE,'YYYY-MM-DD') AS BOARD_DATE,
+                               AAA.BOARD_CONTENT,
+                               AAD.MEM_ID,
+                               AAD.MEM_NAME,
+                               AAB.ADMINBOARD_BLIND
+                          FROM BOARD AAA
+                          JOIN ADMINBOARD AAB ON(AAA.ADMINBOARD_ID=AAB.ADMINBOARD_ID)
+                          LEFT JOIN (SELECT ADMINBOARD_ID, COUNT(*) AS REPLY_COUNT FROM ADMINRE GROUP BY ADMINBOARD_ID) AAC ON(AAA.ADMINBOARD_ID=AAC.ADMINBOARD_ID)
+                          JOIN MEM AAD ON(AAA.MEM_ID=AAD.MEM_ID)
+                         WHERE BOARD_TITLE_ID=#group#
+                         ORDER BY AAA.ADMINBOARD_ID ASC) AA) A
+		 WHERE A.BOARD_NUM BETWEEN #firstRecNo# AND #lastRecNo# 
+		 ORDER BY A.BOARD_NUM DESC
+	</select>
+	
+	<select id="selectTotalCnt" resultClass="int">
+		 SELECT COUNT(*) FROM BOARD WHERE BOARD_TITLE_ID=#group#
+	</select>
+	
+	<select id="getBoardTitle" resultClass="String" parameterClass="String">
+		SELECT BOARD_TITLE_NAME FROM BOARD_TITLE WHERE BOARD_TITLE_ID=#group#
+	</select>
+	
+	<select id="selectBoard" resultClass="boardVO" parameterClass="int">
+		SELECT A.ADMINBOARD_ID,
+	           B.ADMINBOARD_VIEW,
+	           NVL(C.REPLY_COUNT,0) AS REPLY_COUNT,
+	           A.BOARD_TITLE,
+	           TO_CHAR(A.BOARD_DATE,'YYYY-MM-DD') AS BOARD_DATE,
+	           A.BOARD_CONTENT,
+	           D.MEM_ID,
+	           D.MEM_NAME,
+	           B.ADMINBOARD_BLIND
+	      FROM BOARD A
+	      JOIN ADMINBOARD B ON(A.ADMINBOARD_ID=B.ADMINBOARD_ID)
+	      LEFT JOIN (SELECT ADMINBOARD_ID, COUNT(*) AS REPLY_COUNT FROM ADMINRE GROUP BY ADMINBOARD_ID) C ON(A.ADMINBOARD_ID=C.ADMINBOARD_ID)
+	      JOIN MEM D ON(A.MEM_ID=D.MEM_ID)
+	     WHERE A.ADMINBOARD_ID=#adminboard_id#
+	</select>
+	
+	<insert id="insertBoard" parameterClass="boardVO">
+		INSERT ALL
+		  INTO ADMINBOARD VALUES(ADMINBOARD_NUM_SEQ.NEXTVAL, 0, 'N')
+          INTO BOARD VALUES(ADMINBOARD_NUM_SEQ.CURRVAL,
+                            #board_title#,
+                             SYSDATE,
+                            #board_content#,
+                            #mem_id#,
+                            #board_title_id#)
+        SELECT * FROM dual
+        <selectKey resultClass="int">
+        	SELECT ADMINBOARD_NUM_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+	</insert>
+	<update id="updateBoard" parameterClass="boardVO">
+		UPDATE BOARD
+		   SET BOARD_TITLE = #board_title#,
+               BOARD_CONTENT = #board_content#,
+               BOARD_DATE = SYSDATE
+         WHERE ADMINBOARD_ID = #adminboard_id#
+	</update>
+	<delete id="deleteBoard" parameterClass="int">
+		 DELETE FROM ADMINBOARD WHERE ADMINBOARD_ID=#adminboard_id#
+	</delete>
+</sqlMap>			
+

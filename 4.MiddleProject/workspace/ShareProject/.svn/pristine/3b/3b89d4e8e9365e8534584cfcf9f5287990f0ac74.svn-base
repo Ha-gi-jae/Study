@@ -1,0 +1,77 @@
+<%@page import="kr.or.ddit.board.vo.NoticeVO"%>
+<%@page import="kr.or.ddit.board.vo.BoardVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	NoticeVO nv = (NoticeVO) request.getAttribute("nv");
+	String mem_id = (String) request.getAttribute("mem_id");
+%>
+<script type="text/javascript" src="../../js/jquery-3.6.0.min.js"></script>
+<table>
+	<tr>
+		<th><%=nv.getNotice_title() %></th>
+		<td>
+<%
+		if(mem_id.equals("admin")){
+%>
+		<input type="button" data-toggle="modal" data-target="#UpdateModal" value="수정">
+		<input type="button" id="delete" value="삭제">
+<%
+		} 
+%>
+		</td>
+	<tr>
+	<tr>
+		<td colspan="2">작성자 관리자&#09; 작성일 <%=nv.getNotice_date() %>&#09; 조회수 <%=nv.getAdminboard_view() %>&#09;</td>
+	<tr>
+	<tr>
+		<td><%=nv.getNotice_content()%></td>
+	<tr>
+	<tr>
+		<td><input type="button" id="back" value="뒤로" ></td>
+	<tr>
+</table>
+
+	<!-- Modal -->
+	<div class="modal fade" id="UpdateModal" role="dialog">
+		<div class="modal-dialog">
+		
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4	class="modal-title">글 수정</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+					<input type="hidden" name="adminboard_id" value="<%=nv.getAdminboard_id() %>">
+					<input type="text" name="notice_title" value="<%=nv.getNotice_title() %>"/><br>
+					<textarea cols="50" rows="20" style="resize: none;" name="notice_content"><%=nv.getNotice_content() %></textarea>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input type="button" id="update" class="btn btn-default" value="수정" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		$('#update').on('click', function(){
+			
+			$.ajax({
+				url : '/ShareProject/NoticeUpdateBoard.do',
+				type : 'get',
+				data : {'adminboard_id' : <%=nv.getAdminboard_id()%>},
+				dataType :'json',
+				success : function(res){
+					
+				},
+				error : function(xhr){
+					alert("noticeselectboard.jsp오류:"+xhr.status);
+				}
+			})
+		
+		})
+	</script>

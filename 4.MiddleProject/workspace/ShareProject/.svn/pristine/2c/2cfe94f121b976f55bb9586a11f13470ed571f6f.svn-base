@@ -1,0 +1,131 @@
+<%@page import="kr.or.ddit.board.vo.PagingVO"%>
+<%@page import="kr.or.ddit.adminClass.vo.AdminClassVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%
+	List<AdminClassVO> memberlist =(List<AdminClassVO>) request.getAttribute("memberList");
+	PagingVO pv = (PagingVO) request.getAttribute("pv");
+%>
+<html>
+<head>
+<meta charset="utf-8">
+<title>반 정보 상세 조회</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="../../../js/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../../../js/jquery.serializejson.min.js"></script>
+
+    <script>
+
+	$(function() {
+
+		mem_id = '';
+		chk = '';
+
+		chkList = function() {
+			$("input[name=mem_chk]:checked").each(function() {
+				chk += $(this).val() + ",";
+			})
+		}
+
+		$(document).on('click', '#classdeletemember', function() {
+			chkList();
+			$.ajax({
+				url : '/ShareProject/ClassDeleteMember.do',
+				type : 'post',
+				data : {
+					"chk" : chk
+				},
+				dataType : 'json',
+				success : function(res) {
+					location.reload();
+					alert("회원삭제 완료");
+				},
+				error : function(xhr) {
+					alert(xhr.status);
+				}
+
+			})
+		})
+
+	})
+    </script>
+</head>
+<body>
+<h2> 반 정보 상세 조회</h2>
+<input id="classdeletemember" type="button" value="회원삭제">
+<div>
+	<%
+		for(int i = 0; i < memberlist.size(); i++){
+			AdminClassVO vo = memberlist.get(i);
+	%>
+<table border="1">
+		<%
+			if(vo.getMem_group().equals("pro")){
+		%>
+	<tr>
+	<td colspan="5">담당 교수 : <%=vo.getMem_name() %></td>
+	
+	</tr>
+		<%
+			}
+		}
+	%>
+	<tr>
+		<td></td>
+		<td>반</td>
+		<td>구분</td>
+		<td>이름</td>
+		<td>연락처</td>
+	</tr>
+	
+	<%
+		for(int j = 0; j < memberlist.size(); j++){
+			AdminClassVO vo2 = memberlist.get(j);
+	%>
+		<%
+			if(vo2.getMem_group().equals("stu")){
+		%>	
+	
+	<tr class="tr1">	
+		<td><input class="mem_chk" type="checkbox" name="mem_chk" value="<%=vo2.getMem_id() %>"></td>
+		<td><%= vo2.getClass_name() %></td>
+		<td><%= vo2.getMem_group() %></td>
+		<td class="memname"><%= vo2.getMem_name() %></td>
+		<td><%= vo2.getMem_hp() %></td>
+	</tr>
+	<%
+			}
+		}
+	%>
+	
+	<%if(pv.getTotalCount() > 0){ %>
+			<tr>
+				<td colspan="6" align="center">
+				<%if(pv.getFirstPageNo() > pv.getPageSize()){ %>
+				<a class="pre" name="<%=pv.getFirstPageNo() - pv.getPageSize() %>">[이전]</a>
+				
+				<%} %>
+				<%for(int pNo = pv.getFirstPageNo(); pNo <= pv.getLastPageNo(); pNo++){ %>
+				<a class="page<%if(pNo==pv.getCurrentPageNo()){%>select<%} %>"><%=pNo%></a>
+				<%} %>
+				
+				<%if(pv.getLastPageNo() < pv.getTotalCount()){ %>
+				<a class="next" name="<%=pv.getFirstPageNo() + pv.getPageSize() %>">[다음]</a>
+				<%} %>
+				</td>
+			</tr>
+			
+		<%} %>
+	
+</table>
+</div>
+
+<input onclick="history.go(-1);" type="button" value="뒤로가기">
+<input type="hidden" id="classmember" value=<%= pv.getClass_id() %>>
+</body>
+</html>

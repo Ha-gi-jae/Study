@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="./js/jquery-3.6.0.min.js"></script>
+<script>
+	$(function(){
+		$.ajax({
+			url : '/ShareProject/Mypage.do',
+			type : 'get',
+			dataType : 'json',
+			success : function(res){
+				code="mem_id: "+res.mem_id+"<br>";
+				code+="mem_group: "+res.mem_group+"<br>";
+				code+="mem_start: "+res.mem_start+"<br>";
+				code+="mem_end: "+res.mem_end+"<br>";
+				code+="mem_addr1: "+res.mem_addr1+"<br>";
+				code+="mem_addr2: "+res.mem_addr2+"<br>";
+				code+="mem_hp: "+res.mem_hp+"<br>";
+				code+="mem_name: "+res.mem_name+"<br>";
+				code+="mem_sub: "+res.mem_sub+"<br>";
+				
+				$('#dv1').html(code);
+				
+			},
+			error : function(xhr){
+				alert(xhr.status);
+			}
+			
+		})
+	})
+</script>
+</head>
+<body>
+<form action="/ShareProject/Mypage.do" method="post">
+	<div id="dv1">
+	
+	</div>
+	<table id="mypage" border="1">
+			
+	</table>
+
+</form>
+</body>
+</html>

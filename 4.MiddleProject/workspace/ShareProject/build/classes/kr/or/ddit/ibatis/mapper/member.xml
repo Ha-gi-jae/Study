@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+
+	<select id="idCheck" parameterClass="memVO" resultClass="memVO">
+	
+		select mem_id, mem_pass
+		  from mem 
+		  where mem_id=#mem_id#
+		    and mem_pass=#mem_pass#
+	
+	</select>
+	
+	<update id="memLock" parameterClass="memVO">
+		update mem
+		   set mem_chk=mem_chk+1
+		 where mem_id=#mem_id# 
+	</update>
+	
+	<update id="memReset" parameterClass="memVO">
+		update mem
+		   set mem_chk=0
+		  where mem_id=#mem_id#
+	
+	</update>
+	
+	<select id="chkCheck" parameterClass="string" resultClass="int">
+		select mem_chk from mem where mem_id=#mem_id#
+	</select>
+	
+	<!-- 학생개인의 모든 정보 -->
+	<select id="memAll" parameterClass="string" resultClass="memVO">
+	  	select * from mem where mem_id=#mem_id#
+	
+	</select>
+	<!-- 학생개인의 반 정보 -->
+	<select id="memClass" parameterClass="string" resultClass="classVO">
+		select * from class where class_id=#data#
+	</select>
+	
+	<update id="updateMem" parameterClass="memVO">
+		update  mem
+		   set mem_pass=#mem_pass#,
+		       mem_hp=#mem_hp#,
+		       mem_addr1=#mem_addr1#,
+		       mem_addr2=#mem_addr2#
+		  where mem_id=#mem_id#  
+	</update>
+	
+	<!-- 개인 이름 조회 -->
+	<select id="memName" parameterClass="string" resultClass="string">
+	 	select mem_name from mem where mem_id=#data#
+	</select>
+	
+	<!-- mem_group조회 -->
+	
+	<select id="memGroup" parameterClass="string" resultClass="string">
+		select mem_group from mem where mem_id=#data#
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;ClientChatServer.java&apos; to &apos;GijaeNetworkTest/src/tcpTest&apos;&#x0D;&#x0A;- Original project: &apos;GijaeNetworkTest&apos;&#x0D;&#x0A;- Destination element: &apos;GijaeNetworkTest/src/tcpTest&apos;&#x0D;&#x0A;- Original element: &apos;kr.or.ddit.udp.ClientChatServer.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="/src&lt;tcpTest" element1="/src&lt;kr.or.ddit.udp{ClientChatServer.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1632481375984" units="1" version="1.0"/>
+</session>

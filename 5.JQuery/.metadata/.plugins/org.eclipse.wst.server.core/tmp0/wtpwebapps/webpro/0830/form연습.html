@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css"> <!-- 외부스타일 -->
+	<style>  /* 내부 스타일 */         /* 외부와 내부 양쪽에 pre 스타일이 있을때 내부스타일이 실행.  */
+		
+		/* body *{ } 이렇게 바디의 모든 부분 가능 그냥 *{}하면 전부다 해당된다  */
+		
+		pre{
+			background : pink;
+		}
+		
+		label{
+			display : inline-block;
+			width : 80px;
+			height : 25px;
+		}
+		form{
+			border : 2px solid blue;
+			width : 25%;
+			padding : 20px;
+		}
+		.h2title{
+			margin-left : 4%;
+		}
+		input{
+			background : green;
+		} 
+		input[type=text]{		/* 이렇게 주는게 속성.  */
+			background : blue;
+		}
+		input[type=button]{
+			background : yellow;  /* 내가 지금 button 쓴게 없음.  */
+		}
+		#f1 input[name=addr]{  /* f1에 속해있는 name=addr 인것. 이런것들을 속성 선택자!!!! */
+			border : 3px solid red;
+		}
+		
+
+	</style>
+
+<script>
+	function proc1(){
+		
+		
+	}
+	
+</script>
+
+</head>
+<body>
+<pre style="background:yellow"> <!-- pre에 직접 style주는 것이 인라인 스타일 -->
+외부스타일보다 내부 스타일이 가중치가 높다.
+내부 스타일보다 인라인 스타일이 가중치가 높다.
+에러는 나지 않는다. 하지만 권장사항은 아니다.
+</pre>
+
+	<h2>연습 1</h2>
+	
+	<h2 class="h2title">이메일 전송화면</h2>
+	<form id="f1">
+		<label>이름</label> <input type="text" name="name"><br>
+		<label>주소</label> <input type="text" name="addr"><br>
+		<label>이메일</label> <input type="text" name="email"><br>
+		내용<br>
+		<textarea rows="10" cols="50" name="area"></textarea>
+		<br>
+		<input type="submit" name="submit" value="전송">
+		<input type="reset"  value="재설정">
+		
+	</form>
+	
+	<h2>연습 2</h2>
+	<fieldset >
+		<h2 class="h2title">회원 가입 화면</h2>
+		<form id="f2">
+			<label>이름</label> <input type="text" name="name"><br>
+			<label>주소</label> <input type="text" name="addr"><br>
+			<label>이메일</label> <input type="text" name="email"><br>
+			
+			<input  type="radio" name="gender" value="Male" >
+			 <label> Male</label><br>
+			 
+			<input  type="radio" name="gender" value="Female" > 
+			<label> Female</label><br>
+			
+			<input type="submit" value="Send">
+			<input type="reset" value="원래대로">		
+		</form>
+	
+	</fieldset>
+	
+
+</body>
+</html>

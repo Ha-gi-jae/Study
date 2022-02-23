@@ -1,0 +1,18 @@
+<%@page import="kr.or.ddit.board.vo.BoardVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	BoardVO bv = (BoardVO) request.getAttribute("bv");
+	String name = bv.getMem_name().substring(0, 1) + "**";
+%>
+<table>
+	<tr>
+		<th><%=bv.getBoard_title() %></th>
+	<tr>
+	<tr>
+		<td>작성자 <%=name %>&#09; 작성일 <%=bv.getBoard_date() %>&#09; 조회수 <%=bv.getAdminboard_view() %>&#09; 댓글수 <%=bv.getReply_count() %></td>
+	<tr>
+	<tr>
+		<td><%=bv.getBoard_content() %></td>
+	<tr>
+</table>

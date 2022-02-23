@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+
+ $('p').on('click', function(){ // a.is(b)
+	 if($(this).parent().is('.result1')){ // == true 할 필요 없음.
+		 $(this).clone(true).appendTo($(this).parent().css('color' , 'red'));
+	 }else{
+		 alert("작업대상이 아닙니다.");
+	 }
+ })	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+})
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3></h3>
+ <br>
+ <div class="result1">
+ <p> 무궁화 꽃이 피었습니다. </p>
+ </div>
+
+ <p> 무궁화 꽃이 피었습니다. </p>
+
+ <div class="result1">
+ <p> 사뿐이 즈려밞고 가시옵소서 </p>
+ </div>
+ 
+ 
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+package kr.or.ddit.comp.service;
+
+import java.util.List;
+
+import kr.or.ddit.comp.vo.CompPagingVO;
+import kr.or.ddit.comp.vo.CompVO;
+
+public interface ICompService {
+	public List<CompVO> selectAll();
+	
+	public List<CompVO> selectPage(CompPagingVO vo);
+	
+	public CompVO selectOne(int adminboard_id);
+	
+	public int countComp();
+	
+	public int insertComp(CompVO vo);
+	
+	public int updateComp(CompVO vo);
+	
+	public int delteComp(int adminboard_id);
+	
+	public List<CompVO> findCmTitle (CompPagingVO cv);
+	
+	public int findCmtitleCount(String comp_name);
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap namespace="com">
+
+	<select id="pagingComp" parameterClass="pagingVO" resultClass="compVO">
+		SELECT AA.*
+		  FROM (SELECT ROWNUM AS COMP_NUM, A.*
+		          FROM (SELECT B.DMINBOARD_ID,
+		                       B.COMP_NAME,
+		                       B.COMP_INFO,
+		                       B.COMP_REQ,
+		                       C.ADMINBOARD_VIEW,
+		                       C.ADMINBOARD_BLIND
+		                  FROM COMP B, ADMINBOARD C
+		                 WHERE B.ADMINBOARD_ID=C.ADMINBOARD_ID) AA
+		 WHERE A.BOARD_NUM BETWEEN #firstRecNo# AND #lastRecNo# 
+		 ORDER BY A.BOARD_NUM DESC
+	</select>
+
+	<select id="selectTotalCnt" resultClass="int" >
+	
+		 SELECT COUNT(*) FROM COMP
+		 
+	</select>
+	
+	<select id="selectAll" resultClass="compVO">
+	
+		SELECT * FROM COMP
+		
+	</select>
+	
+	<select id="selectOne" parameterClass="int" resultClass="compVO">
+	
+		SELECT * FROM COMP WHERE ADMINBOARD_ID=#adminboard_id#
+	
+	</select>
+	
+	<insert id="insertComp" parameterClass="compVO">
+	
+		INSERT ALL 
+		INTO ADMINBOARD VALUES(ADMINBOARD_NUM_SEQ.NEXTVAL, 0, 'N')
+		INTO COMP VALUES(ADMINBOARD_NUM_SEQ.CURRVAL, #comp_name#, #comp_info#, #comp_req#)
+		
+		<selectKey resultClass="int" >
+        	SELECT ADMINBOARD_NUM_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+	
+	</insert>
+	
+	<update id="updateComp" parameterClass="compVO"> 
+	
+		UPDATE COMP 
+		   SET COMP_NAME=#comp_name#, 
+		       COMP_INFO=#comp_info#, 
+		       COMP_REQ=#comp_req# 
+		 WHERE ADMONBOARD_ID=#admonboard_id#
+	
+	</update>
+	
+	<delete id="deleteComp" parameterClass="int">
+	
+		DELETE FROM COMP WHERE ADMINBOARD_ID=#adminboard_id#
+	
+	</delete>
+</sqlMap>			
+
+
+
+
+
+
+
+
+
+

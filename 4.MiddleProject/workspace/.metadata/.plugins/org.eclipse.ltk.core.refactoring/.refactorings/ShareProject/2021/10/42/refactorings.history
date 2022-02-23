@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;ShareProject&apos;&#x0D;&#x0A;- Original project: &apos;ShareProject&apos;&#x0D;&#x0A;- Original element: &apos;ShareProject/src/kr.or.ddit.board&apos;&#x0D;&#x0A;- Delete subpackages" description="Delete element" element1="/src&lt;kr.or.ddit.board.vo" element2="/src&lt;kr.or.ddit.board.service" element3="/src&lt;kr.or.ddit.board.dao" element4="/src&lt;kr.or.ddit.board.controller" element5="/src&lt;kr.or.ddit.board" elements="5" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1634266948943" subPackages="true" version="1.0"/>
+</session>

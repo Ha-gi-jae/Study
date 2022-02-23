@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="board">
+	<select id="selectAll" resultClass="boardVO" >
+		SELECT * FROM BOARD1 ORDER BY NUM DESC
+	</select>
+	
+	<select id="selectByPage" parameterClass="map" resultClass="boardVO">
+		<![CDATA[
+			SELECT A.* 
+		      FROM (SELECT ROWNUM AS RNUM, B.*  
+		              FROM (SELECT * 
+		                      FROM BOARD1 ORDER BY NUM DESC) B) A
+		     WHERE A.RNUM BETWEEN #start# AND #end#
+		]]>
+	</select>
+	<select id="listCount" resultClass="int">
+		 SELECT COUNT(*) FROM BOARD1 WHERE 1=1
+	</select>
+	
+	<insert id="insertBoard" parameterClass="boardVO">
+		INSERT INTO BOARD1
+		VALUES (BOARD1_NUM_SEQ.NEXTVAL,
+		        #subject#,
+		        #writer#,
+		        #mail#,
+		        #password#,
+		        #content#,
+		        0,
+		        #wip#, 
+		        SYSDATE)
+		<selectKey keyProperty="num" resultClass="int">
+			SELECT BOARD1_NUM_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<update id="upHit" parameterClass="boardVO">
+		UPDATE BOARD1 SET HIT=#hit# WHERE NUM=#num#
+	</update>
+	
+	<delete id="deleteBoard" parameterClass="int">
+		DELETE BOARD1 WHERE NUM=#num#
+	</delete>
+</sqlMap>			
+

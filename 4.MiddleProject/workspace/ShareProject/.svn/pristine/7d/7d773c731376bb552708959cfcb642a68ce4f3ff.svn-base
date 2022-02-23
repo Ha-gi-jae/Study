@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--※필수※ 아이콘, 스타일-->
+    <script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/ShareProject/Real_Final_Pages/css/FinalStyle.css">
+    <link rel="stylesheet" href="/ShareProject/Real_Final_Pages/css/FinalClassStyle.css">
+    <!--↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑-->
+
+	<link rel="icon" type="image/png" href="images/logoIcon.PNG" sizes="96x93">
+	
+	<script type="text/javascript" src="../../js/jquery-3.6.0.js"></script>
+	
+    <title>Share Project Class</title>
+    <style type="text/css">
+.select {
+	color: orange;
+}
+</style>
+
+<script type="text/javascript">
+pageNo = 1;
+group = 'BR06';
+
+ $(function() {
+	 groupByAllBoard();
+	 
+	 $(document).on('click', '.page', function() {
+		 pageNo = $(this).html();
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.pre', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.next', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.title', function() {
+		 adminboard_id = $(this).attr('id');
+		 location.href="./ClSelectBoard.jsp?board_id=" + adminboard_id+ "&boardtitle_id=" + group;
+	 })
+	 // 어드민 마이페이지 => 관리자페이지
+	 $('#mypage').on('click', function(){
+		$.ajax({
+			url: '/ShareProject/Admin.do',
+			type: 'get',
+			dataType: 'json',
+			success: function(res){
+				if(res.flag=="admin"){
+					location.href="/ShareProject/whole/admin/admin_html/AdminPage.html";
+				}
+			},
+			error: function(xhr){
+				alert(xhr.status);
+			}
+		})
+	})
+	
+	
+	 
+ })
+ 
+ groupByAllBoard = function(){
+	 $.ajax({
+		 url:'/ShareProject/clListBoard.do',
+		 type:'get',
+		 data: {
+			 	'group': group,
+			    'pageNo' : pageNo
+			   },
+		 dataType: 'html',
+		 success:function(result){
+			 $('#boardBox').html(result);
+		 },
+		 error:function(xhr){
+			 alert("에러코드 : " + xhr.status + " \n에러명 : " + xhr.statusText);
+		 }
+	 })
+ }
+</script>
+</head>
+
+<body>
+    <div id="page-wrap">
+        <aside id="leftMenu">
+            <div id="logoImg">
+                <img id="mainlogo" src="/ShareProject/Real_Final_Pages/images/menulogo.PNG" alt="mainlogo">
+            </div>
+
+            <div id="infoBox">
+                <div id="stuInfoBox">
+                    <h2>공밀레</h2>
+                    <div id="subjectBox">
+                        <p id="subject">[기업맞춤형] 전자정부 표준 프레임워크 기반 풀-스택 개발자 양성과정(15기)</p>
+                    </div>
+                    
+                    <div id="MMLOption">
+                        <a id="mypage" class="infOption" href="/ShareProject/whole/member/myPage.html"><i class="fas fa-house-user"></i>&nbsp;마이페이지</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a class="infOption" href="/ShareProject/whole/member/message.html"><i class="far fa-envelope"></i>&nbsp;쪽지</a>
+                        <br>
+                        <a class="infOption" href="#"><i class="far fa-comments"></i>&nbsp;채팅</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a class="infOption" href="/ShareProject/Real_Final_Pages/Final_LoginPage.html"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="classBtn">
+                <a href="Final_Main_MainPage.html"><input type="button" class="clButton" value="클래스 나가기"></a>
+            </div>
+            <ul id="ulBox">
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/TtList.do"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;시간표</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/clBoard/ClNoticeBoard.html"><i class="mIcons fas fa-exclamation-circle"></i>&nbsp;&nbsp;공지사항</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/ClTreeView.do"><i class="mIcons fas fa-paperclip"></i>&nbsp;&nbsp;자료공유</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/clBoard/HomeworkBoard.html"><i class="mIcons far fa-file-alt"></i>&nbsp;&nbsp;과제게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/clBoard/ClQnABoard.html"><i class="mIcons fas fa-question-circle"></i>&nbsp;&nbsp;질문게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/clBoard/ClFreeBoard.html"><i class="mIcons fas fa-users"></i>&nbsp;&nbsp;자유게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/clBoard/ClLunchBoard.html"><i class="mIcons fas fa-utensils"></i>&nbsp;&nbsp;점심게시판</a></li>
+            </ul>
+            <div id="copyBox">
+                <p id="copyright">Copyright 2021 Share Project<br>
+                Design: 공밀레</p>
+            </div>
+        </aside>
+
+        <aside id="rightMain">
+            <div id="boardBox"></div>
+        </aside>
+    </div>
+</body>
+</html>

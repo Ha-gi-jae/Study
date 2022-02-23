@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="board">
+
+	
+	<select id="groupByAllBoard" parameterClass="pagingVO" resultClass="boardVO">
+		SELECT A.* 
+          FROM (SELECT ROWNUM AS RNUM, AA.*  
+		          FROM (SELECT AAA.ADMINBOARD_ID,
+                               AAB.ADMINBOARD_VIEW,
+                               NVL(AAC.REPLY_COUNT,0) AS REPLY_COUNT,
+                               AAA.BOARD_TITLE,
+                               AAA.BOARD_DATE,
+                               AAA.BOARD_CONTENT,
+                               AAD.MEM_ID,
+                               AAD.MEM_NAME,
+                               AAB.ADMINBOARD_BLIND
+                          FROM BOARD AAA
+                          JOIN ADMINBOARD AAB ON(AAA.ADMINBOARD_ID=AAB.ADMINBOARD_ID)
+                          LEFT JOIN (SELECT ADMINBOARD_ID, COUNT(*) AS REPLY_COUNT FROM ADMINRE GROUP BY ADMINBOARD_ID) AAC ON(AAA.ADMINBOARD_ID=AAC.ADMINBOARD_ID)
+                          JOIN MEM AAD ON(AAA.MEM_ID=AAD.MEM_ID)
+                         WHERE BOARD_TITLE_ID=#group#
+                         ORDER BY AAA.ADMINBOARD_ID DESC) AA) A
+		 WHERE A.RNUM BETWEEN #firstRecNo# AND #lastRecNo#
+	</select>
+	<select id="selectTotalCnt" resultClass="int">
+		 SELECT COUNT(*) FROM BOARD WHERE BOARD_GROUP=#group#
+	</select>
+	
+</sqlMap>			
+

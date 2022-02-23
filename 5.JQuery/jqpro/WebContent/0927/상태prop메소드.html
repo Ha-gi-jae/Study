@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	
+	
+	//현재 상태 값 얻기 
+	chk = $('#checkTest').prop('checked');
+	sel = $('#selTest option').eq(0).prop('selected'); // 메소드
+	//$('#selTest option:eq(0)') 기본 필터
+	txt = $('#txtTest').prop('readonly');
+	btn = $('#runBtn').prop('disabled');
+	console.log(chk, sel, txt, btn);
+	
+	
+	// 붙혀야함.
+	$('input[value=확인]').on('click', function(){
+		
+		chk = $('#checkTest').prop('checked');
+		sel = $('#selTest option').eq(2).prop('selected'); // 메소드
+		txt = $('#txtTest').prop('readonly');
+		btn = $('#runBtn').prop('disabled');
+		
+		// 각 요소의 상태값을 반대로 설정
+		$('#checkTest').prop('checked', !chk);
+		$('#selTest option').eq(2).prop('selected', !sel);
+		$('#txtTest').prop('readonly', !txt);
+		$('#runBtn').prop('disabled', !btn);
+		
+	})
+	
+	$('#all').on('click', function(){
+		
+// 		1. id = all의 checked 상태값을 가져온다
+		chk = $('#all').prop('checked');
+		
+// 		2. class = chk 의 값을 1번 값으로 모두 변경한다.
+		$('.chk').prop('checked', chk)
+		
+		
+		
+		
+	})
+	
+	
+	
+})
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3>상태 값 얻기/변경</h3>
+ 상태 : checked, selected, readonly, disabled, multiple <br>
+ prop(속성명) - 현재 상태의 값을 얻기 => true / false를 return<br>
+ prop(속성명, 값) - 현재 상태를 변경하기 => 값에 true / false를 지정한다.<br>
+ <input type="button" value ="확인">
+ <br>
+ <div id="result1">
+	 <form>
+	체크박스(라디오버튼) : <input type="checkbox" id="checkTest" checked><br><br>
+	리스트박스(select객체) : 
+	 <select id="selTest">
+	     <option value="1">하나</option> 
+	     <option value="2">둘</option>
+	     <option value="3" selected >셋</option>  
+	     <option value="4">넷</option>
+	 </select><br><br>
+	 text객체	(readonly) :
+	  <input type="text" value="가나다" id="txtTest">
+	 <br><br>
+	 button객체(disabled) :
+	  <input type="button" value="실행" id="runBtn" disabled onclick="alert('hello~~')">
+	</form>
+
+ 
+ </div>
+</div>
+
+
+<div class="box">
+ <h3>상태 값 얻기/변경</h3>
+ 상태 : checked, selected, readonly, disabled, multiple <br>
+ prop(속성명) - 현재 상태의 값을 얻기 => true / false를 return<br>
+ prop(속성명, 값) - 현재 상태를 변경하기 => 값에 true / false를 지정한다.<br>
+ <br>
+   <div id="result2">체크박스(전체선택/해제) <br>
+   	 <input type="checkbox" id="all">전체선택
+   	 <input type="checkbox" class="chk">1
+   	 <input type="checkbox" class="chk">2
+   	 <input type="checkbox" class="chk">3
+   	 <input type="checkbox" class="chk">4
+   	 <input type="checkbox" class="chk">5
+   </div>
+</div>
+</body>
+</html>

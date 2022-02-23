@@ -1,0 +1,70 @@
+<%@page import="kr.or.ddit.board.vo.PagingVO"%>
+<%@page import="kr.or.ddit.member.vo.MsgVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	List<MsgVO> msgList = (List<MsgVO>) request.getAttribute("msgList");
+	PagingVO pv = (PagingVO) request.getAttribute("pv");
+	
+%>
+		<%
+			if(msgList.size()==0){
+		%>		
+				
+			<p>받은 쪽지가 없습니다.</p>	
+				
+		<%		
+			}else{
+		%>
+<input id="msgdelete" type="button" value="삭제">
+<table border="1">
+		<tr>
+			<td></td>
+			<td>보낸사람</td>
+			<td>내용</td>
+			<td>날짜</td>
+		</tr>
+		
+		<%
+			for(int i=0; i<msgList.size(); i++){
+				MsgVO mv = msgList.get(i);
+				
+		%>
+		<tr class="tr1">
+			<td><input class="msg_chk" type="checkbox" name="msg_chk" value="<%=mv.getMsg_num()%>"></td>
+			<td><%=mv.getMsg_to() %></td>
+			<td class="content"><%=mv.getMsg_content()%></td>
+			<td><%=mv.getMsg_date()%></td>
+		
+		</tr>
+		<%
+			}
+		%>
+		<!-- 페이징 처리 시작 -->
+		
+		<%if(pv.getTotalCount() >0){ %>
+			<tr>
+				<td colspan="6" align="center">
+				<%if(pv.getFirstPageNo() > pv.getPageSize()){ %>
+				<a class="pre" name="<%=pv.getFirstPageNo() - pv.getPageSize()%>">[이전]</a>
+				
+				<%} %>
+				<%for(int pNo =pv.getFirstPageNo(); pNo <= pv.getLastPageNo(); pNo++){ %>
+				<a class="page<%if(pNo==pv.getCurrentPageNo()){%>select<%} %>"><%=pNo %></a>
+				<%} %>
+				
+				<!-- 마지막페이지번호가 전체페이지 수보다 작은 경우(다음페이지 존재함) -->
+				<%if(pv.getLastPageNo() <pv.getTotalCount()){ %>
+				<a class="next" name="<%=pv.getFirstPageNo() + pv.getPageSize()%>">[다음]</a>
+				<%} %>
+				</td>
+			</tr>
+
+		<%} %>
+</table>
+		<%		
+			}
+		%>
+
+

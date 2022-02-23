@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="kr.or.ddit.admin.vo.AdminClassVO"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminClass.dao.IAdminClassDao"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminClass.service.IAdminClassService"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminClass.dao.AdminClassDaoImpl"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminClass.vo.AdminClassVO"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminClass.service.AdminClassServiceImpl"/>
+<fullyQualifiedTypeName name="com.ibatis.sqlmap.client.SqlMapClient"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminReport.dao.AdminReportDaoImpl"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminReport.vo.AdminReportVO"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminReport.service.IAdminReportService"/>
+<fullyQualifiedTypeName name="kr.or.ddit.adminReport.service.AdminReportServiceImpl"/>
+<fullyQualifiedTypeName name="kr.or.ddit.board.vo.PagingVO"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="kr.or.ddit.admin.vo.AdminVO"/>
+<fullyQualifiedTypeName name="org.w3c.dom.ls.LSInput"/>
+<fullyQualifiedTypeName name="kr.or.ddit.util.SqlMapClientFactory"/>
+<fullyQualifiedTypeName name="kr.or.ddit.admin.dao.AdminDaoImpl"/>
+<fullyQualifiedTypeName name="org.apache.commons.beanutils.BeanUtils"/>
+<fullyQualifiedTypeName name="kr.or.ddit.admin.controller.FindList"/>
+<fullyQualifiedTypeName name="kr.or.ddit.admin.service.AdminServiceImpl"/>
+<fullyQualifiedTypeName name="kr.or.ddit.admin.service.IAdminService"/>
+<fullyQualifiedTypeName name="kr.or.ddit.admin.vo.PagingVO"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+</qualifiedTypeNameHistroy>

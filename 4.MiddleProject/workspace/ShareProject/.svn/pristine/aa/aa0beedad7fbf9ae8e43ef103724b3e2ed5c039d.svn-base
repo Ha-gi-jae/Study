@@ -1,0 +1,11 @@
+package kr.or.ddit.member.service;
+
+import kr.or.ddit.member.vo.MemVO;
+
+public interface IMemberService {
+
+	public MemVO idCheck(MemVO mv); 
+	
+	public int memLock(MemVO mv);
+	public int chkCheck(String mem_id);
+}

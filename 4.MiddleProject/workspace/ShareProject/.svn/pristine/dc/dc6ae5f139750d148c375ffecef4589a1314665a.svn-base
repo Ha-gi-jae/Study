@@ -1,0 +1,36 @@
+<%@page import="kr.or.ddit.admin.vo.AdminClassVO"%>
+<%@page import="kr.or.ddit.admin.vo.AdminVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	List<AdminClassVO> classList = (List<AdminClassVO>) request.getAttribute("classList");
+	List<AdminVO> countMemberList = (List<AdminVO>) request.getAttribute("countmember");
+%>
+
+[
+<%
+	for(int i = 0; i < classList.size(); i++){
+		AdminClassVO vo1 = classList.get(i);
+		if(i > 0) out.print(",");
+		
+		int count = 0;
+		
+		for(int j = 0; j < countMemberList.size(); j++){ // mem group이랑 classid 가져옴
+			AdminVO vo2 = countMemberList.get(i);
+			if(vo1.getClass_id() == vo2.getClass_id()){
+				if(vo2.getMem_group() == "STU") count++;
+			}
+		}	
+%>
+			{
+				"classid" : "<%=vo1.getClass_id() %>",
+				"classname" : "<%= vo1.getClass_name() %>",
+				"classstart" : "<%= vo1.getClass_start() %>",
+				"classend" : "<%= vo1.getClass_end() %>"
+				"memcount" : "<%= count %>"
+			}		
+<%
+	}
+%>
+]

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+table{
+	border : 2px solid blue;
+}
+
+
+td{
+	width: 200px;
+	height: 40px;
+	text-align: center;
+}
+
+#detail{
+	padding : 10px;
+}
+p:hover{
+	background: lime;
+}
+
+</style>
+
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	$('#buyer').on('click', function(){
+		
+		$.ajax({
+			
+			url : 'buyerNames.jsp',
+// 			url : '/jqpro/ByName.do', // controller에 서블릿 이름 적어줘야함. 앞에 jqpro 프로젝트 이름 적어줘야한다. 반드시 / 붙혀야 한다. 이유> / 없으면 현재폴더에서 찾기 때문에 붙혀줘야한다.
+			type : 'get',
+			success : function(res){
+				code = "";
+				$.each(res, function(i, v){
+					code += "<p id='" + v.ID +"'>" + v.NAME +  "</p>"
+// 					code += `<p id='${v.ID}'>${v.NAME}</p>`;
+				})
+				$('#names').html(code);
+				
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status + "\n text : " + xhr.statusText);
+			},
+			dataType : 'json'
+		
+		})
+		
+	})
+	
+	$(document).on('click', 'p', function(){
+// 		alert($(this).attr('id'));
+		idvalue = $(this).attr('id');
+		
+		$.ajax({
+			url : 'buyerDetail.jsp',
+			data : { "id" : idvalue },
+			type : 'get',
+			success : function(res){
+				code = "<table border='1'>";
+				
+				code += "<tr><td>BUYER_ID</td>";
+				code += "<td>" + res.id + "</td></tr>";
+				
+				code += "<tr><td>BUYER_NAME</td>";
+				code += "<td>" + res.name + "</td></tr>";
+				
+				code += "<tr><td>BUYER_LGU</td>";
+				code += "<td>" + res.lgu + "</td></tr>";
+				
+				code += "<tr><td>BUYER_MAIL</td>";
+				code += "<td>" + res.mail + "</td></tr>";
+				
+				code += "<tr><td>BUYER_BANK</td>";
+				code += "<td>" + res.bank + "</td></tr>";
+				
+				code += "<tr><td>BUYER_BANKNO</td>";
+				code += "<td>" + res.bno + "</td></tr>";
+				
+				code += "<tr><td>BUYER_BANKNAME</td>";
+				code += "<td>" + res.bname + "</td></tr>";
+				
+				code += "<tr><td>BUYER_ZIP</td>";
+				code += "<td>" + res.zip + "</td></tr>";
+				
+				code += "<tr><td>BUYER_ADD1</td>";
+				code += "<td>" + res.add1 + "</td></tr>";
+				
+				code += "<tr><td>BUYER_ADD2</td>";
+				code += "<td>" + res.add2 + "</td></tr>";
+				
+				code += "</table>"
+				
+				$('#detail').html(code)
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status + "\n text : " + xhr.statusText);
+				
+			},
+			dataType : 'json'
+
+		})
+	})
+	
+	
+	
+})
+
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3></h3>
+ <br>
+ <br>
+ <input id="buyer" type="button" value ="확인">
+ <br>
+ <div id="result1">
+    <table border="1">
+    	<tr>
+       	   <td>거래처 이름</td>
+    	   <td>거래처 상세정보</td>
+    	</tr>
+    	<tr>
+       	   <td id="names"></td>
+    	   <td id="detail"></td>
+    	</tr>
+    
+    </table>
+ 
+ 
+ </div>
+</div>
+</body>
+</html>

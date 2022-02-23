@@ -1,0 +1,53 @@
+<%@page import="kr.or.ddit.board.vo.PagingVO"%>
+<%@page import="kr.or.ddit.admin.vo.AdminVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	List<AdminVO> memberlist = (List<AdminVO>) request.getAttribute("memberList");
+	PagingVO pv = (PagingVO) request.getAttribute("pv");
+%>
+<input id="insertmember" type="button" value="회원 등록">
+<input id="deletemember" type="button" value="회원 삭제">
+<table border="1">
+	<tr>
+		<td></td>
+		<td>반</td>
+		<td>구분</td>
+		<td>이름</td>
+		<td>연락처</td>
+	</tr>
+	<%
+		for(int i = 0; i < memberlist.size(); i++){
+			AdminVO vo = memberlist.get(i);
+			if(i > 0) out.print(",");
+	%>
+	<tr class="tr1">
+		<td><input class="mem_chk" type="checkbox" name="mem_chk" value="<%= vo.getMem_id() %>"></td>
+		<td><%= vo.getClass_name() %></td>
+		<td><%= vo.getMem_group() %></td>
+		<td class="memname"><%= vo.getMem_name() %></td>
+		<td><%= vo.getMem_hp() %></td>
+	</tr>		
+	<%
+		}
+	%>
+		<%if(pv.getTotalCount() > 0){ %>
+			<tr>
+				<td colspan="6" align="center">
+				<%if(pv.getFirstPageNo() > pv.getPageSize()){ %>
+				<a class="pre" name="<%=pv.getFirstPageNo() - pv.getPageSize() %>">[이전]</a>
+				
+				<%} %>
+				<%for(int pNo = pv.getFirstPageNo(); pNo <= pv.getLastPageNo(); pNo++){ %>
+				<a class="page<%if(pNo==pv.getCurrentPageNo()){ %>select<%} %>"><%= pNo %></a>
+				<%} %>
+				
+				<%if(pv.getLastPageNo() < pv.getTotalCount()){ %>
+				<a class="next" name="<%=pv.getFirstPageNo() + pv.getPageSize() %>">[다음]</a>
+				<%} %>
+				</td>
+			</tr>
+			
+		<%} %>
+</table>

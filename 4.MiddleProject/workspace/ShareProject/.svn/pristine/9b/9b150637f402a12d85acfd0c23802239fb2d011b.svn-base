@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="Tooplate" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
+  <script type="text/javascript" src="../../js/jquery-3.6.0.js"></script>
+
+  <title>Share Project MyClass</title>
+
+<style type="text/css">
+.select {
+	color: orange;
+}
+</style>
+
+<script type="text/javascript">
+pageNo = 1;
+group = 'BR06';
+
+ $(function() {
+	 groupByAllBoard();
+	 
+	 $(document).on('click', '.page', function() {
+		 pageNo = $(this).html();
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.pre', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.next', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.title', function() {
+		 adminboard_id = $(this).attr('id');
+		 location.href="./ClSelectBoard.jsp?board_id=" + adminboard_id;
+	 })
+	 
+ })
+ 
+ groupByAllBoard = function(){
+	 $.ajax({
+		 url:'/ShareProject/clListBoard.do',
+		 type:'get',
+		 data: {
+			 	'group': group,
+			    'pageNo' : pageNo
+			   },
+		 dataType: 'html',
+		 success:function(result){
+			 $('#boardBox').html(result);
+		 },
+		 error:function(xhr){
+			 alert("에러코드 : " + xhr.status + " \n에러명 : " + xhr.statusText);
+		 }
+	 })
+ }
+</script>
+</head>
+
+<body>
+ 
+    <div id="boardBox"></div>
+
+</body>
+
+</html>

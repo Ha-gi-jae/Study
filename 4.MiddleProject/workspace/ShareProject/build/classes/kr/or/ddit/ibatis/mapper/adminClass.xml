@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="adminclass">
+<!-- 반 전체 조회 완료 -->
+	<select id="groupByAllClass" resultClass="adminClassVO" parameterClass="pagingVO">
+		<![CDATA[
+			select A.* 
+			  from (select rownum as rnum, B.*
+					 from (select class_id,
+							      class_name,
+							      to_char(class_start, 'YYYY-MM-DD') as class_start,
+							      to_char(class_end, 'YYYY-MM-DD') as class_end
+			  				 from class)B
+					where rownum <= #lastRecNo#) A
+			 where A.rnum >= #firstRecNo#
+		 ]]>
+	</select>
+	
+	<select id="classSize" resultClass="int">
+		select count(*) from class
+	</select>	
+	
+<!-- 반 학생 조회 -->
+	<select id="groupByClassMember" resultClass="adminClassVO" parameterClass="pagingVO">
+		<![CDATA[
+		select D.*
+		  from (select rownum as rnum,
+		              C.*
+		         from (select B.class_name,
+			         		  A.mem_group,
+					          A.mem_name,
+					          A.mem_hp,
+					          A.mem_id
+				         from mem A, class B
+				        where A.class_id = B.class_id
+				          and B.class_id = #class_id#
+				        group by B.class_name, A.mem_group, A.mem_name, A.mem_hp, A.mem_id
+				        order by 2 desc)C
+		        where rownum <= #lastRecNo#)D
+		 where D.rnum >= #firstRecNo#
+		]]>
+	</select>
+	
+	<select id="ClassMemberSize" resultClass="int" parameterClass="String">
+	<![CDATA[
+		select count(*)
+		  from (select B.class_name,
+			           A.mem_group,
+			      	   A.mem_name,
+				       A.mem_hp,
+		               A.mem_id
+		          from mem A, class B
+		         where A.class_id = B.class_id
+		           and B.class_id = #class_id#
+		         group by B.class_name, A.mem_group, A.mem_name, A.mem_hp, A.mem_id) C
+		]]>
+	</select>
+	
+<!-- 반 등록 완료 -->
+	<insert id="insertClass" parameterClass="adminClassVO">
+		insert into class values(#class_id#, #class_name#, to_date(#class_start#), to_date(#class_end#))
+	</insert>
+	
+<!-- 반 삭제 전 학생 반 수정 완료 -->
+	<update id="classUpdateMember" parameterClass="String">
+		update mem
+		   set class_id = null
+		 where class_id = #class_id#
+	</update>
+	
+<!-- 반수정 완료 -->
+	<update id="updateClass" parameterClass="adminClassVO">
+		update class
+		   set class_name = #class_name#
+		  where class_id = #class_id#
+	</update>
+	
+<!-- 반 삭제 완료 -->
+	<delete id="deleteClass" parameterClass="String">
+		delete class where class_id = #class_id#
+	</delete>
+	
+<!-- 반에서 회원삭제 -->
+	<delete id="deleteMember" parameterClass="String">
+		delete mem where mem_id = #mem_id#
+	</delete>
+</sqlMap>

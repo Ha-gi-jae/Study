@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+div {
+	width: 50%;
+	height: auto;
+	padding: 50px;
+	border: 1px solid blue;
+	font-size: 2.0em;
+	color: red;
+}
+
+
+</style>
+
+<!-- 외부 스크립트 쓰는법! src="주소"  -->
+<script src="../js/stylescript.js"></script> 
+
+<!-- 내부스크립트 쓰는법 -> 안에다가 직접 써넣으면 된다.  -->
+<script>
+
+window.onload = function(){
+	// div요소에 접근
+	vdiv = document.getElementsByTagName('div')[0];
+}
+
+</script>
+
+</head>
+<body>
+<pre>
+외부 스크립트 사용
+&lt;script src="../js/stylescript.js">&lt;/script> 
+
+</pre>
+<input type="button" value="border" onclick="changeBorder()">
+	<input type="button" value="color" onclick="changeColor()">
+	<input type="button" value="fontsize" onclick="changeSize()">
+	<br>
+	<br>
+	<div>Hello</div>
+
+</body>
+</html>

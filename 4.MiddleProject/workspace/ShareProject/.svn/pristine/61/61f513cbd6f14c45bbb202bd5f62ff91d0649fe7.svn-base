@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="admin">
+	
+	<select id="adCheck" parameterClass="adminVO" resultClass="adminVO">
+		select admin_id, 
+		       admin_pw 
+		  from admin 
+		  where admin_id=#admin_id#
+		    and admin_pw=#admin_pw#
+	</select>
+	
+	<select id="groupByAllMem" resultClass="adminVO" parameterClass="pagingVO">
+		<![CDATA[
+			select A.* from (
+		    	select rownum as rnum, B.*  from (
+		        	select * from mem) B
+				 where rownum <= #lastRecNo#) A 
+			where A.rnum >= #firstRecNo#
+		 ]]>
+	</select>
+	
+	<select id="memSize" resultClass="int">
+		select count(*) from mem
+	</select>	
+	
+<!-- 회원 상세 조회 -->
+	<select id="selectMemberDetail" resultClass="adminVO" parameterClass="String">
+		select *
+		  from mem A, class B
+		 where A.class_id = B.class_id
+		   and mem_id = #data#
+		
+	</select>
+	
+<!-- 반 이름매칭 -->
+	<select id="classname" resultClass="adminVO">
+		select * from class
+	</select>
+	
+<!-- 회원 조건 검색 -->
+	<select id="findClass" resultClass="adminVO" parameterClass="String">
+		 select *
+ 		   from mem A, class B
+		  where A.class_id = B.class_id
+		    and A.class_id like '%'||#data#||'%'
+	</select>
+	
+	<select id="findGroup" resultClass="adminVO" parameterClass="String">
+		select *
+		  from mem
+		 where mem_group like '%'||#data#||'%'
+	</select>
+	
+	<select id="findName" resultClass="adminVO" parameterClass="String">
+		select *
+		  from mem
+		 where mem_name like '%'||#data#||'%'
+	</select>
+
+<!-- 회원 정보 수정 -->
+	<update id="updateMember" parameterClass="adminVO">
+		update mem
+		   set mem_addr1 = #mem_addr1#,
+		       mem_addr2 = #mem_addr2#,
+		       mem_hp = #mem_hp#,
+		       mem_name = #mem_name#,
+		       mem_chk = 0
+		 where mem_id = #mem_id#
+	</update>
+	
+<!-- 비밀번호 초기화 -->
+	<update id="passwordReset" parameterClass="String">
+		update mem
+		   set mem_pass = birth,
+		       mem_chk = 0
+		 where mem_id = #mem_id#
+	</update>
+	
+<!-- 회원삭제 -->
+	<delete id="deleteMember" parameterClass="String">
+		delete mem where mem_id = #data#
+	</delete>
+	
+	
+</sqlMap>

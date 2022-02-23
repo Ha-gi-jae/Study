@@ -1,0 +1,43 @@
+* {
+    margin : 0px;
+    padding: 0px;
+}
+body {
+   background-color: rgb(253, 253, 253);
+   display: flex;
+   justify-content: center;
+}
+#page-wraper {
+    width : 1400px;
+    background-color: rgb(224, 224, 224);
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    left : 100px;
+    height: 100vh;
+}
+.button {
+    background-color: #e68600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 20px;
+    height: 50px;
+    width: 200px;
+    border-radius: 6px;
+  }
+  #boardBox {
+      width : 1150px;
+      height: 800px;
+      background-color: rgb(248, 248, 248);
+      margin: 0px;
+      border-radius: 15px;
+      position : relative;
+      top : 85px;
+      left : 170px;
+    }
+#classNum h3 {
+    color: white;
+}

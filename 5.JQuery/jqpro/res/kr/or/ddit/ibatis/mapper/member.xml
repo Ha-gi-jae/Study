@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+	
+	
+
+	
+	<select id="selectAllMember" resultClass = "memVO">
+	
+	select * from member
+	
+	</select>
+	
+	<select id="selectById" resultClass = "String" parameterClass="String">
+	  select mem_id from member where mem_id = #data# 
+	
+	</select>
+	
+	<select id="selectZipCode" resultClass = "zipVO" parameterClass="String">
+		select * from ziptb where dong like #data#||'%'
+	
+	</select>
+	
+	<insert id="insertMember" parameterClass="memVO">
+		insert into member(mem_id, mem_pass, mem_name, mem_bir, mem_zip, mem_add1, mem_add2, mem_hp, mem_mail)
+		values(#mem_id#, #mem_pass#, #mem_name#, #mem_bir#, #mem_zip#, #mem_add1#, #mem_add2#, #mem_hp#, #mem_mail#)
+		
+		<selectKey keyProperty="mem_id" resultClass="String">
+			select mem_id from member where mem_id = #mem_id#
+		</selectKey>
+		
+	</insert>
+
+</sqlMap>
+
+ <!--  mem_id 가 result class 
+		#data#가 parameterClass 
+ 
+ member.selectAllMember
+ 
+ 	<delete>
+ 	  delete member where mem_id=#data; 이러면 에러남. 설정파일엔 에러 1개도 없어야함.
+ 	</delete>
+ 
+  -->

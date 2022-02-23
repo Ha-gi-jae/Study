@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<title>신고 게시판</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="../../../js/jquery-3.6.0.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <script src="../../../js/jquery.serializejson.min.js"></script>
+<script>
+function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace("w3-orange", "w3-orange");
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace("w3-orange", "w3-orange");
+  }
+}
+</script>
+<script>
+pageNo = 1;
+$(function(){
+	groupByAllReport();
+	
+	$(document).on('click', '.page', function(){
+		pageNo = $(this).html();
+		groupByAllReport();
+	})
+	
+	$(document).on('click', '.pre', function(){
+		pageNo = $(this).attr('name');
+		groupByAllReport();
+	})
+	
+	$(document).on('click', '.next', function(){
+		pageNo = $(this).attr('name');
+		groupByAllReport();
+	})
+	
+})
+
+	groupByAllReport = function(){
+		$.ajax({
+			url: '/ShareProject/SelectAllReport.do',
+			type: 'get',
+			data: {'pageNo' : pageNo},
+			dataType: 'html',
+			success: function(res){
+				$('#dv2').html(res);
+			},
+			error: function(xhr){
+				alert(xhr.status);
+			}
+		})
+	}
+
+</script>
+<body>
+<div id="dv2">
+
+</div>
+</body>
+</html>
+

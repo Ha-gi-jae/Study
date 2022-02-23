@@ -1,0 +1,46 @@
+package kr.or.ddit.adminClass.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.admin.service.AdminServiceImpl;
+import kr.or.ddit.admin.service.IAdminService;
+import kr.or.ddit.admin.vo.AdminVO;
+
+/**
+ * Servlet implementation class CountClassMember
+ */
+@WebServlet("/CountClassMember.do")
+public class CountClassMember extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public CountClassMember() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		IAdminService service = AdminServiceImpl.GetService();
+		
+		List<AdminVO> list = service.CountClassMember();
+		
+		request.setAttribute("countmember", list);
+		
+		request.getRequestDispatcher("/WEB-INF/admin/admin_jsp/memberCount.jsp").forward(request, response);
+		
+	}
+
+}

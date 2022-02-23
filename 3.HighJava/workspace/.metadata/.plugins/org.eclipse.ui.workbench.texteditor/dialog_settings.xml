@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="pagingVO" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="formVO"/>
+			<item value="jsp"/>
+			<item value="default"/>
+			<item value="board_seq"/>
+			<item value="_sqe"/>
+			<item value="board"/>
+			<item value="seq"/>
+			<item value="sq"/>
+			<item value="입출력"/>
+			<item value="stmt"/>
+			<item value="pstmt"/>
+			<item value="InfoMap"/>
+		</list>
+		<list key="replacehistory">
+			<item value="pagingVO"/>
+			<item value="HotelInfoMap"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="288" key="DIALOG_WIDTH"/>
+		<item value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕" key="DIALOG_FONT_NAME"/>
+		<item value="391" key="DIALOG_HEIGHT"/>
+		<item value="844" key="DIALOG_X_ORIGIN"/>
+		<item value="439" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

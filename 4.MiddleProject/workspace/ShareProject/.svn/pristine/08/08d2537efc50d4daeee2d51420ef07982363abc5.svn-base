@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	int adminbaord_id = Integer.parseInt(request.getParameter("board_id"));
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="../../js/jquery-3.6.0.min.js"></script>
+<title>Insert title here</title>
+<script type="text/javascript">
+	$(function() {
+		$.ajax({
+			url:'/ShareProject/SelectBoard.do',
+			type:'get',
+			data:{'adminboard_id' : <%=adminbaord_id %>},
+			dataType: 'html',
+			success:function(result) {
+				$('#view').html(result);
+			},
+			error:function(xhr){
+				alert("에러코드 : " + xhr.status + "에러명 : " + xhr.statusText );
+			}
+		})
+	})
+</script>
+</head>
+<body>
+	<div id="view"></div>
+</body>
+</html>

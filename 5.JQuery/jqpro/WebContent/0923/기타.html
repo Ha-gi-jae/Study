@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js"></script>
+
+<script>
+$(function(){
+	$('#btn1').on('click', function(){
+		str = "";
+		$('#result1 p:hidden').each(function(){
+			str += $(this).text() + "<br>" // <br> 태그를 썼으니...
+		})
+		
+		$('#res1').html(str); // 출력할 때 html을 써야한다.
+	})
+	
+	
+	$('#btn2').on('click', function(){
+		str = "";
+		$('#result1 p:visible').each(function(){
+			str += $(this).text() + "<br>"
+		})
+	
+		$('#res2').html(str);
+	})
+	
+	
+	$('#btn3').on('click', function(){
+		str ="";
+		$('#testForm *:hidden').each(function(){
+			//console.log(this.tagName);
+			if(this.tagName == "INPUT"){
+				str += this.tagName + "===>>>" + $(this).attr('name') + " : " + $(this).val() + "<br>" 
+			}else{
+				str += this.tagName + "===>>>" + $(this).text() + "<br>"
+			}
+			
+		})
+			$('#res3').html(str);
+		
+	})
+
+	$('#btn4').on('click', function(){
+		str ="";
+		$('#testForm *:visible').each(function(){
+			if(this.tagName == "INPUT"){
+				vtype = $(this).attr('type'); // text, password, checkbox, radio
+				if(vtype == 'radio'){
+					// 체크되어 있는지 아닌지 상태값을 비교해서 체크되어 있다면 값을  가져온다
+					if($(this).prop('checked')){ // input 인데 radio
+						str += this.tagName + "===>>>" + $(this).attr('name') + " : " + $(this).val() + "<br>"
+					} 
+				}else{
+					str += this.tagName + "===>>>" + $(this).attr('name') + " : " + $(this).val() + "<br>"
+					
+				}
+					
+			}else if(this.tagName != "BR"){
+				str += this.tagName + "===>>>" + $(this).text() + "<br>"
+			}
+				
+				/* 	str += this.tagName + "===>>>" + $(this).attr('name') + " : " + $(this).val() + "<br>"
+			}
+			// }else if(this.tagName != "BR"){
+			if(this.tagName == "SPAN"){
+				str += this.tagName + "===>>>" + $(this).text() + "<br>"
+			} */
+		})
+		
+		$('#res4').html(str);
+	})
+	
+	
+})
+
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3></h3>
+ <br>
+ <br>
+ <input id="btn1" type="button" value ="hidden">
+ <input id="btn2" type="button" value ="visible">
+ <br>
+	 <div id="result1">
+<!-- 	p태그 순서대로 1, 2, 3, 4 로 했을 때 :hidden으로 거르라하면 3번만 걸러지고, :visible로 거르면 1, 2, 4만 걸러짐. -->
+		  <p> 보이는 문단</p>
+		  <p style="visibility:hidden;">숨겨진 문단</p>
+		  <p style="display:none;"> 자리를 차지 하지 못한 문단 </p>
+		  <p style="opacity:0;"> 투명한 문단</p>
+	 </div>
+<!-- 	 text html 이용해서 가져오기. text -->
+	 <div id="res1">btn1을 여기에(3번)</div>
+	 <div id="res2">btn2를 여기에(1번 2번 4번) 찍을거임</div>
+</div>
+
+<div class="box">
+ <h3></h3>
+ 괄호 안에 1개 => getter.  괄호 안에 2개 => setter.
+ 일반 속성의 일반값 : attr('type'), attr('name'), val() : 값을 가져오겠다. // attr('type', 'text') : 타입에다 텍스트를 설정해라. attr('name', 'kkk') : <br>
+ 상태를 나타내는 속성의 값 :checked, selected, disabled, multiple, readonly <br>
+ => prop('checked') prop('selected') prop('disabled') prop('multiple') prop('readonly') <br>
+ return 값은 true / false 이다.
+ prop('checked',true) prop('selected',false) prop('disabled',false) prop('multiple',true) prop('readonly',true) <br>
+ => 얘도 설정하는거임! (setter)!!!  <br>
+ prop('readonly', true) => 읽기만 가능하다. <br>
+ 여튼 true false 값을 가져오는건 prop임!.. <br>
+ <input id="btn3" type="button" value ="hidden">
+ <input id="btn4" type="button" value ="visible">
+ <br>
+	 <div id="result2">
+		    <form id="testForm"> 
+			<input type="hidden" name="userAge" value="33">
+			<input type="hidden" name="userCity" value="대전">
+			I D : <input type="text" name="userID" value="hong">  
+			<span style="display:none">ID가 중복됩니다. </span> <br>  
+			이름 : <input type="text" name="userName" value="홍길동">   
+			<span style="visibility:hidden">이름을 입력하세요</span><br>  
+			성별 : <input type="radio" name="sung" value="남" checked>남자  
+			<input type="radio" name="sung" value="여">여자  
+			</form>
+
+	 </div>
+	 <div id="res3">btn3을 여기에</div>
+	 <div id="res4">btn4를 여기에 찍을거임</div>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

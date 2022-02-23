@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+
+	<select id="idCheck" resultClass="memberVO" parameterClass="String">
+		select id
+		  from member
+		 where id = #id#
+	</select>
+
+<!-- 리스트 조회 -->
+	<select id ="listMember" resultClass="memberVO" parameterClass="pagingVO">
+	select B.*
+	  from (select rownum as rnum,
+	               A.*
+	          from (select name,
+	                       id,
+	                       phone,
+	                       email,
+	                       enabled
+	                  from member
+	                 where 1=1
+	                       <isEqual property="searchType" compareValue="id">
+	                   and id like '%'||#keyWord#||'%'
+	                       </isEqual>
+	                       
+	                       <isEqual property="searchType" compareValue="name">
+	                   and name like '%'||#keyWord#||'%'
+	                       </isEqual>
+	                       
+	                       <isEqual property="searchType" compareValue="phone">
+	                   and phone like '%'||#keyWord#||'%'
+	                       </isEqual>
+	                       
+	                       <isEqual property="searchType" compareValue="email">
+	                   and email like '%'||#keyWord#||'%'
+	                       </isEqual>
+	                 order by 2) A ) B
+	 where B.rnum between #firstRecNo# and #lastRecNo#
+	</select>
+	
+	<select id="memSize" resultClass="int" parameterClass="pagingVO">
+	select count(*)
+	  from member
+	 where 1=1
+	       <isEqual property="searchType" compareValue="id">
+	   and id like '%'||#keyWord#||'%'
+	       </isEqual>
+	       
+	       <isEqual property="searchType" compareValue="name">
+	   and name like '%'||#keyWord#||'%'
+	       </isEqual>
+	       
+	       <isEqual property="searchType" compareValue="phone">
+	   and phone like '%'||#keyWord#||'%'
+	       </isEqual>
+	       
+	       <isEqual property="searchType" compareValue="email">
+	   and email like '%'||#keyWord#||'%'
+	       </isEqual>
+	</select>
+<!-- 상세조회 -->
+	<select id="detailMember" resultClass="memberVO" parameterClass="String">
+		select id,
+			   pwd,
+			   email,
+			   picture,
+			   enabled,
+			   to_char(regdate, 'YYYY-MM-DD') as regdate,
+			   phone,
+			   name,
+			   register,
+			   address,
+			   authority
+		  from member
+		 where id = #id#
+	</select>
+	
+<!-- 검색(순서대로 이름, 아이디, 전화번호, 이메일) -->
+ <!-- isNotEmpty 사용법 공부하기. -->
+	<select id="selectName" resultClass="memberVO" parameterClass="String">
+		select *
+		  from member
+		 where name like '%'||#name#||'%'
+	</select>
+	
+	<select id="selectId" resultClass="memberVO" parameterClass="String">
+		select *
+		  from member
+		 where id like '%'||#id#||'%'
+	</select>	
+	
+	<select id="selectPhone" resultClass="memberVO" parameterClass="String">
+		select *
+		  from member
+		 where phone like '%'||#phone#||'%'
+	</select>
+	
+	<select id="selectEmail" resultClass="memberVO" parameterClass="String">
+		select *
+		  from member
+		 where email like '%'||#email#||'%'
+	</select>
+	
+<!-- 회원등록 -->
+	<insert id="insertMember" parameterClass="memberVO">
+		insert into member values(#id#, #pwd#, #email#, #picture#, #enabled#, #regdate#, #phone#, #name#, #register#, #address#, #authority#)
+	</insert>
+<!-- 회원수정 -->
+	<update id="updateMember" parameterClass="memberVO">
+		update member
+		   set pwd = #pwd#,
+			   email = #email#,
+			   picture = #picture#,
+			   enabled = #enabled#,
+			   phone = #phone#,
+			   name = #name#,
+			   register = #register#,
+			   address = #address#,
+			   authority = #authority#
+		 where id = #id#
+	</update>
+
+<!-- 회원삭제 -->
+	<delete id="deleteMember" parameterClass="String">
+		delete member where id = #id#
+	</delete>
+</sqlMap>

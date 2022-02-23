@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+* {
+	margin : 0px;
+	padding : 0px;
+}
+body {
+	background-color: #a6a1a7;
+}
+
+#container {
+	margin : 30px;
+	background-color: white;
+	width : 670px;
+	height: 600px;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+}
+header {
+	height : 60px;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#user {
+	display : inline-block;
+	height: 40px;
+	margin-top: 15px;
+	padding-left : 5px;
+}
+
+aside {
+	width: 260px;
+	height: 550px;
+	background-color: #164d78;
+	font-size: 15px;
+	vertical-align: top;
+	border-radius: 10px 0px 0px 10px;
+	display: flex;
+	flex-direction: column;
+}
+#idList {
+	margin : 20px;
+	list-style: none;
+	background-color: rgb(255,255,255, 0.5);
+	height: 500px;
+	border-radius: 10px;
+}
+#idList li {
+	margin : 15px;
+}
+main {
+	width: 355px;
+	height: 550px;
+	display: inline-block;
+	font-size: 15px;
+	vertical-align: top;
+	background-color: #dee2e4;
+	border-radius: 0px 10px 10px 0px;
+}
+#messageTextArea {
+	resize: none;
+	margin: 10px;
+	border : none;
+	border-radius: 10px;
+	padding : 15px;
+}
+#textMessage {
+	display: inline-block;
+	width : 255px;
+	height: 50px;
+	margin-left : 10px;
+	border : none;
+	padding-left : 5px;
+	resize: none;
+	font-size: 15px;
+}
+#sendBtn {
+	width : 70px;
+	height: 50px;
+	border : none;
+	position: relative;
+	top : -20px;
+}
+#sendBtn:hover {
+	background-color : gray;
+}
+footer {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+#disconBtn {
+	width: 300px;
+	position: relative;
+	left : 25px;
+	top : -5px;
+	border : none;
+}
+#disconBtn:hover {
+	background-color : gray;
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="main">
+	
+	<select id="notiMini" resultClass="notiVO">
+
+		  select aa.* from (select ROWNUM AS NUM, a.*   
+            from (select ADMINBOARD_ID, NOTICE_TITLE, to_char(NOTICE_DATE,'YY/MM/DD') as notice_date
+		            from notice
+		           order by ADMINBOARD_ID desc) a) aa
+            where num between 1 and 10
+
+	</select>
+	
+	<select id="freeMini" resultClass="boardVO">
+	
+		 SELECT AA.* FROM (SELECT ROWNUM AS NUM, A.*   
+            FROM (SELECT ADMINBOARD_ID, BOARD_TITLE, MEM_ID, TO_CHAR(BOARD_DATE,'YY/MM/DD') as board_date, BOARD_TITLE_ID
+		           FROM BOARD
+                   WHERE BOARD_TITLE_ID = 'BR02'
+		           ORDER BY ADMINBOARD_ID DESC) A) AA
+            WHERE NUM BETWEEN 1 AND 10
+	
+	</select>
+	
+	<select id="clFreeMini" resultClass="clBoardVO">
+	
+		 SELECT AA.*
+           FROM (SELECT ROWNUM AS NUM, A.*
+                  FROM (SELECT BOARD_TITLE_ID, ADMINBOARD_ID, CLBOARD_TITLE, TO_CHAR(CLBOARD_DATE,'YY/MM/DD') AS CLBOARD_DATE, MEM_ID, CLASS_ID
+                          FROM CLBOARD
+                         WHERE CLBOARD.BOARD_TITLE_ID = 'BR08'
+                         ORDER BY ADMINBOARD_ID DESC) A) AA
+          WHERE AA.NUM BETWEEN 1 AND 7
+          ORDER BY AA.NUM ASC
+	
+	</select>
+	
+	<select id="clNotiMini" resultClass="clBoardVO">
+	
+		  SELECT AA.*
+            FROM (SELECT ROWNUM AS NUM, A.*
+                    FROM (SELECT BOARD_TITLE_ID, 
+                                 ADMINBOARD_ID, 
+                                 CLBOARD_TITLE, 
+                                 TO_CHAR(CLBOARD_DATE,'YY/MM/DD') AS CLBOARD_DATE, 
+                                 MEM_ID
+                            FROM CLBOARD
+                           WHERE CLBOARD.BOARD_TITLE_ID = 'BR03'
+                           ORDER BY ADMINBOARD_ID DESC) A) AA
+           WHERE AA.NUM BETWEEN 1 AND 7
+           ORDER BY AA.NUM ASC
+	
+	</select>
+	
+	<select id="clQnaMini" resultClass="clBoardVO">
+	
+		  SELECT AA.*
+            FROM (SELECT ROWNUM AS NUM, A.*
+                    FROM (SELECT BOARD_TITLE_ID, 
+                                 ADMINBOARD_ID, 
+                                 CLBOARD_TITLE, 
+                                 TO_CHAR(CLBOARD_DATE,'YY/MM/DD') AS CLBOARD_DATE, 
+                                 CLASS_ID,
+                                 MEM_ID
+                            FROM CLBOARD
+                           WHERE CLBOARD.BOARD_TITLE_ID = 'BR06'
+                           ORDER BY ADMINBOARD_ID DESC) A) AA
+           WHERE AA.NUM BETWEEN 1 AND 7
+           ORDER BY AA.NUM ASC
+	
+	</select>
+	
+	
+</sqlMap>

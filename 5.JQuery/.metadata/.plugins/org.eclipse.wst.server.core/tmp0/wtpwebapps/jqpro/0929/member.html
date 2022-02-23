@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+	table{
+		border : 2px solid blue;
+	}
+	td{
+		width : 150px;
+		height : 40px;
+	}
+	tr:nth-child(1){
+		background :lightblue;
+	}
+
+</style>
+<script src = "../js/jquery-3.6.0.min.js"></script>
+
+<script>
+$(function(){
+	
+	$('#member').on('click', function(){
+		
+		// 비동기 전송
+		$.ajax({
+			// url data type 요청.
+			url : 'memberList.jsp',
+// 			data : 없으니까 생략
+			type : 'get',
+			// dataType, success, error 응답.
+			dataType : 'json',
+			success : function(res){ // 원래 200은 성공 임.
+				
+				code = "<table border='1'>";
+				code += "<tr><td>아이디</td><td>이름</td><td>전화번호</td><td>메일</td><td>우편번호</td><td>기본주소</td><td>상세주소</td><td>생년월일</td></tr>"
+			$.each(res, function(i, v){
+				code += "<tr>"
+				code += "<td>" + v.id +"</td>";
+				code += "<td>" + v.name +"</td>";
+				code += "<td>" + v.hp +"</td>";
+				code += "<td>" + v.mail +"</td>";
+				code += "<td>" + v.zip +"</td>";
+				code += "<td>" + v.add1 +"</td>";
+				code += "<td>" + v.add2 +"</td>";
+				code += "<td>" + v.bir +"</td>";
+				code += "</tr>"
+			})
+			 code += "</table>"
+			 $('#result1').html(code);
+			},
+			error : function(zxc){
+				alert(zxc.status + "\n" + zxc.statusText); // 404 500~, 200~: 데이터는 성공했으나 형식이 잘못되었다. json변환오류.
+				// json은 text기반. 
+			}
+			
+		})
+	})
+	
+	
+	
+})
+</script>
+
+</head>
+<body>
+
+<div class="box">
+ <h3></h3>
+ <br>
+ <br>
+ <input id="member" type="button" value ="MemberList">
+ <br>
+ <div id="result1"></div>
+</div>
+</body>
+</html>

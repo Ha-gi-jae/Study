@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+// 	$('.btn').click(fution(){})
+// 	$('.btn').bind('click', function(){}) 3개 모두 같아요! 편한거 쓰세요^^.
+	$('.btn').on('click', function(){
+		$('<input>', {'type' : 'button', 'class' : 'btn', 'value' : '새로운 버튼'}).appendTo('#result2');		
+	})
+	
+	$('input[value=해제]').on('click', function(){
+		$('.btn').off('click');
+// 		$('.btn').unbind('click');
+	})
+	
+	
+
+})
+</script>
+</head>
+<body>
+
+<div class="box">
+ <h3>bind 형식의 이벤트 핸들러 연결</h3>
+ 실행 이전에 미리 만들어져 있는 요소에 대하여 이벤트 핸들러를 지정 한다.<br>
+ <br>
+ <br>
+ <div id="result1">
+   <input type="button" class="btn" value ="버튼1">
+   <input type="button" class="btn" value ="버튼2">
+ </div>
+
+  <br><br>
+  
+  <input type="button" value="해제">
+  
+  <br><br>
+  
+  <div id="result2">
+  이 친구는 이벤트가 발생하지 않아요!
+  
+  </div>
+  
+</div>
+</body>
+</html>

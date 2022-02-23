@@ -1,0 +1,12 @@
+package kr.or.ddit.board.vo;
+
+public class BoardVO {
+	private int board_num;
+	private int adminboard_id;
+	private String board_title;
+	private String board_date;
+	private String board_content;
+	private String mem_id;
+	private String board_title_id;
+	ADMINBOARD_VIEW
+}

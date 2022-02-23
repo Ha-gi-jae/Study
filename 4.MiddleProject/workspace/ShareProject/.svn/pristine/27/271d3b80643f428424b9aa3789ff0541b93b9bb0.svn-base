@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>레이아웃 만들기</title>
+<style>
+/*reset*/
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	color: #333;
+	font-size: 0.75em;
+	font-family: "나눔고딕", Arial;
+}
+
+a {
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #339;
+	text-decoration: overline;
+}
+/*div setting*/
+#BOX {
+	width: 500px;
+	height: 600px;
+	background-color: #555;
+	margin: 30px auto;
+	padding: 10px;
+}
+
+#BOX #TOP1 {
+	width: 500px;
+	height: 45px;
+	background-color: #faa;
+	margin: 0 auto;
+	margin-bottom: 5px;
+}
+
+#BOX #TOP2 {
+	width: 500px;
+	height: 95px;
+	background-color: #aaF;
+	margin: 0 auto;
+	margin-bottom: 5px;
+}
+
+#BOX #LEFT {
+	width: 145px;
+	/*float:left; 때문에 right는 오른쪽으로 left는 왼쪽으로 붙어 사이에 5px이 떨어진다*/
+	height: 450px;
+	background-color: #afa;
+	float: left;
+}
+
+#BOX #RIGHT {
+	width: 350px;
+	height: 450px;
+	float: right;
+}
+
+#BOX #RIGHT #BODY1 {
+	width: 350px;
+	height: 220px;
+	margin-bottom: 5px;
+	background-color: #FAF;
+}
+
+#BOX #RIGHT #BODY2 {
+	width: 350px;
+	height: 225px;
+	background-color: #AFF;
+}
+</style>
+</head>
+<body>
+	<div id="BOX">
+		<div id="TOP1">
+			<p>여기가 타이틀과 메뉴바</p>
+		</div>
+		<div id="TOP2">
+			<p>여기는 이미지 넘어가는 효과</p>
+		</div>
+		<div id="LEFT">
+			<p>여기는 서브 메뉴바</p>
+		</div>
+		<div id="RIGHT">
+			<div id="BODY1">
+				<p>여기는 암튼 내용</p>
+			</div>
+			<div id="BODY2">
+				<p>여기도 암튼 내용</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

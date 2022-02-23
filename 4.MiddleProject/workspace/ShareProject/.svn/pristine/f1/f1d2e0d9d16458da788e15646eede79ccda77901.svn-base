@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="itt">
+
+	<select id="selectItt" resultClass="calVO">
+		SELECT * FROM ITT
+	</select>
+	
+	<select id="selectIttDetail" resultClass="calVO" parameterClass="String">
+	<![CDATA[ 
+		select * 
+		  from itt 
+		 where to_date(to_char(ITT_START,'YYYYMMDD hh:mm:ss')) <= to_date(#day#||'17:00:00')
+		   and to_date(to_char(ITT_end,'YYYYMMDD hh:mm:ss')) >= to_date(#day#||17:00:00)
+	]]>
+	</select>
+    
+    <select id="selectTt" resultClass="ttVO">
+    
+    	select * from tt
+    
+    </select>
+    
+    <insert id="insertItt" parameterClass="calVO">
+    
+    	insert into itt
+    	values(cal_id_seq.nextval, 
+    	       #itt_title#, 
+    	       to_date(#itt_start#), 
+    	       to_date(#itt_end#),
+    	       #itt_color#,
+    	       #itt_overlap#)
+    	       
+    	<selectKey keyProperty="itt_id" resultClass="int">
+    		select cal_id_seq.currval from dual
+    	</selectKey> 
+    </insert>
+    
+     <delete id="calDelete" parameterClass="int">
+     
+    	delete from itt 
+    	where itt_id = #itt_id#
+      
+    </delete>
+    
+    <update id="calUpdate">
+    	update itt 
+    	   set itt_title =#itt_title#,
+    	       itt_start = to_date(#itt_start#||'17:00:00'),
+    	       itt_end = #itt_end#||17:00:00,
+    	       itt_color = #itt_color#,
+    	       itt_overlap =#itt_overlap#
+    	 where itt_id=#itt_id#       
+    </update>
+</sqlMap>			
+
+
+
+
+

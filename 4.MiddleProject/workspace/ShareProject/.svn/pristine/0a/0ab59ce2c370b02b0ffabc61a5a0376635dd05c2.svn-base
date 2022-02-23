@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap namespace="com">
+
+	<select id="pagingComp" parameterClass="cpagingVO" resultClass="compVO">
+	 
+		 SELECT AA.*
+		  FROM (SELECT ROWNUM AS COMP_NUM, A.*
+		          FROM (SELECT B.ADMINBOARD_ID,
+		                       B.COMP_NAME,
+		                       B.COMP_INFO,
+		                       B.COMP_REQ,
+		                       C.ADMINBOARD_VIEW,
+		                       C.ADMINBOARD_BLIND
+		                  FROM COMP B, ADMINBOARD C
+		                 WHERE B.ADMINBOARD_ID=C.ADMINBOARD_ID) A) AA
+		 WHERE AA.COMP_NUM BETWEEN #firstRecNo# AND #lastRecNo# 
+		 ORDER BY AA.COMP_NUM DESC
+		 
+	</select>
+
+	<select id="selectTotalCnt" resultClass="int" >
+	
+		 SELECT COUNT(*) FROM COMP
+		 
+	</select>
+	
+	<select id="selectAll" resultClass="compVO">
+	
+		SELECT * FROM COMP
+		
+	</select>
+	
+	<select id="selectOne" parameterClass="int" resultClass="compVO">
+	
+		SELECT * FROM COMP WHERE ADMINBOARD_ID=#adminboard_id#
+	
+	</select>
+	
+	<insert id="insertComp" parameterClass="compVO">
+	
+		INSERT ALL 
+		  INTO ADMINBOARD VALUES(ADMINBOARD_NUM_SEQ.NEXTVAL, 0, 'N')
+		  INTO COMP VALUES(ADMINBOARD_NUM_SEQ.CURRVAL, 
+		  				   #comp_name#, 
+		  				   #comp_info#,
+		  				   #comp_req#)
+		SELECT * FROM dual
+		
+		<selectKey resultClass="int" >
+        	SELECT ADMINBOARD_NUM_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+	
+	</insert>
+	
+	<update id="updateComp" parameterClass="compVO"> 
+	
+		UPDATE COMP 
+		   SET COMP_NAME=#comp_name#, 
+		       COMP_INFO=#comp_info#, 
+		       COMP_REQ=#comp_req# 
+		 WHERE ADMONBOARD_ID=#adminboard_id#
+	
+	</update>
+	
+	<delete id="deleteComp" parameterClass="int">
+	
+		DELETE FROM COMP WHERE ADMINBOARD_ID=#adminboard_id#
+	
+	</delete>
+	
+	
+	
+	
+	<!-- 제목검색 -->
+	<select id="findCmTitle" parameterClass="cpagingVO" resultClass="compVO">
+
+	SELECT A.*
+	FROM (SELECT ROWNUM AS COMP_NUM, AA.*
+	FROM (SELECT ADMINBOARD_ID, COMP_NAME, COMP_INFO, COMP_REQ	
+	FROM COMP
+	WHERE COMP_NAME LIKE '%'||#comp_name#||'%'
+	ORDER BY ADMINBOARD_ID ASC) AA) A
+	WHERE A.COMP_NUM BETWEEN #firstRecNo# AND #lastRecNo#
+	ORDER BY A.COMP_NUM DESC
+	</select>
+	
+	<select id="findCmtitleCount" parameterClass="String" resultClass="int">
+   	SELECT COUNT(*) FROM COMP
+   	WHERE COMP_NAME LIKE '%'||#comp_name#||'%'
+
+	</select>
+	
+	
+	
+	
+</sqlMap>			
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,386 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="kr.or.ddit.cal.vo.CalVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+   
+<%
+	List<CalVO> list = (List<CalVO>)request.getAttribute("list");
+	List<CalVO> list1 = (List<CalVO>)request.getAttribute("list1") == null ? new ArrayList<CalVO>() :(List<CalVO>)request.getAttribute("list1");
+	
+	HttpSession ss = request.getSession();
+	
+	String admin = (String)session.getAttribute("admin_id");
+	// System.out.println(admin);
+%>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="Tooplate" />
+    <meta name="description" content="" />
+    
+    <link rel="stylesheet" href="./Final_Main_Page/assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="./Final_Main_Page/assets/css/tooplate-style.css" />
+    <link rel="stylesheet" href="./Final_Main_Page/assets/css/style.css">
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="./js/jquery-3.6.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    
+<!-- <link rel="stylesheet" href="./Final_Main_Page/vendor/bootstrap/css/bootstrap.min.css"/> -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
+    <link href='./js/main.min.css' rel='stylesheet'/>
+    
+    <script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+    <script src="./js/jquery.serializejson.min.js"></script>
+ 	<script src='./js/main.min.js'></script>
+	
+	<script  src="./js/cal.js"></script>
+    <title>일정조회</title>
+    <style>
+
+  #calBody {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    width: 800px;
+    margin: 0;
+    
+  }
+  
+  #datail{
+  width:200px;
+  	margin-top: 50px;
+  }
+  
+  #calBox{
+  	display: flex;
+	justify-content: center;
+	margin: 50px;
+  }
+  
+  #close{
+  	background: hotpink;
+  	border-radius: 10px;
+  }
+  
+  .list{
+  	border-bottom: 2px solid gray;
+  	width: 100%;
+  }
+
+  .modi, .del{
+  	display : none;
+  }
+  
+  .calInsert{
+  	display : none;
+  }
+  
+  #writeModal label, #updateModal label{
+	width: 100px;
+  }
+  
+  .id, .col{
+  	display : none;
+  }
+  
+  .a{
+  	margin-left: 10px;	
+  }
+  
+  #detail .calInsert{
+    margin-left : 10px;
+  	font-size : 15px;
+  	display: flex;
+	justify-content: flex-end;
+  }
+  #boardBox {
+    overflow: scroll;
+  }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    	
+			
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          headerToolbar: {
+            left: 'prev',
+            center: 'title',
+            right: 'next today',
+            initialView: 'dayGridMonth'
+          },
+          contentHeight: 800,
+          initialDate: new Date(),
+          navLinks: false, // can click day/week names to navigate views
+          businessHours: true, // display business hours0
+          editable: false,
+          selectable: true,
+          displayEventTime: false,
+          events: [
+        	  <%
+        		for(int i = 0; i < list.size(); i++){
+        			CalVO vo = list.get(i);
+        			if(i > 0) out.write(",");
+        	%>	
+        			{
+        				title : '<%= vo.getItt_title() %>',
+        				start : '<%= vo.getItt_start()%>',
+        				end : '<%= vo.getItt_end() %>',
+        				color : '<%= vo.getItt_color() %>',
+      					display : 'border',// 여기는 BORDER로 하드코딩하기 
+      					allday : true,
+						<%
+      					if(vo.getItt_overlap().equals("Y")){
+						%>
+      						 ,overlap : true
+						<%
+						}
+						%>
+        			}
+        	<%	
+        		}
+        	%>
+        	]
+        });
+        
+        calendar.render();
+      });
+    
+    $(function() {
+    	today = $('#calendar').find('.fc-day-today').attr('data-date').replace(/-/g, "");
+    	console.log($('#calendar').find('.fc-day-today').attr('data-date'))
+    	calList(today);
+    	
+    	// 관리자 아이디일 경우 등록버튼 보여주기
+    	// if(admin == "admin_id")
+    		 $('.calInsert').show();
+    	
+    	// 일정 상세 조회
+    	$(document).on('click', '.fc-daygrid-day > *', function() {
+    		
+    		day = $(this).parents('.fc-daygrid-day').attr('data-date');
+    		day1 = day.replace(/-/g, "");
+    		console.log(day);
+    		
+    		calList(day1);
+    		
+    		$(document).on('click', '.pin', function() {
+
+     			sval = new Date(day);
+     			console.log(sval)
+    			
+     			sval = sval.toISOString().substring(0, 16);
+     			console.log(sval)
+     			
+    			$('#writeModal .start').val(sval); 
+    		})
+    	})
+    	
+    	$(document).on('click', '#close', function() {
+    		$('#detail').css('display', 'none')
+		})
+		
+		// 일정 등록
+		$('#send').on('click', function() {
+			datas = $('#writeModal form').serializeJSON();	
+			console.log(datas)
+			insertCal(datas);
+			
+			location.reload();
+			
+		})
+    	
+		// 일정 수정
+		$(document).on('click', '.modi', function() {
+			// 수정 모달에 기본값 출력하기
+			idvalue = $(this).parent('.list').find('.id').text();
+			titlevalue = $(this).parent('.list').find('.ti').html();
+			startvalue = $(this).parent('.list').find('.s').text();
+			endvalue = $(this).parent('.list').find('.e').text();
+			colvalue = $(this).parent('.list').find('.col').text();
+
+ 			startvalue = new Date(startvalue);
+			endvalue = new Date(endvalue);
+			
+			console.log(endvalue);
+			
+			startvalue = startvalue.toISOString().substring(0, 16);
+			endvalue = endvalue.toISOString().substring(0, 16);
+			console.log(endvalue); 
+			
+			$('#updateModal .id').val(idvalue);
+			$('#updateModal .title').val(titlevalue);
+			$('#updateModal .start').val(startvalue); 
+			$('#updateModal .end').val(endvalue);
+			$('#updateModal .color').val(colvalue);
+			
+			$('#usend').on('click', function() {
+				updatas = $('#updateModal form').serializeJSON();
+				updateCal(updatas);
+			})
+		})
+		
+		// 일정 삭제 
+		$(document).on('click', '.del', function() {
+			idvalue = $(this).parent('.list').find('.id').text();
+		
+			deleteCal(idvalue);
+			 
+			location.reload();
+		})
+		
+    
+    })
+    </script>
+  </head>
+
+  <body>
+    <div id="page-wraper">
+      <!-- Sidebar Menu -->
+      <div class="responsive-nav">
+        <div id="menu" class="menu">
+          <i class="fa fa-times" id="menu-close"></i>
+          <img id="menulogo" src="./img/menulogo.PNG" alt="mainlogo">
+          <br>
+          <div class="container">
+            <div class="author-content">
+              <h4 class="infoName">공밀레</h4>
+              <div id="courseBox">
+                <span>[기업맞춤형] 전자정부 표준 프레임워크 기반
+                  풀-스택 개발자 양성과정(15기)</span>
+              </div>
+              <span><a class="infOption" href="../whole/member/myPage.html"><i class="fas fa-house-user"></i>&nbsp;마이페이지</a></span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span><a class="infOption" href="../whole/member/message.html"><i class="far fa-envelope"></i>&nbsp;쪽지</a></span>
+              <br>
+              <span><a class="infOption" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a></span>
+            </div>
+            <a href="./Final_Main_Page/classIndex.html"><input type="button" class="clButton" value="클래스 입장하기"></a>
+            <nav class="main-nav" role="navigation">
+              <ul class="main-menu">
+                <li class="menuList"><a href="#"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;기관일정</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-paperclip"></i>&nbsp;&nbsp;자료공유</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons far fa-file-alt"></i>&nbsp;&nbsp;보강자료</a></li>
+                <li class="menuList"><a href="../whole/board/board.html"><i class="mIcons fas fa-question-circle"></i>&nbsp;&nbsp;질문게시판</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-users"></i>&nbsp;&nbsp;자유게시판</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-shopping-basket"></i>&nbsp;&nbsp;장터게시판</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-user-graduate"></i>&nbsp;&nbsp;수료후기</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons far fa-building"></i>&nbsp;&nbsp;회사정보</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-wrench"></i>&nbsp;&nbsp;건의사항</a></li>
+                <li class="menuList"><a href="#"><i class="mIcons fas fa-exclamation-circle"></i>&nbsp;&nbsp;공지사항</a></li>
+              </ul>
+            </nav>
+            <div class="copyright-text">
+              <p>Copyright 2021 Share Project<br>
+                Design: 공밀레</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div id="boardBox">
+			<!-- <button type="button" class="calInsert" data-toggle="modal" data-target="#writeModal">일정등록</button> -->
+			<div id="calBox">
+				<div id='calendar'></div>
+				<div id='detail'>
+					<br>
+					<br>
+					<h2 class='a'>[0000년 00월 00일]</h2>
+					<br>
+
+					<p class='a'>해당하는 일정이 없습니다.</p>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div id="writeModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">일정등록</h4>
+						</div>
+						<div class="modal-body">
+							<h3></h3>
+							<form>
+								<label>제목</label><input type="text" name="itt_title" class="fin"><br>
+								<label>시작날짜</label><input type="datetime-local" name="itt_start" class="fin start"><br>
+								<!--   <input type="time" name="itt_start" class="fin"><br> -->
+								<label>종료날짜</label><input type="datetime-local" name="itt_end" class="fin"><br>
+								<!--  <input type="time" name="itt_end" class="fin"><br> -->
+								<label>색상</label><input type="color" name="itt_color" class="fin"><br> <label>휴일여부</label>
+								<input type="radio" name="itt_overlap" value="Y">
+								Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+								<input type="radio"	name="itt_overlap" value="N" checked="checked"> N<br>
+								<button type="button" id="send">전송</button>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div id="updateModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">일정수정</h4>
+						</div>
+						<div class="modal-body">
+							<h3></h3>
+							<form>
+								<input type="hidden" name="itt_id" class="fin id">
+								<br>
+								<label>제목</label>
+								<input type="text" name="itt_title"	class="fin title"><br> <label>시작날짜</label>
+								<input type="datetime-local" name="itt_start" class="fin start">
+								<br>
+								<!--   <input type="time" name="itt_start" class="fin"><br> -->
+								<label>종료날짜</label>
+								<input type="datetime-local" name="itt_end"	class="fin end">
+								<br>
+								<!--  <input type="time" name="itt_end" class="fin"><br> -->
+								<label>색상</label>
+								<input type="color" name="itt_color" class="fin color"><br> <label>휴일여부</label>
+								<input type="radio" name="itt_overlap" value="Y" class="holi">Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+								<input type="radio" name="itt_overlap" value="N" class="holi" checked="checked">N<br>
+								<button type="button" id="usend">전송</button>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+        
+      </div>
+    </div>
+
+  </body>
+</html>

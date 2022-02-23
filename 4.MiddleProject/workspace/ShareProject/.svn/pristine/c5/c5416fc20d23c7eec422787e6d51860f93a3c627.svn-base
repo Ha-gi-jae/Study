@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="adminre">
+
+<insert id="insertAdminre" parameterClass="AdminreVO">
+	insert into adminre(adminre_content, adminre_date, adminboard_id, mem_id, ADMINRE_NUM)
+	values(#adminre_content#, sysdate, #adminboard_id#, #mem_id#, ADMINRE_NUM_SEQ.NEXTVAL)
+	
+	 <selectKey keyProperty="adminboard_id" resultClass="int">
+		select adminboard_id from adminboard where adminboard_id=#adminboard_id#
+	
+	</selectKey> 
+	
+</insert>
+
+<select id="selectResponse" parameterClass="int" resultClass="AdminreVO">
+	SELECT A.ADMINBOARD_ID,
+           TO_CHAR(A.ADMINRE_DATE,'YYYY-MM-DD') AS ADMINRE_DATE,
+           A.ADMINRE_CONTENT,
+           A.MEM_ID,
+           B.MEM_NAME
+      FROM ADMINRE A, MEM B 
+     WHERE A.MEM_ID=B.MEM_ID 
+       AND ADMINBOARD_ID =#adminboard_id#
+</select>
+
+
+
+
+
+</sqlMap>

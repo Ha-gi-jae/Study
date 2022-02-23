@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MyPage</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  	
+  	<!--※필수※ 아이콘, 스타일-->
+	<script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/ShareProject/Real_Final_Pages/css/FinalStyle.css">
+	<link rel="stylesheet" href="/ShareProject/Real_Final_Pages/css/FinalMainStyle.css">
+	<!--↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑-->
+  
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="/ShareProject/js/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="/ShareProject/js/jquery.serializejson.min.js"></script>
+<style>
+.select {
+	color: orange;
+}
+
+.clButton {
+	color: black;
+}
+
+#stuInfoBox h2 {
+	margin-top: 0px;
+	margin-bottom: 15px;
+	color: black;
+	font-weight: bold;
+}
+
+#subjectBox {
+	display: flex;
+	align-items: center;
+	width: 230px;
+	height: 60px;
+	background-color: rgba(255, 255, 255, 0.6);
+	font-size: 13px;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+p#subject {
+	font-size: 13px;
+	width: 100%;
+	height: 100%;
+}
+
+#updateModal label {
+	width: 150px;
+}
+
+#memrevise {
+	margin-left : 82%;
+}
+
+#bupdate {
+	position: relative;
+	left: 285px;
+}
+
+.myPageTable {
+	width: 70%;
+	height: 70%;
+	vertical-align: center;
+	margin-top : 2%;
+	margin-left : 15%;
+}
+
+.boardHr {
+	border: 2px solid orange;
+}
+
+tr {
+	height: 20px;
+}
+
+.td1 {
+	text-align: center;
+	font-weight: bold;
+	background-color: lightgray;
+}
+#boardH2 {
+	margin-top : 25px;
+	margin-left: 45px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+</style>
+
+<script>
+	$(function() {
+		$.ajax({
+					url : '/ShareProject/Mypage.do',
+					type : 'get',
+					dataType : 'json',
+					success : function(res) {
+						//alert(res.mem_pass);
+
+						code = "<h2 id='boardH2'>마이페이지</h2>";
+						code += "<hr class='boardHr'>";
+
+						code += "<input id='memrevise' type='button' value='수정'>";
+						code += "<input class='pass' type='hidden' name='mem_pass' value="+res.mem_pass+">";
+
+						code += "<table class='table table-hover myPageTable' border='1'>";
+
+						code += "<tr class='tr1'><td class='td1'>과정명</td>";
+						code += "<td class='sub' name='mem_sub' value="+res.mem_sub+" colspan='3'>"
+								+ res.mem_sub + "</td></tr>";
+
+						code += "<tr class='tr1'><td class='td1'>입학일</td>";
+						code += "<td class='start' name='class_start' value="+res.class_start+">"
+								+ res.class_start + "</td>";
+
+						code += "<td class='td1'>수료일</td>";
+						code += "<td class='end'name='class_end' value="+res.class_end+">"
+								+ res.class_end + "</td></tr>";
+
+						code += "<tr class='tr1'><td class='td1'>반</td>";
+						//값 수정 필요
+						code += "<td class='cname' name='class_cname' value="+res.class_name+">"
+								+ res.class_name + "</td>";
+
+						code += "<td class='td1'>구분</td>";
+						//값 수정 필요
+						code += "<td class='group' name='mem_group' value="+res.mem_group+">"
+								+ res.mem_group + "</td></tr>";
+
+						code += "<tr class='tr1'><td class='td1'>아이디</td>";
+						code += "<td class='id' name='mem_id' value="+res.mem_id+" colspan='3'>"
+								+ res.mem_id + "</td></tr>";
+
+						code += "<tr class='tr1'><td class='td1'>이름</td>";
+						code += "<td class='name' name='mem_name' value="+res.mem_name+" colspan='3'>"
+								+ res.mem_name + "</td></tr>";
+
+						code += "<tr class='tr1'><td class='td1'>연락처</td>";
+						code += "<td class='hp' name='mem_hp' value="+res.mem_hp+" colspan='3'>"
+								+ res.mem_hp + "</td></tr>";
+
+						code += "<tr class='tr1'><td class='td1'>주소</td>";
+						code += "<td class='addr1' name='mem_addr1' value="+res.mem_addr1+" colspan='3'>"
+								+ res.mem_addr1 + "</td></tr>";
+
+						code += "<tr class='tr1'><td class='td1'>상세주소</td>";
+						code += "<td class='addr2' name='mem_addr2' value="+res.mem_sub+" colspan='3'>"
+								+ res.mem_addr2 + "</td></tr>";
+						code += "<tr><td colspan='6'><a href='http://localhost/ShareProject/Real_Final_Pages/Final_Main_MainPage.html'>[뒤로가기]</td>";
+						code += "</tr></table>";
+
+						$('#boardBox').html(code);
+
+					},
+					error : function(xhr) {
+						alert(xhr.status);
+					}
+
+				})
+
+		$(document).on('click', '#memrevise', function() {
+
+			dv1 = $(this).parents('#boardBox');
+			
+
+			//과정명
+			sub = $(dv1).find('.sub').text();
+			$('#revise .sub').val(sub);
+			//입학일
+			start = $(dv1).find('.start').text();
+
+			//수료일
+			end = $(dv1).find('.end').text();
+
+			//반
+			cname = $(dv1).find('.cname').text();
+
+			//구분
+			group = $(dv1).find('.group').text();
+
+			//아이디
+			id = $(dv1).find('.id').text();
+
+			//패스원드
+			pass = $(dv1).find('.pass').val();
+
+			//이름
+			name = $(dv1).find('.name').text();
+
+			//연락처
+			hp = $(dv1).find('.hp').text();
+
+			//주소
+			addr1 = $(dv1).find('.addr1').text();
+
+			//상세주소
+			addr2 = $(dv1).find('.addr2').text();
+
+			$('#updateModal .mem_id').val(id);
+			$('#updateModal .mem_pass').val(pass);
+			$('#updateModal .mem_passCh').val(pass);
+			$('#updateModal .mem_hp').val(hp);
+			$('#updateModal .mem_addr1').val(addr1);
+			$('#updateModal .mem_addr2').val(addr2);
+
+			$('#updateModal').modal('show');
+
+		})
+
+		$('#bupdate').on('click', function() {
+			udatas = $('#updateModal form').serializeJSON();
+			console.log(udatas);
+			updateMember();
+			$('#updateModal').modal('hide');
+		})
+
+	})
+	function sample6_execDaumPostcode() {
+		new daum.Postcode(
+				{
+					oncomplete : function(data) {
+
+						var addr = ''; // 주소 변수
+
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						document.getElementById('sample6_postcode').value = data.zonecode;
+						document.getElementById("sample6_address").value = addr;
+						// 커서를 상세주소 필드로 이동한다.
+						document.getElementById("sample6_detailAddress")
+								.focus();
+					}
+				}).open();
+	}
+
+	updateMember = function() {
+		$.ajax({
+			url : '/ShareProject/Revise.do',
+			type : 'post',
+			data : udatas,
+			dataType : 'json',
+			success : function(res) {
+				//alert(res.flag);
+				location.reload();
+			},
+			error : function(xhr) {
+				alert(xhr.status);
+			}
+		})
+	}
+</script>
+</head>
+<body>
+	<div id="page-wrap">
+        <aside id="leftMenu">
+            <div id="logoImg">
+                <a href="/ShareProject/Real_Final_Pages/Final_Main_MainPage.html">
+                <img id="mainlogo" src="/ShareProject/Real_Final_Pages/images/menulogo.PNG" alt="mainlogo">
+                </a>
+            </div>
+
+            <div id="infoBox">
+                <div id="stuInfoBox">
+                    <h2>공밀레</h2>
+                    <div id="subjectBox">
+                        <p id="subject">[기업맞춤형] 전자정부 표준 프레임워크 기반 풀-스택 개발자 양성과정(15기)</p>
+                    </div>
+                    
+                    <div id="MMLOption">
+                        <a id="mypage" class="infOption" href="/ShareProject/whole/member/myPage.html"><i class="fas fa-house-user"></i>&nbsp;마이페이지</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a class="infOption" href="/ShareProject/whole/member/message.html"><i class="far fa-envelope"></i>&nbsp;쪽지</a>
+                        <br>
+                        <a class="infOption" href="/ShareProject/Real_Final_Pages/Final_LoginPage.html"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="classBtn">
+                <a href="/ShareProject/Real_Final_Pages/Final_Class_MainPage.html"><input type="button" class="clButton" value="클래스 입장하기"></a>
+            </div>
+           <ul id="ulBox">
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/Cal.do"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;기관일정</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/board/NoticBoard.html"><i class="mIcons fas fa-exclamation-circle"></i>&nbsp;&nbsp;공지사항</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/TreeView.do"><i class="mIcons fas fa-paperclip"></i>&nbsp;&nbsp;자료공유</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/board/MakeUPBoard.html"><i class="mIcons far fa-file-alt"></i>&nbsp;&nbsp;보강자료</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/board/WHQnABoard.html"><i class="mIcons fas fa-question-circle"></i>&nbsp;&nbsp;질문게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/board/FreeBoard.html"><i class="mIcons fas fa-users"></i>&nbsp;&nbsp;자유게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/board/MarketBoard.html"><i class="mIcons fas fa-shopping-basket"></i>&nbsp;&nbsp;장터게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/board/ReviewBoard.html"><i class="mIcons fas fa-user-graduate"></i>&nbsp;&nbsp;수료후기</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/comp/ComBoard.html"><i class="mIcons far fa-building"></i>&nbsp;&nbsp;회사정보</a></li>
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/whole/board/SuggestBoard.html"><i class="mIcons fas fa-wrench"></i>&nbsp;&nbsp;건의사항</a></li>
+            </ul>
+            <div id="copyBox">
+                <p id="copyright">Copyright 2021 Share Project<br>
+                Design: 공밀레</p>
+            </div>
+        </aside>
+
+        <aside id="rightMain">
+            <div id="boardBox"></div>
+        </aside>
+	</div>
+	
+	
+	
+	
+	<div id="updateModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">마이페이지 수정</h4>
+      </div>
+      <div class="modal-body">
+    
+        <h3>수정하기</h3>
+        <form>
+        	
+        	<label>아이디</label>
+        	<input  type="text" class="mem_id" name="mem_id" disabled="disabled"><br>
+        
+        	<label>비밀번호</label>
+        	
+        	<input  type="password" class="mem_pass" name="mem_pass"><br>
+        	
+        	<label>비밀번호환인</label>
+        	<input  type="password" class="mem_passCh" name="mem_passCh"><br>
+        	
+        	<label>연락처</label>
+        	<input  type="text" class="mem_hp" name="mem_hp"><br>
+        	<label>우편번호</label>
+        	<input type="text" id="sample6_postcode" placeholder="우편번호">
+	        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+	        <label>주소</label>
+			<input name="mem_addr1" class="mem_addr1" type="text" id="sample6_address" placeholder="주소"><br>
+			<label>상세주소</label>
+			<input name="mem_addr2" class="mem_addr2" type="text" id="sample6_detailAddress" placeholder="상세주소">
+        	
+        	
+        	
+        	<br>
+        	<button type="button" id="bupdate" class="bupdate">확인</button>
+        </form>
+   		
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	
+
+</form>
+</body>
+</html>

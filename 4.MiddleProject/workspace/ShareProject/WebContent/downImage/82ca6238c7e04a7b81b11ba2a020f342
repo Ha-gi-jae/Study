@@ -1,0 +1,40 @@
+package kr.or.ddit.basic;
+
+import java.text.DecimalFormat;
+
+public class Planet {
+
+	public static void main(String[] args) {
+		System.out.println("행성의 반지름");
+		planetRadius[] pl = planetRadius.values();
+		
+		System.out.println();
+		
+		System.out.println("================================");
+		for (planetRadius p : planetRadius.values()) {
+			double area = 4 * Math.PI * (Math.pow(p.getValue(), 2));
+			System.out.println(area);
+			System.out.printf("%s(%d) 면적 => %11.2f km^2\n",
+					p.name(), p.getValue(), area);
+		}
+	}
+}
+
+enum planetRadius {
+	수성(2439), 금성(6052), 지구(6371), 화성(3390), 
+	목성(69911), 토성(58232), 천왕성(25362), 해왕성(24622),
+	태양(696000), 가니메데(2631), 타이탄(2575), 갈리스토(2410), 
+	이오(1821), 달(1737), 유로파(1561), 트리톤(1353), 에리스(1300),
+	명왕성(1195), 마케마케(900), 티타니아(789), 레아(764),
+	오베론(761), 하우메아(745), 테티스(533), 아리엘(579), 디오네(561);
+
+	private final int value;
+
+	planetRadius(int value) {
+		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
+}

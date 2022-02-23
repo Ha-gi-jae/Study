@@ -1,0 +1,98 @@
+#leftMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width : 300px;
+    background-color: #164d78;
+    height: 100vh;
+}
+
+#stuInfoBox h2 {
+    margin-bottom: 10px;
+    color : white;
+}
+
+.menuList {
+    width: 230px;
+    height: 70px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+}
+.aMenuList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 230px;
+    height: 70px;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+}
+
+#copyBox {
+    width: 300px;
+    height: 60px;
+    background-color: #093557;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#clCenterBox {
+    width : 1200px;
+    height: 600px;
+    position: relative;
+    top : 45px;
+    left : 20px;
+}
+#topLine {
+    display: flex;
+}
+
+#bottomLine {
+    display: flex;
+}
+
+.topbox, .bottomBox {
+    margin: 10px;
+    width : 330px;
+    height: 330px;
+    border : 2px solid lightgray;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 15px -5px gray;
+}
+.quickTitle {
+    margin : 10px 0px;
+    font-size: 20px;
+}
+.quickTitle h3{
+    margin-bottom : 10px;
+    font-size: 25px;
+}
+#quickCont1 li {
+    height: 30px;
+    margin-left: 20px;
+    font-size: 18px;
+}
+.tbx2_img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+.bbx1_img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+.bbx3_img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}

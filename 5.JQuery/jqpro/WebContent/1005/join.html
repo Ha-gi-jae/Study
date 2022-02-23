@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원 가입</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="../js/jquery.serializejson.min.js"></script>
+<link rel="stylesheet" href="../css/mystyle.css">
+<style>
+	h2{
+		margin-left: 20%;
+	}
+	
+	#result1 p:hover{
+		background : yellow;
+	}
+
+
+</style>
+
+<script>
+$(function(){
+
+	$('#id').on('keyup', function(){
+		
+		idvalue = $('#id').val();
+// 		console.log(idvalue);
+		
+		//정규식 체크
+		idreg = /^[a-z][a-zA-Z0-9]{3,11}$/;
+
+		if(!(idreg.test(idvalue))){
+			$(this).css('border', '3px solid red')
+			$('#idcheck').prop('disabled', true);
+		}else{
+			$(this).css('border', '3px solid blue')
+			$('#idcheck').prop('disabled', false);
+		}
+
+})
+	$('#idcheck').on('click', function(){
+		
+		idvalue = $('#id').val();
+		
+		// 공백체크
+		if(idvalue.length < 1){
+			alert(" id를 입력하세요. ")
+			return false;
+		}
+// 		// 길이체크 (정규식체크하면서 4~12자리 밖에 못넣음.)
+// 		if(idvalue.length < 4 || idvalue.length > 12){
+// 			alert(" id는 4~12 사이입니다. ")
+// 			return false;
+// 		}
+		
+		// 정규식체크 (지금 위에서 정규식체크 했음)
+// 		idreg = /^[a-z][a-zA-Z0-9]{3,11}/	// 앞에 [a-z] 가 있으니까 뒤에는 3~11개만 오면된다.
+		
+// 		if(!(idreg.test(idvalue))){
+// 			alert(" id형식오류 입니다. ")
+// 			return false;
+// 		}
+		
+		// 입력성공
+// 		alert(" 입력 성공. ")
+
+		$.get(
+				
+			"/jqpro/IDCheck.do",
+			{"id" : idvalue},
+			function(res){
+				$('#idspan').html(res.sw).css('color', 'red');
+			},
+			'json'
+		)                      //이렇게도 가능.  키 값이 없을 뿐임.        {} 안에들어가면  키 : 값
+
+/*
+		$.getJSON( getJSON만 있고 POSTJSON은 없음.
+			  "/jqpro/IDCheck.do", url
+			 {"id" : idvalue},		data
+			 function(res),		success
+		)				위와 마찬가지임. 근데 이 두개에서는 error를 못씀 왜냐? error가 없으니까. 
+*/
+		
+		
+		// ajax에서는 error가 선택이다. 써도되고 안써도되는데 오류 난거 알려면 쓰는게 좋음.
+// 		$.ajax({
+// 			url : "/jqpro/IDCheck.do",
+// 			type : 'get',
+// 			data : {"id" : idvalue },
+// 			success : function(res){
+				
+// 				$('#idspan').html(res.sw).css('color', 'red');
+// 			},
+// 			error : function(xhr){
+// 				alert( "상태 : " +xhr.status + "TEXT" + xhr.statusText)
+// 			},
+// 			dataType : 'json'
+// 		})
+	})
+	
+	
+	$('#zipbtn').on('click', function(){
+										//논리적임.
+		window.open('zipsearch.html', "우편번호찾기", "width=500 height=600")
+	})
+
+// modal 하려고 zipsearch.html에서 복사해옴.
+	$('#dongbtn').on('click', function(){
+		dongvalue = $('#dong').val().trim();
+		
+		if(dongvalue.length < 1){
+			alert("동을 입력하세요.");
+			return false;
+		}
+		
+// 		$.post(url, data, success, dataType) // 단축키는 이따가
+		
+		$.ajax({
+			url : '/jqpro/ZipCheck.do',
+			type : 'post',
+			data : {"dong" : dongvalue},
+			success : function(res){
+				code = "";
+				
+				$.each(res, function(i, v){
+					code +="<p><span class='zip'>" + v.zip + "</span>&nbsp;<span class='addr'>" + v.addr +"</span>" + v.bunji +"</p>";
+// 					code += `<p> <span class="s1" ${v.zip} </span><span class="addr"> ${v.addr} </span> ${v.bunji} <p>`
+				})
+				$('#result1').html(code);
+				
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status + " text : " + xhr.statusText);
+			},
+			dataType : 'json'
+		})
+		
+		
+		
+	})
+	// document 대신 result1을 줘도 된다. delegate 방식!!!
+	$(document).on('click', 'p', function(){
+		
+// 		 아래의 방식을 컨텍스트 방식이라고한다.  this = p태그(부모) 이고, span은 자식이다. 
+// 		$('span', this)
+		zip = $('.zip', this).text();
+		addr = $('.addr', this).text();
+		
+		// 앞의 #zip과 #add1은 부모창의 우편번호와 주소 id 임.
+		$('#zip').val(zip);
+		$('#add1').val(addr);
+		
+		$('#zipModal').modal('hide');
+	})
+	
+	//--------------------정규식체크----------------------------
+	$('#name').on('keyup', function(){
+		namevalue = $(this).val().trim();
+		namereg = /^[가-힣]{2,10}$/;
+		
+		if(namereg.test(namevalue)){
+			
+			$(this).css('border' , '2px solid blue');
+			
+		}else{
+			$(this).css('border' , '2px solid red');
+		}
+		
+	})
+	
+	// 비밀번호
+	$('#pwd').on('keyup', function(){
+	
+	passvalue = $(this).val().trim();
+	passreg = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$@#%^&*_-]).{8,20}$/;
+	
+	if(passreg.test(passvalue)){
+		$(this).css('border' , '2px solid blue');
+	}else{
+		$(this).css('border' , '2px solid red');
+		}
+	
+	})
+	// 전화번호 - /\d{2,3}\d{3,4}\d4{3}/
+	$('#hp').on('keyup', function(){
+	
+	hpvalue = $(this).val().trim();
+	hpreg = /\d{2,3}\d{3,4}\d{3}/
+	
+	if(hpreg.test(hpvalue)){
+		$(this).css('border' , '2px solid blue');
+	}else{
+		$(this).css('border' , '2px solid red');
+		}
+	
+	})
+	// 이메일
+	$('#email').on('keyup', function(){
+	
+	mailvalue = $(this).val().trim();
+	emailreg = /^([a-zA-Z0-9]+)@([a-zA-z0-9]+)(\.[a-zA-Z0-9]+){1,2}$/
+	
+	if(emailreg.test(mailvalue)){
+		$(this).css('border' , '2px solid blue');
+	}else{
+		$(this).css('border' , '2px solid red');
+		}
+	})
+	//-------------------------------------------------------
+	
+// 	// 이건 타입이 버튼일때만 이렇게. type=button !!, onsubmit="return flase" 이 없을때
+// 	$('#send').on('click', function(){
+// 		alert('click');
+// 	})
+
+	$('form').on('submit', function(){// type = "submit" 이면 onsubmit="return false" 이 있을 때
+		
+		fdatas = $('form').serialize();
+		fdatas2 = $('form').serializeArray();
+		fdatas3 = $('form').serializeJSON();
+		
+		console.log(fdatas);
+		console.log(fdatas2);
+		console.log(fdatas3);
+		
+// 		$.post(url, data, success, dataType) 이렇게 단축 가능함.
+//		$.post('/jqpro/MemberJoin.do', fdatas3, function(res){}, 'json')
+		$.ajax({
+			url : '/jqpro/MemberJoin.do',
+			type : 'post',
+			data : fdatas3,
+			success : function(res){
+				$('#joinspan').html(res.flag).css('color' , 'red');
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType : 'json'
+		})
+		
+// 		$('#id').val()
+// 		$('#name').val()
+// 		$('#bir').val // 시리얼라이즈를 안하면 이렇게 하나하나 다 적어줘야함. 시리얼라이즈가 이걸 다 해주고있음.
+// 		fdatas = { "mem_id" : $('#id').val(),
+// 				   "mem_name" : $('#name').val(), ...}
+// 			fdatas = "mem_id=" + $('#id').val() + "&mem_name=" +  $('#name').val() ... 이런식으로 
+		
+		
+	})
+	
+})
+
+</script>
+
+</head>
+<body>
+
+<br>
+<br>
+<h2>회원가입</h2>
+<br><br>
+
+	   <form class="form-horizontal" onsubmit="return false">
+
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="id">아이디:</label>
+	      <div class="col-sm-2">
+	        <input type="text" class="form-control" id="id" placeholder="Enter id" name="mem_id">
+	      </div>
+	      <input type="button" id="idcheck" class = "btn btn-success btn-sm" value="중복검사" >
+	      <span id="idspan"></span>
+	    </div>
+
+
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="name">이름:</label>
+	      <div class="col-sm-2">
+	        <input type="text" class="form-control" id="name" placeholder="Enter name" name="mem_name">
+	      </div>
+
+	    </div>
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="bir">생년월일:</label>
+	      <div class="col-sm-2">
+	        <input type="date" class="form-control" id="bir" placeholder="Enter bir" name="mem_bir">
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="pwd">비밀번호:</label>
+	      <div class="col-sm-2">          
+	        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="mem_pass">
+	      </div>
+	    </div>
+
+	    </div>
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="hp">전화번호:</label>
+	      <div class="col-sm-2">          
+	        <input type="text" class="form-control" id="hp" placeholder="Enter hp" name="mem_hp">
+	      </div>
+	    </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="email">이메일:</label>
+	      <div class="col-sm-2">
+	        <input type="text" class="form-control" id="email" placeholder="Enter email" name="mem_mail">
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="zip">우편번호:</label>
+	      <div class="col-sm-2">
+	        <input type="text" class="form-control" id="zip" placeholder="Enter zip" name="mem_zip">
+	      </div>
+	      <input id="zipbtn" type="button" class = "btn btn-danger btn-sm" value="우편번호 검색">
+	      <input type="button" class = "btn btn-danger btn-sm" value="우편번호 검색 modal" data-toggle="modal" data-target="#zipModal">
+	    </div>
+
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="add1">주소:</label>
+	      <div class="col-sm-3">
+	        <input type="text" class="form-control" id="add1" placeholder="Enter add1" name="mem_add1">
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="add2">상세주소:</label>
+	      <div class="col-sm-3">
+	        <input type="text" class="form-control" id="add2" placeholder="Enter add2" name="mem_add2">
+	      </div>
+	    </div>
+
+
+	    <div class="form-group">        
+	      <div class="col-sm-offset-2 col-sm-10">
+	        <button id="send" type="submit" class="btn btn-primary btn-lg">전송</button>
+	        <span id="joinspan"></span>
+	      </div>
+	    </div>
+	  </form>
+
+
+
+
+
+
+<!-- Modal -->
+<div id="zipModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+         <h3>우편번호찾기</h3>
+			 <br>
+			 찾는 동 이름을 입력하세요<br>
+			 <input type="text" id="dong">
+			 <input type="button" id="dongbtn" value ="확인">
+			 <br><br>
+			 <div id="result1"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+	  
+</body>
+</html>

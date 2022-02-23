@@ -1,0 +1,39 @@
+/**
+ * 
+ */
+calList = function(day) {
+	
+	$('#detail').show();
+	$('#close').show();
+	
+	$.ajax({
+		url : '/ShareProject/CalList.do',
+		type : 'get',
+		data : {"day" : day},
+		success : function(res) {
+			code = "";
+			code += "<h2>[" + day.substr(0,4) + "년 "+ day.substr(4,2) + "월 " +day.substr(6) + "일 일정 목록]</h2>";
+			if(res == ""){
+				code += "<p>해당하는 일정이 없습니다.</p>"
+			}else{
+				$.each(res, function(i, v) { 
+					
+					s = v.start;
+					e = v.end;
+					code += "<div class='list'>";
+					code += "<h4>"+ v.title +"</h4>";
+					code += "<p> 시작 : " + s.substr(0,10) +"</p>" 
+					code += "<p> 종료 : " + e.substr(0,10) + "</p>";
+					code += "</div>";
+				})
+			}
+			$('#detail').append(code);
+			$('#detail').append('<br><input type="button" value="닫기" id="close">');
+			
+		},
+		error : function(abc) {
+			alert(abc.status)
+		},
+		dataType : 'json'
+	})
+}

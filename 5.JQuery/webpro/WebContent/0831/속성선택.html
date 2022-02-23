@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<style>
+	p{
+		font-size : 2.0em;
+	}
+	p[title]{
+		background : yellow;
+	}
+	p.flp{
+		border : 4px dotted pink;
+	}  /* p.flp와 p[class=flp] 두개는 똑같음. */
+	p[class=flp]{
+		border : 4px dotted pink;
+	}
+	#p3, #p4{
+		color : red;
+	} /* #p3, #p4 와 p[id=p3], p[id=p4] 두개는 똑같다.  */
+	p[id=p3], p[id=p4]{
+		color : red;
+	}
+	</style>
+</head>
+<body>
+	<p title="무궁화">무궁화 꽃이 피었습니다.</p>
+	<p class="flp">무궁화 꽃이 피었습니다.</p>
+
+	<p id="p3">무궁화 꽃이 피었습니다.</p>
+	<p id="p4">무궁화 꽃이 피었습니다.</p>
+	<p class="flp">무궁화 꽃이 피었습니다.</p>
+</body>
+</html>

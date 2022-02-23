@@ -1,0 +1,93 @@
+<%@page import="kr.or.ddit.board.vo.PagingVO"%>
+<%@page import="kr.or.ddit.admin.vo.AdminVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="js/jquery-3.6.0.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="../../../js/jquery.serializejson.min.js"></script>
+    
+<%
+	List<AdminVO> memberlist = (List<AdminVO>) request.getAttribute("memberList");
+	PagingVO pv = (PagingVO) request.getAttribute("pv");
+%>
+
+<script>
+$(function(){
+	$(document).on('click', '#findbutton', function(){
+		field_ = $('form option:selected').val();
+		query_ = $('#q').val();
+		alert(field_);
+		alert(query_);
+		$.ajax({
+			url: '/ShareProject/FindMember.do',
+			type: 'get',
+			data:{"f" : field_, "q" : query_},
+			dataType: 'json',
+			success: function(res){
+				alert("너 왜 안뜨냐 ㅡㅡ");
+				location.reload();
+			},
+			error: function(xhr){
+				alert(xhr.status);
+			}
+		})
+	})
+})
+</script>
+<form>
+<select name = "f">
+<option value="class">반</option>
+<option value="group">구분</option>
+<option value="name">이름</option>
+</select>
+<input type="text" name= "q" id ="q">
+<input type="submit" id="findbutton" value="검색하기"><br>
+</form>
+<input id="insertmember" type="button" value="회원 등록">
+<input id="deletemember" type="button" value="회원 삭제">
+<table border="1">
+	<tr>
+		<td></td>
+		<td>반</td>
+		<td>구분</td>
+		<td>이름</td>
+		<td>연락처</td>
+	</tr>
+	<%
+		for(int i = 0; i < memberlist.size(); i++){
+			AdminVO vo = memberlist.get(i);
+	%>
+	<tr class="tr1">
+		<td><input class="mem_chk" type="checkbox" name="mem_chk" value="<%=vo.getMem_id()%>"></td>
+		<td><%= vo.getClass_id() %></td>
+		<td><%= vo.getMem_group() %></td>
+		<td class="memname"><%= vo.getMem_name() %></td>
+		<td><%= vo.getMem_hp() %></td>
+	</tr>		
+	<%
+		}
+	%>
+		<%if(pv.getTotalCount() > 0){ %>
+			<tr>
+				<td colspan="6" align="center">
+				<%if(pv.getFirstPageNo() > pv.getPageSize()){ %>
+				<a class="pre" name="<%=pv.getFirstPageNo() - pv.getPageSize() %>">[이전]</a>
+				
+				<%} %>
+				<%for(int pNo = pv.getFirstPageNo(); pNo <= pv.getLastPageNo(); pNo++){ %>
+				<a class="page<%if(pNo==pv.getCurrentPageNo()){%>select<%} %>"><%=pNo%></a>
+				<%} %>
+				
+				<%if(pv.getLastPageNo() < pv.getTotalCount()){ %>
+				<a class="next" name="<%=pv.getFirstPageNo() + pv.getPageSize() %>">[다음]</a>
+				<%} %>
+				</td>
+			</tr>
+			
+		<%} %>
+</table>

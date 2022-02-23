@@ -1,0 +1,44 @@
+package kr.or.ddit.member.dao;
+
+import java.sql.SQLException;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.member.vo.MemVO;
+import kr.or.ddit.util.SqlMapClientFactory;
+
+public class MemberDaoImpl implements IMemberDao{
+	
+   private static IMemberDao dao;
+	
+	private SqlMapClient smc;
+	
+	private MemberDaoImpl() {
+		smc = SqlMapClientFactory.getInstance();
+	}
+	
+	public static IMemberDao getInstance() {
+		if(dao == null) {
+			dao = new MemberDaoImpl();
+		}
+		
+		return dao;
+	}
+	
+	
+	@Override
+	public MemVO idCheck(MemVO mv) throws SQLException {
+		return  (MemVO) smc.queryForObject("member.idCheck", mv);
+	}
+
+	@Override
+	public int memLock(MemVO mv) throws SQLException {
+		return smc.update("member.memLock", mv);
+	}
+
+	@Override
+	public int chkCheck(String mem_id) throws SQLException {
+		return (int) smc.queryForObject("member.chkCheck", mem_id);
+	}
+	
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+html {
+	margin : 0px;
+	padding : 0px;
+	background: #E0EAFC; 
+	/* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC); 
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #CFDEF3, #E0EAFC);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	margin-top : 45px;
+}
+body {
+	margin : 0px;
+	padding : 0px;
+}
+#main {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1500px;
+	height : 850px;
+	background: white;
+}
+
+
+#header {
+	width: 1500px;
+	height : 80px;
+	background: pink;
+}
+#nav {
+	width: 1500px;
+	height : 40px;
+	background: yellow;
+	display: flex;
+	justify-content: space-around;
+}
+ul {
+	margin : 0px;
+	display : flex;
+}
+ul li {
+	margin : 0px;
+	list-style : none;
+}
+hr {
+	margin : 0px;
+	border : 2px solid #e68600;
+}
+#centerBox {
+	margin : 0px;
+	width: 1500px;
+	height : 670px;
+	background: orange;
+	display: flex;
+	justify-content: space-between;
+}
+#leftAside {
+	width: 400px;
+	height : 670px;
+	background: #ebf2ff; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #ebf2ff, #c2d2e9);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #ebf2ff, #c2d2e9);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#mainBox {
+	width: 1500px;
+	height : 670px;
+	background: gray;
+	margin : 0px;
+}
+
+#rightAside {
+	width: 60px;
+	height : 670px;
+	background: #102347;
+}
+
+#footer {
+	width: 1500px;
+	height : 60px;
+	background: #020b24;
+}
+
+</style>
+<script></script>
+</head>
+<body>
+	<div id="main">
+		<header id="header">header</header>
+		<hr>
+		<nav id="nav">
+			<ul>
+				<li>자료공유</li>
+				<li>질문</li>
+				<li>보강자료</li>
+				<li>자유게시판</li>
+				<li>회사정보</li>
+				<li>장터</li>
+				<li>수료후기</li>
+				<li>건의사항</li>
+				<li>공지사항</li>
+			</ul>
+		</nav>
+		<hr>
+
+		<div id="centerBox">
+			<div id="leftAside"></div>
+			<div id="mainBox">mainBox</div>
+			<div id="rightAside"></div>
+		</div>
+
+		<footer id="footer">footer</footer>
+	</div>
+</body>
+</html>

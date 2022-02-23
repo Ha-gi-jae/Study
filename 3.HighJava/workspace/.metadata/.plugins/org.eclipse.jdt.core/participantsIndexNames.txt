@@ -1,0 +1,9 @@
+INDEX VERSION 1.130
+D:\A_TeachingMaterial\3.HighJava\workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1717538816.index
+\ServletExam\src
+D:\A_TeachingMaterial\3.HighJava\workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\482648178.index
+\ServletExam\src
+D:\A_TeachingMaterial\3.HighJava\workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\295068060.index
+\ServletExam\src
+D:\A_TeachingMaterial\3.HighJava\workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2024648176.index
+\ServletTest\src

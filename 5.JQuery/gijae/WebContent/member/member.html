@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+table {
+	border : 1px solid red;
+}
+</style>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script>
+
+$(function(){
+	// 전체 조회
+	$('#selectAll').on('click', function(){
+		$.ajax({
+			url: '/gijae/SelectAllMember',
+			type: 'get',
+			dataType: 'json',
+			success: function(res){
+				code = "<table border='1'>";
+				
+				$.each(res, function(i,v){
+					code += "<tr id='"+ v.memid +"'><td>" + v.classid.replace(/null/g, "") + "</td>";
+					code += "<td>" + v.memgroup + "</td>";
+					code += "<td>" + v.memname + "</td>";
+					code += "<td>" + v.memhp + "</td></tr>";
+				})
+					code += '</table>';
+					$('#all').html(code);
+			},
+			error: function(xhr){
+				alert("상태 : " + xhr.status)
+			}
+		})
+	})
+	// 상세조회
+	$(document).on('click', 'tr', function(){
+		memid = $(this).attr('id');
+		$.ajax({
+			url: '/gijae/SelectMemberDetail',
+			type: 'get',
+			data: {'memId': memid},
+			dataType: 'json',
+			success: function(res){
+				code = "";
+				code += "<p>"+ res.classid + "</p>"
+				code += "<p>"+ res.memgroup + "</p>"
+				code += "<p>"+ res.memname + "</p>"
+				code += "<p>"+ res.memaddr1 + "</p>"
+				code += "<p>"+ res.memaddr2 + "</p>"
+				code += "<p>"+ res.memhp + "</p>"
+				code += "<p>"+ res.memstart + "</p>"
+				code += "<p>"+ res.memend + "</p>"
+				code += "<p>"+ res.memsub + "</p>"
+				code += "<p>"+ res.memid + "</p>"
+				$('#selectdetail').html(code);
+			},
+			error: function(xhr){
+				alert('상태 :' + xhr.status);
+			}
+				
+		})
+	})
+	
+})
+</script>
+</head>
+<body>
+
+
+<input id="selectAll" type="button" value="조회">
+<div id="all">
+</div>
+
+<p id ="update">
+</p>
+<p class="p2">
+</p>
+<p id="selectdetail"></p>
+<p id="delete"></p>
+<p id="find"></p>
+<p></p>
+
+
+</body>
+</html>

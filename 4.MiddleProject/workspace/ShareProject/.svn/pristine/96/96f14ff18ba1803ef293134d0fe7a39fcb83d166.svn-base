@@ -1,0 +1,90 @@
+package kr.or.ddit.adminClass.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.or.ddit.admin.dao.AdminDaoImpl;
+import kr.or.ddit.admin.dao.IAdminDao;
+import kr.or.ddit.admin.vo.AdminVO;
+import kr.or.ddit.adminClass.vo.AdminClassVO;
+
+public class AdminClassServiceImpl implements IAdminClassService {
+	private static IAdminClassService service;
+	private IAdminDao dao;
+	
+	private AdminClassServiceImpl() {
+		dao = AdminDaoImpl.getDao();
+	}
+	
+	public static IAdminClassService GetService() {
+		if(service == null) service = new AdminClassServiceImpl();
+		return service;
+	}
+	
+	// 반 전체 조회
+	@Override
+	public List<AdminClassVO> selectAllclass() {
+		List<AdminClassVO> list = null;
+		try {
+			list = dao.selectAllclass();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	// 반 등록
+	@Override
+	public int insertClass(AdminClassVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.insertClass(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	// 반 삭제 전 회원 반 수정
+	@Override
+	public int classUpdateMember(String class_Id) {
+		int cnt = 0;
+		try {
+			cnt = dao.classUpdateMember(class_Id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	// 반 수정
+	@Override
+	public int updateClass(AdminClassVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.updateClass(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	// 반 삭제
+	@Override
+	public int deleteClass(String classId) {
+		int cnt = 0;
+		try {
+			cnt = dao.deleteClass(classId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public List<AdminClassVO> selectClassMember(String classid) {
+		List<AdminClassVO> list = null;
+		try {
+			list = dao.selectClassMember(classid);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+}

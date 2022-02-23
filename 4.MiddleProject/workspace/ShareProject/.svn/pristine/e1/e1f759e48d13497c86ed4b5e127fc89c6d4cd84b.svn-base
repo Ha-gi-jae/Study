@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>쪽지 페이지</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="../../js/jquery-3.6.0.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
+<style>
+	
+	
+	
+</style>
+
+
+
+<script>
+$(function(){
+	$.ajax({
+		url : '/ShareProject/ListMsg.do',
+		type : 'get',
+		dataType : 'json',
+		success : function(res){
+			code="<input id='msgsend' type='button' value='쪽지보내기'>";
+			
+			code+="<input id='msgdelete' type='button' value='삭제'>";
+			code+="<table border='1'>";
+			code+="<tr><th>  </th>";
+			code+="<th>보낸사람</th>";
+			code+="<th>내용</th>";
+			code+="<th>날짜</th></tr>"
+			
+			$.each(res, function(i, v){
+				code+="<tr><td><input class='msg_chk' type='checkbox' name='msg_chk' value='msg_chk'></td>";
+				code+="<td>"+v.msg_to+"</td>";
+				code+="<td class='content'>"+v.msg_content+"</td>";
+				code+="<td>"+v.msg_date+"</td></tr>";
+			})
+			code+="</table>";
+			
+			$('#dv2').html(code);
+			
+		},
+		error : function(xhr){
+			alert(xhr.status);
+		}
+	})
+	
+	$(document).on('click','#msgsend', function(){
+		$('#msgModal').modal('show');
+	})
+	
+	var chk_arr = [];
+	$('input[name=msg_chk]:checked').each(function(){
+		var chk=$(this).val();
+		
+		chk_arr.push(chk);
+	})
+	
+	
+	
+	
+	$(document).on('click', '#msgdelete', function(){
+		$.ajax({
+			url : '/ShareProject/DeleteMsg.do',
+			type : 'post',
+			data : chk_arr,
+			dataType : 'post',
+			success : function(res){
+				
+			},
+			error : function(xhr){
+				alert(xhr.status);
+			}
+		})
+	})
+	
+})
+
+
+</script>
+</head>
+<body>
+	<h2>쪽지페이지</h2>
+	<div id="dv2">
+	
+	
+	</div>
+	
+	
+	<div id="msgModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+    
+        <h3>쪽지보내기</h3>
+        <form action="/ShareProject/MsgSend.do" method="post">
+        	
+        	<label>받는사람</label>
+        	<input type="text" class="msg_from" name="msg_from">
+        	<input type="submit" class="msend" value="보내기">
+        	<br>
+        	<textarea name="msg_content" rows="5" cols="50">
+        	</textarea>
+        	
+        </form>
+   		
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+  
+	
+	
+</body>
+</html>

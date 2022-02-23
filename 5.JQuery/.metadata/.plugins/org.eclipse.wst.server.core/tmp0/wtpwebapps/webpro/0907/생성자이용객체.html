@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+
+
+<script> // 밑의 input proc1() 일반 함수 스크립트안 function은  객체 함수
+function Rect(width, height){ // 속성과 메소드가 있어야함.
+	this.width = width; // 인스턴스 변수 쇽셩
+	this.height = height;
+	//45612321654
+	
+	this.getArea = function() {
+		return this.width * this.height;
+	};
+	
+	this.getCircum = function() {
+		return (this.width + this.height) * 2
+	};
+}
+
+/* class Circle{
+	constructor(rad){
+		this.rad = rad;
+	}
+	getArea(){
+		return Math.PI * Math.pow(this.rad, 2);
+	};
+	getCircum(){
+		return 2 * Math.PI * this.rad;
+	}
+} */
+
+
+
+
+
+function Circle(rad) {
+	this.rad = rad;
+	
+	this.getArea = function() {
+		return Math.PI * Math.pow(this.rad, 2);
+	};
+	
+	this.getCircum = function() {
+		return 2 * Math.PI * this.rad;
+	};
+}
+function proc1(){ // 일반 function 처리하는로직이 들어간다
+	//Rect 객체 생성, 처리, 사용
+	var rect = new Rect(4, 5);
+	
+	rect.name = "사각형";
+	
+	str = " 이름 : " + rect.name + "<br>";
+	str += " 가로 : " + rect.width + "<br>";
+	str += " 세로 : " + rect.height + "<br>"; // 필드, 속성
+	str += " 면적 : " +rect.getArea() + "<br>"; //메서드
+	str += " 둘레 : " + rect.getCircum() + "<br>";
+	
+	document.getElementById('result1').innerHTML = str;
+}
+
+function proc2() {
+	//Circle 객체 생성, 처리
+	
+	var circle = new Circle(5);
+	
+	circle.name = "동그라미";
+	circle.getRad = function(){ // 메소드 추가
+		return this.rad;
+	}
+	str = " 이름 : " + circle.name + "<br>";
+// 	str += " 반지름 : " + circle.rad + "<br>";
+	str += " 반지름 : " + circle.getRad() + "<br>"; // 일반함수에서 메소드 추가해서 바로 쓸수 있쥐
+	str += " 면적 : " + circle.getArea() + "<br>";
+	str += " 둘레 : " + circle.getCircum() + "<br>";
+	
+	document.getElementById('result2').innerHTML = str;
+}
+
+
+
+
+
+
+
+</script>
+
+
+</head>
+<body>
+
+<div class="box">
+ <h3>생성자를 이용한 객체 생성</h3>
+ function Rect(width, height){ 속성, 메소드 정의}
+ function Circle(rad) { 속성, 메소드 정의}
+ <br>
+ <br>
+ <input type="button" value ="Rect" onclick="proc1()">
+ <input type="button" value ="Circle" onclick="proc2()">
+ <br>
+ <div id="result1"></div>
+ <div id="result2"></div>
+</div>
+</body>
+</html>

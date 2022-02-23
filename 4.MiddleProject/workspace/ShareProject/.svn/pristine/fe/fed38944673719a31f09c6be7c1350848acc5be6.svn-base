@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="../../js/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="../../js/jquery.serializejson.min.js"></script>
+<script>
+$(function(){
+	//반
+	//반 전체 조회
+	$('#selectAllClass').on('click', function(){
+		$.ajax({
+			url: '/ShareProject/SelectAllClass.do',
+			type: 'get',
+			dataType: 'json',
+			success: function(res){
+				classcode = "<table border='1'>";
+				classcode += "<tr><input class='insertclass' type='button' value='등록'>";
+				classcode += "<input class='deleteclass' type='button' value='삭제'></tr>";
+				classcode += "<tr><td>반 이름</td><td>시작일</td><td>수료일</td>"
+				$.each(res, function(i, v){
+					classcode += "<tr>";
+					classcode += "<td><input type='checkbox'></td>"
+					classcode += "<td id='" + v.classid + "'>" + v.classname + "</td>";
+					classcode += "<td>" + v.classstart + "</td>";
+					classcode += "<td>" + v.classend + "</td>";
+					classcode += "</tr>";
+				})
+				classcode += "</table>";
+				$('#classInfo').html(classcode);
+			},
+			error: function(xhr){
+				alert("상태 : " + xhr.status);
+			}
+		})
+		
+		$(document).on('click', 'td', function(){
+			classid = $(this).attr('id');
+				$.ajax({
+					url : '/ShareProject/SelectClassMember.do',
+					type : 'get',
+					data : {'classid' : classid},
+					dataType : 'json',
+					success : function(res){
+						code ="<table border='1'>";
+						$.each(res, function(i, v){
+							if(v.memgroup == 'stu')
+						code += "<tr>";
+						code += "<td>" + v.classname + "</td>";
+						code += "<td>" + v.memname + "</td>";
+						code += "<td>" + v.memhp + "</td>";
+						code += "</tr>";
+						})
+						code += "</table>";
+						$('#classdetailinfo').html(code);
+					},
+					error: function(xhr){
+						alert("상태 : " + xhr.status + "메시지 : " + xhr.statusText);
+					}
+					
+			})
+			
+		})
+	})
+	
+	// 반등록
+	$(document).on('click', '.insertclass', function(){
+		
+		
+		
+	})
+	
+	// 반 삭제
+// 	$(document).on('click', '.deleteclass', function(){
+// 		$.ajax({
+// 			url: '/ShareProject/DeleteClass.do',
+// 			type: 'get',
+// 			data: classid,
+// 			dataType: 'json'
+// 			success: function(res){
+				
+// 			},
+// 			error: function(xhr){
+// 				alert(xhr.status);
+// 			}	
+// 		})
+// 	})
+
+
+
+
+})
+</script>
+</head>
+<body>
+<!--반 -->
+
+<input id="selectAllClass" type="button" value="반조회">
+<div>
+	<p id="classInfo"></p>
+</div>
+<div>
+	<p id="classdetailinfo"></p>
+</div>
+
+
+</body>
+</html>

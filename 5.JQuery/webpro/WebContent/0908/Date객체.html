@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/mystyle.css">
+<script>
+
+	now1 = new Date();
+	now2 = new Date(902137981720);
+	now3 = new Date("2010. 05. 23");
+	now4 = new Date(2020, 4, 23);
+proc1 = () =>{
+	now5 = new Date(1996, 3, 30, 11, 29, 30);
+	
+	str = now1.toLocaleDateString() + "<br>";
+	str += now2.toLocaleDateString() + "<br>";
+	str += now3.toLocaleDateString() + "<br>";
+	str += now4.toLocaleDateString() + "<br>";
+	str += now5.toLocaleString() + "<br>";
+	
+	document.getElementById('result1').innerHTML = str;
+}
+
+proc2 = () =>{
+
+	day = now1.getDay();
+	
+	str = now1.toLocaleDateString() + "<br>";
+	
+	yy = now1.getFullYear() + "년 &nbsp;";
+	mm = now1.getMonth()+1 + "월 &nbsp;" // 하나 작개나옴.
+	dd = now1.getDate() + "일 &nbsp;"
+	str += yy + mm + dd + "<br>";
+	
+	switch (day) {
+	case 0:
+		str += "일요일";
+		break;
+	case 1:
+		str += "월요일";
+		break;
+	case 2:
+		str += "화요일";
+		break;
+	case 3:
+		str += "수요일";
+		break;
+	case 4:
+		str += "목요일";
+		break;
+	case 5:
+		str += "금요일";
+		break;
+	case 6:
+		str += "토요일";
+		break;
+	}
+	
+	
+	document.getElementById('result2').innerHTML = str;
+}
+proc3 = () =>{
+	arr =["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+	
+	str = now1.toLocaleDateString() + "<br>";
+	
+	yy = now1.getFullYear() + "년 ";
+	mm = now1.getMonth()+1 + "월 ";
+	dd = now1.getDate() + "일 ";
+	
+	str += yy + mm + dd + "<br>";
+	
+	str += arr[now1.getDay()]
+	
+	document.getElementById('result3').innerHTML = str;
+}
+
+function proc4(){
+	my = new Date(1996, 3, 30, 11, 29, 30);
+	
+	today = now1.getTime();
+	myday = my.getTime();
+	
+	times = today-myday;
+	
+	res = times /1000 /60 /60 /24 /365
+	
+	str = "오늘 : " + now1.toLocaleDateString() + "<br>";
+	str += "생일 : " + my.toLocaleDateString() + "<br>";
+	str += res + "년 동안 사시고 계시네요. <br><br>"
+	
+	gijae = times + " 밀리초 " + "<br>";
+	gijae += times /1000 + " 초 " + "<br>";
+	gijae += times /1000 /60 + " 분 " + "<br>";
+	gijae += times /1000 /60 /60 + " 시간 " + "<br>";
+	gijae += times /1000 /60 /60 /24 + " 일 " + "<br>";
+	gijae += times /1000 /60 /60 /24 /365 + " 년 " + "<br>";
+	
+	str += gijae;
+	document.getElementById('result4').innerHTML = str;
+}
+function proc5(){
+	
+// 	day1970 = new Date(1000);
+// 	alert(day1970);
+	
+	/* // 100일의 timesec값
+	day100 = 1*1000*60*60*24*100;
+	console.log(day100);
+	// 오늘의 timesec
+	today = now1.getTime();
+	console.log(today);
+	
+	res = today + day100;
+	res += "<br>" + new Date(res);
+	
+	document.getElementById('result5').innerHTML = res; */
+}
+function proc6(){
+	str = "";
+	// id가 pdate인 input요소의 값을 가져온다 - value
+	input = document.getElementById('pdate').value;
+	// 가져온 값으로 Date 객체를 생성한다.
+	date = new Date(input)
+	// 생성된 Date객체에서 getTime()값을 구한다
+	buy = date.getTime();
+	// 오늘의 getTime()값 구한다.
+	today = now1.getTime();
+	// 오늘의 getTime - 생성된 Date객체 에서 getTime()
+	day = today - buy;
+	// 지난 일수 구한다.  계산한거 가지고와서 /1000 /60 /60 /24
+	// 비교 7일 경과 했는지 .
+	day = day /1000 /60 /60 /24;
+	if(0 <= day && day <= 7){
+		str = day +"일 경과 <br>"
+		str += "교환 가능합니다.";
+	}else{
+		str = day +"일 경과 <br>"
+		str += "교환 기한이 지났습니다.";
+	}
+	document.getElementById('result6').innerHTML = str;
+}
+
+</script>
+</head>
+<body>
+
+	<div class="box">
+		<h3>Date객체</h3>
+		new Date() <br> new Date(milliseconds) <br> new
+		Date(dateString) <br> new Date(year, month, date, hours, minutes,
+		seconds) <input type="button" value="확인" onclick="proc1()"> <br>
+		<div id="result1"></div>
+	</div>
+
+	<div class="box">
+		<h3>Date객체</h3>
+		요일구하기 <br> getDay() : 리턴값은 0(일요일) ~ 6(토요일) <br> <input
+			type="button" value="확인" onclick="proc2()"> <input
+			type="button" value="배열이용" onclick="proc3()"> <br>
+		<div id="result2"></div>
+		<div id="result3"></div>
+	</div>
+
+	<div class="box">
+		<h3>Date객체</h3>
+		경과시간구하기<br> getTime() : 리턴값은 milliseconds - 실제초 구하려면 milliseconds
+		/ 1000 / 60 / 60 / 24 / 365 <br> 100일 후의 날짜 구하기 : 1000* 60 * 60 *
+		24 * 100 <input type="button" value="생일기준" onclick="proc4()">
+		<input type="button" value="100일후" onclick="proc5()"> <br>
+		<div id="result4"></div>
+		<div id="result5"></div>
+
+		<div class="box">
+			<h3>Date객체</h3>
+			경과시간구하기<br> getTime() : 리턴값은 milliseconds - 실제초 구하려면
+			milliseconds / 1000 / 60 / 60 / 24 / 365 <br> 구입날짜를 선택해서 7일이
+			지났는지 비교<br> 7일이 지났으면 교환 불가능<br> 7일이 안지났으면 교환 가능<br> 
+			<br>
+			<input type="date" id="pdate">
+			<br>
+			<input type="button" value="확인" onclick="proc6()"> <br>
+			<div id="result6"></div>
+
+
+		</div>
+</body>
+</html>

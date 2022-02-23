@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<style>
+		a:link{
+			color : green;
+			text-decoration : none; /* a링크는 밑줄이 쳐져있다.(기본이 언더라인) 그거 없애기. overline; 윗줄  */
+		}
+		a:visited {
+			color : red;
+		}
+		a:hover{
+			color : blue;
+			font-size : 1.3em;
+		}
+		a:active{
+			color : hotpink;
+			background : yellow;
+			text-decoration : line-through; /* 선이 중간에 생김. */
+		}
+	p{
+		font-size : 1.5em;
+		color : red;    /* 라인색도 글씨색에 영향을 받는다.(똑같다.) */
+	}
+	p:hover{
+		background : lime;
+	}
+	p:active{
+		text-decoration : underline;
+	}
+	
+	</style>
+
+</head>
+<body>
+<pre>
+상태를 나타내는 의사 클래스
+:link 
+:visited 다녀오면
+:hover 마우스를 올려두면
+:active 누르고 있으면
+
+</pre>
+
+	<div>
+		<a href="http://www.naver.com" target="_blank">네이버</a>
+		<a href="http://www.daum.net" target="_self">다음</a>
+		<a href="http://www.w3shcools.com" target="_blank">w3schools</a>
+		
+		
+		<!-- <a href="#aaa" target="_blank"></a> -->
+	<!-- #aaa 현재 문서에서 찾아갈 때 -->
+		<!-- <a href="#aaa" target="fr"></a> -->
+	<!--  fr : 아이프레임의 이름 -->
+	
+	</div>
+	
+	<p>무궁화 꽃이 피었습니다</p>
+	<p>햇볕은 쨍쨍 모래알은 반짝</p>
+	<p>나리나리 개나리 </p>
+	
+	
+	
+	
+	
+	
+	
+</body>
+</html>

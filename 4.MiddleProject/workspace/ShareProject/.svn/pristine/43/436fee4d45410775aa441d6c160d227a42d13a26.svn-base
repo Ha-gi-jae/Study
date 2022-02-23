@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	.select {
+		color: orange;
+	}
+</style>
+<script type="text/javascript" src="../../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+pageNo = 1;
+group = 'BR02';
+
+ $(function() {
+	 groupByAllBoard();
+	 
+	 $(document).on('click', '.page', function() {
+		 pageNo = $(this).html();
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.pre', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.next', function() {
+		 pageNo = $(this).attr('name');
+		 groupByAllBoard();
+	 })
+	 
+	 $(document).on('click', '.title', function() {
+		 adminboard_id = $(this).attr('id');
+		 location.href="./SelectBoard.jsp?board_id=" + adminboard_id;
+	 })
+	 
+ })
+ 
+ groupByAllBoard = function(){
+	 $.ajax({
+		 url:'/ShareProject/ListBoard.do',
+		 type:'get',
+		 data: {
+			 	'group': group,
+			    'pageNo' : pageNo
+			   },
+		 dataType: 'html',
+		 success:function(result){
+			 $('body').html(result);
+		 },
+		 error:function(xhr){
+			 alert("에러코드 : " + xhr.status + " \n에러명 : " + xhr.statusText);
+		 }
+	 })
+ }
+</script>
+</head>
+<body>
+	<h2>자유게시판</h2>
+</body>
+</html>

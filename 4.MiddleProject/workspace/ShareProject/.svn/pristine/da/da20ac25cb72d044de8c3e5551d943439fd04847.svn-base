@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="adminre">
+
+<insert id="insertAdminre" parameterClass="AdminreVO">
+	insert into adminre(adminre_content, adminre_date, adminboard_id, mem_id)
+	values(#adminre_content#, sysdate, #adminboard_id#, #mem_id#)
+	
+	 <selectKey keyProperty="adminboard_id" resultClass="int">
+		select adminboard_id from adminre where adminboard_id=#adminboard_id#
+	
+	</selectKey> 
+	
+</insert>
+
+</sqlMap>

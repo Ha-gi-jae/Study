@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--※필수※ 아이콘, 스타일-->
+    <script src="https://kit.fontawesome.com/b69eadd32e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../../../Real_Final_Pages/css/FinalStyle.css">
+    <link rel="stylesheet" href="../../../Real_Final_Pages/css/FinalMainStyle.css">
+    <!--↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑-->
+	
+	<link rel="icon" type="image/png" href="../../../Real_Final_Pages/images/logoIcon.PNG" sizes="96x93">
+	
+    <title>Share Project</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="../../../js/jquery-3.6.0.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../../../js/jquery.serializejson.min.js"></script>
+<script>
+pageNo = 1;
+$(function(){
+	groupByAllClass();
+	
+	$(document).on('click', '.page', function(){
+		pageNo = $(this).html();
+		groupByAllClass();
+	})
+	
+	$(document).on('click', '.pre', function(){
+		pageNo = $(this).attr('name');
+		groupByAllClass();
+	})
+	
+	$(document).on('click', '.next', function(){
+		pageNo = $(this).attr('name');
+		groupByAllClass();
+	})
+	
+	class_id = '';
+	chk = '';
+	
+	chkList = function(){
+		$("input[name=class_chk]:checked").each(function(){
+			chk += $(this).val()+",";
+		})
+	}
+	
+	$(document).on('click', '#deleteclass', function(){
+		chkList();
+		$.ajax({
+			url: '/ShareProject/ClassUpdateMember.do',
+			type: 'post',
+			data: {"chk" : chk},
+			dataType: 'json',
+			success : function(res){
+				$.ajax({
+					url: '/ShareProject/DeleteClass.do',
+					type: 'get',
+					data: {"chk" : chk},
+					dataType: 'json',
+					success:function(res2){
+						location.reload();
+						alert("반삭제 성공");
+					},
+					error:function(xhr2){
+						alert(xhr2.status);
+					}
+				})
+			},
+			error: function(xhr){
+				alert(xhr.status);
+			}
+		})
+	})
+	// 반
+	$(document).on('click', '.classid', function(){
+		class_id = $(this).parents('.tr1').find('.classid').text();
+		class_name = $(this).parents('.tr1').find('.classname').text();
+		
+		$('#updateClassModal .classnm').val(class_name);
+		$('#updateClassModal .classi').val(class_id);
+		
+		$('#updateClassModal').modal('show');
+		
+		
+		$(document).on('click', '#bupdate', function(){
+			datas = $('#updateClassModal form').serialize();
+			$.ajax({
+				url: '/ShareProject/UpdateClass.do',
+				data: datas,
+				type: 'post',
+				dataType: 'json',
+				success: function(res){
+					$('#updateClassModal .fin').val("");
+					$('#updateClassModal').modal('hide');
+					location.href="/ShareProject/whole/admin/admin_html/adminClass.html";
+				},
+				error: function(xhr){
+					alert(xhr.status);
+				}
+			})
+		})
+	})
+		
+	$(document).on('click', '.classname', function(){
+		class_id = $(this).parents('.tr1').find('.class_chk').val();
+				location.href="/ShareProject/SelectClassMember.do?classid=" + class_id +"";
+	})
+	
+})
+
+	groupByAllClass = function(){
+		$.ajax({
+			url: '/ShareProject/SelectAllClass.do',
+			type: 'get',
+			data: {'pageNo' : pageNo},
+			dataType: 'html',
+			success: function(res){
+				$('#boardBox').html(res);
+			},
+			error: function(xhr){
+				alert(xhr.status);
+			}
+		})
+	}
+
+
+</script>
+	
+
+</head>
+
+<body>
+    <div id="page-wrap">
+        <aside id="leftMenu">
+            <div id="logoImg">
+                <img id="mainlogo" src="../../../Real_Final_Pages/images/menulogo.PNG" alt="mainlogo">
+            </div>
+
+            <div id="infoBox">
+                <div id="stuInfoBox">
+                    <h2>공밀레</h2>
+                    <div id="subjectBox">
+                        <p id="subject">[기업맞춤형] 전자정부 표준 프레임워크 기반 풀-스택 개발자 양성과정(15기)</p>
+                    </div>
+                    
+                    <div id="MMLOption">
+                        <a class="infOption" href="./AdminPage.html"><i class="fas fa-house-user"></i>&nbsp;마이페이지</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a class="infOption" href="../../../whole/member/message.html"><i class="far fa-envelope"></i>&nbsp;쪽지</a>
+                        <br>
+                        <a class="infOption" href="../../../Real_Final_Pages/Final_LoginPage.html"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="classBtn">
+                <a href="#"><input type="button" class="clButton" value="클래스 입장하기"></a>
+            </div>
+            <ul id="ulBox">
+                <li class="menuList"><a class="aMenuList" href="/ShareProject/Cal.do"><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;기관일정</a></li>
+                <li class="menuList"><a class="aMenuList" href="../../../whole/board/NoticBoard.html"><i class="mIcons fas fa-exclamation-circle"></i>&nbsp;&nbsp;공지사항</a></li>
+                <li class="menuList"><a class="aMenuList" href="#"><i class="mIcons fas fa-paperclip"></i>&nbsp;&nbsp;자료공유</a></li>
+                <li class="menuList"><a class="aMenuList" href="#"><i class="mIcons far fa-file-alt"></i>&nbsp;&nbsp;보강자료</a></li>
+                <li class="menuList"><a class="aMenuList" href="../../../whole/board/WHQnABoard.html"><i class="mIcons fas fa-question-circle"></i>&nbsp;&nbsp;질문게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="../../../whole/board/FreeBoard.html"><i class="mIcons fas fa-users"></i>&nbsp;&nbsp;자유게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="../../../whole/board/MarketBoard.html"><i class="mIcons fas fa-shopping-basket"></i>&nbsp;&nbsp;장터게시판</a></li>
+                <li class="menuList"><a class="aMenuList" href="../../../whole/board/ReviewBoard.html"><i class="mIcons fas fa-user-graduate"></i>&nbsp;&nbsp;수료후기</a></li>
+                <li class="menuList"><a class="aMenuList" href="../../../whole/board/ComBoard.html"><i class="mIcons far fa-building"></i>&nbsp;&nbsp;회사정보</a></li>
+                <li class="menuList"><a class="aMenuList" href="../../../whole/board/SuggestBoard.html"><i class="mIcons fas fa-wrench"></i>&nbsp;&nbsp;건의사항</a></li>
+            </ul>
+            <div id="copyBox">
+                <p id="copyright">Copyright 2021 Share Project<br>
+                Design: 공밀레</p>
+            </div>
+        </aside>
+
+        <aside id="rightMain">
+            <div id="boardBox"></div>
+	<input onclick="history.go(-1);" type="button" value="뒤로가기">
+        </aside>
+    </div>
+	<!-- Modal -->
+<div id="updateClassModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">반 수정</h4>
+      </div>
+      <div class="modal-body">
+   <h3>^_^</h3>
+           <form action="/ShareProject/UpdateClass.do" method="post">
+         	  <br>
+         	  <label>반 이름</label>
+         	  <input class="fin classnm" type="text" name="class_name"><br>
+
+			  <input class="fin classi" type="hidden" name="class_id">
+         	  <button type="button" id="bupdate" class="btn btn-success">등록</button>
+           </form> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

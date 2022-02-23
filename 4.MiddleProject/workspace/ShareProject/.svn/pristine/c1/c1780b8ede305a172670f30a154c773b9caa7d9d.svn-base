@@ -1,0 +1,27 @@
+package kr.or.ddit.admin.dao;
+
+import java.sql.SQLException;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.util.SqlMapClientFactory;
+
+public class AdminDaoImpl implements IAdminDao {
+	
+	private SqlMapClient client;
+	private static IAdminDao dao;
+	
+	public AdminDaoImpl() {
+		this.client = SqlMapClientFactory.getInstance();
+	}
+	
+	public static IAdminDao getDao() {
+		if(dao == null) dao = new AdminDaoImpl();
+		return dao;
+	}
+
+	@Override
+	public String adCheck(String admin_id) throws SQLException {
+		return (String) client.queryForObject("admin.adCheck", admin_id);
+	}
+}
