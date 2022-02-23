@@ -1,0 +1,8 @@
+package abstraction02;
+
+public class GetPrint {
+
+	for(int i = 0; i < 900; i++){
+		System.out.println("[statistics:insp]INSP0428000001,2022-02-18");
+	}
+}
