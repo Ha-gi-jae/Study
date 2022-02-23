@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Ltct-Mapper">
+
+<sql id="search">
+	<if test="searchType == 'n'.toString()">
+		AND PSTI_NM LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType == 't'.toString()">
+		AND PSTI_TELNO LIKE '%'||#{keyword}||'%'
+	</if>
+</sql>
+
+<sql id="hsptSerch">
+	<if test="searchType == 'adres'.toString()">
+		AND inst_adres like '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType == 'name'.toString()">
+		AND inst_nm like '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType == 'telno'.toString()">
+		AND inst_telno like '%'||#{keyword}||'%'
+	</if>
+	<if test="rmndSckbdCntCheck">
+		and RMND_SCKBD_CNT > 0
+	</if>
+</sql>
+
+<select id="selectLtctByInstNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.LtctVO">
+SELECT
+    ltct_no
+   ,inst_no
+   ,inst_nm
+   ,inst_adres
+   ,inst_telno
+   ,emp_cnt
+   ,rmnd_sckbd_cnt
+   ,sckbd_cnt
+   ,area_no
+FROM
+    ltct
+WHERE
+    inst_no = #{instNo}
+</select>
+
+<select id="selectLtctByLtctNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.LtctVO">
+SELECT
+    ltct_no
+   ,inst_no
+   ,inst_nm
+   ,inst_adres
+   ,inst_telno
+   ,emp_cnt
+   ,rmnd_sckbd_cnt
+   ,sckbd_cnt
+   ,area_no
+FROM
+    ltct
+WHERE
+    ltct_no = #{ltctNo}
+</select>
+<select id="selectLtctCityNo" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT 
+	  	   CODE_NM2 
+	  FROM CMMN_CODE 
+	 WHERE CODE_NM1 = #{city}
+
+</select>
+
+<select id="selectLtctNextVal" resultType="java.lang.Integer">
+	SELECT 
+		LTCT_SEQ.NEXTVAL AS LTCT_SEQ 
+	  FROM DUAL
+</select>
+
+<select id="selectInstNextval" resultType="java.lang.Integer">
+	SELECT
+		INST_SEQ.NEXTVAL AS INST_SEQ
+	  FROM DUAL
+</select>
+
+
+<update id="insertLtct" parameterType="com.spring.compass.vo.LtctVO">
+	INSERT INTO LTCT(
+                 LTCT_NO
+                ,INST_NO
+                ,INST_NM
+                ,INST_ADRES
+                ,INST_TELNO
+                ,AREA_NO
+        )VALUES(
+                #{ltctNo}
+               ,#{instNo}
+               ,#{instNm}
+               ,#{instAdres}
+               ,#{instTelno}
+               ,#{cityNo}
+        )
+</update>
+
+<update id="insertInst" parameterType="com.spring.compass.vo.InstVO">
+	INSERT INTO INST(
+                      INST_NO
+                     ,INST_CODE
+                     ,CHILD_NO
+                     ,INST_NM
+                     ,INST_TELNO
+                     ,INST_ADRES
+                    )
+              VALUES(
+                     #{instNo}
+                    ,#{instCode}
+                    ,#{childNo}
+                    ,#{instNm}
+                    ,#{instTelno}
+                    ,#{instAdres}
+                    )
+</update>
+<!-- 입소자 리스트 -->
+<select id="selectIsoptntListCount" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="java.lang.Integer">
+  SELECT  COUNT(A.ISOPTNT_NO)
+                 FROM ISOPTNT A, PSTI B , (SELECT C.HSPT_NM, D.MANAGE_NO
+                                             FROM SCKBDREQ C, (SELECT MAX(SCKBDREQ_NO) AS SCKBDREQ_NO, MANAGE_NO FROM SCKBDREQ GROUP BY MANAGE_NO) D
+                                            WHERE C.SCKBDREQ_NO = D.SCKBDREQ_NO) E
+                WHERE A.MANAGE_NO = B.MANAGE_NO
+                  AND A.MANAGE_NO = E.MANAGE_NO
+                  AND LTCT_NO = #{ltctNo}
+                  AND OUT_YMD IS NULL
+                  <include refid="search"/>
+</select>
+<select id="selectIsoptntList" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="com.spring.compass.command.IsoptntListVO">
+SELECT RNUM, ISOPTNT_NO, AGE, MANAGE_NO, BDTEMP, PSTI_NM, GENDER, PSTI_TELNO,IN_YMD, HSPT_NM
+  FROM (SELECT ROWNUM AS RNUM,
+  			   ISOPTNT_NO,
+	           fn_get_age_by_psti_no(psti_no) as AGE,
+               MANAGE_NO,
+               BDTEMP,
+               PSTI_NM,
+               GENDER,
+               IN_YMD,
+               PSTI_TELNO,
+               HSPT_NM
+          FROM (SELECT A.ISOPTNT_NO,
+          			   A.BDTEMP,
+                       A.MANAGE_NO,
+                       A.IN_YMD,
+                       B.PSTI_NO,
+                       B.PSTI_NM,
+                       B.GENDER,
+                       B.PSTI_TELNO,
+                       E.HSPT_NM
+                  FROM ISOPTNT A, PSTI B , (SELECT C.HSPT_NM, D.MANAGE_NO
+                                              FROM SCKBDREQ C, (SELECT MAX(SCKBDREQ_NO) AS SCKBDREQ_NO, MANAGE_NO FROM SCKBDREQ GROUP BY MANAGE_NO) D
+                                             WHERE C.SCKBDREQ_NO = D.SCKBDREQ_NO) E
+                 WHERE A.MANAGE_NO = B.MANAGE_NO
+                   AND A.MANAGE_NO = E.MANAGE_NO
+                   AND LTCT_NO = #{ltctNo}
+                   AND OUT_YMD IS NULL
+                   <include refid="search"/>
+                   ORDER BY BDTEMP DESC
+                ) AA
+        )AAA
+ WHERE AAA.RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<select id="selectBasicDetail" parameterType="java.lang.String" resultType="com.spring.compass.vo.LtctBasicDetailVO">
+SELECT CODE_NM1 AS VAC, AGE, PSTI_NM, NLTY, GENDER, FEVER_YN, PREGN_YN, PSTI_TELNO, MANAGE_NO, RRN, PSTI_ADRES, SYMPTMS, CNFM_NO, IN_YMD, NGTV_CNT, MIN_BRSSR, MAX_BRSSR, BDHEIGHT, BDWEIGHT, BDHEAT, PSTI_NO
+  FROM (SELECT A.PSTI_NM, A.NLTY, A.VAC_CODE, A.GENDER, FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE, A.PSTI_NO, A.FEVER_YN, A.PREGN_YN, A.PSTI_TELNO, A.MANAGE_NO, A.RRN, A.PSTI_ADRES, A.SYMPTMS, C.CNFM_NO, C.IN_YMD, C.NGTV_CNT, D.MIN_BRSSR, D.MAX_BRSSR, D.BDHEIGHT, D.BDWEIGHT, D.BDHEAT
+  		  FROM PSTI A, (SELECT MANAGE_NO, MAX(SCKBDREQ_YMD) AS SCKBDREQ_YMD 
+  		  				  FROM SCKBDREQ
+ 						 GROUP BY MANAGE_NO) B, CNFM C, HTSC D
+ 		 WHERE A.MANAGE_NO = B.MANAGE_NO
+   		   AND A.PSTI_NO = D.PSTI_NO
+   		   AND B.MANAGE_NO = C.MANAGE_NO
+   		   AND B.MANAGE_NO = #{manageNo}) D, CMMN_CODE E
+ WHERE D.VAC_CODE = E.CMMN_CODE
+</select>
+<select id="selectSckbdreqYmd" parameterType="java.lang.String" resultType="com.spring.compass.vo.LtctBasicDetailVO">
+SELECT MANAGE_NO, HSPT_NO, MAX(SCKBDREQ_YMD) AS SCKBDREQ_YMD
+                      FROM SCKBDREQ
+                     WHERE MANAGE_NO = #{manageNo}
+                       AND REQUEST_CODE = 'M101'
+                  GROUP BY MANAGE_NO, HSPT_NO
+</select>
+<select id="selectSmplResult" parameterType="java.lang.String" resultType="java.util.Date">
+   SELECT RES_YMD
+     FROM SMPL_RESULT
+    WHERE SMPL_NO = #{smplNo}
+</select>
+<select id="selectLtctInYmdByManageNo" parameterType="java.lang.String" resultType="java.util.Date">
+SELECT IN_YMD
+  FROM ISOPTNT
+ WHERE MANAGE_NO = #{manageNo}
+</select>
+<select id="selectLastReq" parameterType="java.lang.String" resultType="com.spring.compass.vo.LtctBasicDetailVO">
+SELECT A.REQ_YMD, A.SMPL_RES_CODE, A.SMPL_NO, A.PBHT_NO
+  FROM SMPL A,
+                (SELECT MANAGE_NO, MAX(REQ_YMD) AS REQ_YMD
+                   FROM SMPL
+                  GROUP BY MANAGE_NO) B
+ WHERE A.MANAGE_NO = B.MANAGE_NO
+   AND A.REQ_YMD = B.REQ_YMD
+   AND A.MANAGE_NO = #{manageNo}
+</select>
+<select id="selectIsoptntDgnssNote" parameterType="java.lang.String" resultType="com.spring.compass.vo.LtctBasicDetailVO">
+SELECT D.DGNSS_NOTE,
+	   D.DGNSS_RESULT_CODE,
+	   D.DGNSS_NO
+  FROM (SELECT MAX(B.RES_YMD) AS RES_YMD,
+               A.DGNSS_NO
+          FROM DGNSS A, DGNSS_RESULT B
+         WHERE A.DGNSS_NO = B.DGNSS_NO
+           AND MANAGE_NO = #{manageNo}
+         GROUP BY A.DGNSS_NO
+         ORDER BY A.DGNSS_NO DESC)C, DGNSS_RESULT D
+    WHERE C.DGNSS_NO = D.DGNSS_NO
+</select>
+
+<select id="selectResListCount" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="java.lang.Integer">
+SELECT COUNT(A.MANAGE_NO)
+          FROM (SELECT A.*
+                  FROM SMPL A, (SELECT MANAGE_NO, MAX(REQ_YMD) AS REQ_YMD
+                                  FROM SMPL
+                                 GROUP BY MANAGE_NO) B
+                                 WHERE A.MANAGE_NO = B.MANAGE_NO
+                                   AND A.REQ_YMD = B.REQ_YMD) A, SMPL_RESULT B, CNFM C, PSTI D, ISOPTNT E
+                 WHERE A.SMPL_NO = B.SMPL_NO
+                   AND A.MANAGE_NO = C.MANAGE_NO
+                   AND A.MANAGE_NO = D.MANAGE_NO
+                   AND A.MANAGE_NO = E.MANAGE_NO
+                   AND C.NGTV_CNT &lt; 3
+                   AND E.LTCT_NO = #{ltctNo}
+                   <include refid="search"/>
+</select>
+<select id="selectResList" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="com.spring.compass.command.LtctResListVO">
+SELECT RNUM, MANAGE_NO, REQ_YMD, SMPL_RES_CODE, PSTV_YN, NGTV_CNT, PSTI_NM, AGE, GENDER, RES_YMD
+  FROM (SELECT ROWNUM AS RNUM, MANAGE_NO, REQ_YMD, SMPL_RES_CODE, PSTV_YN, NGTV_CNT, PSTI_NM, AGE, GENDER, RES_YMD
+ 	      FROM (SELECT A.MANAGE_NO,
+           		       A.REQ_YMD,
+           		       A.SMPL_RES_CODE,
+           		       B.RES_YMD,
+           		       B.PSTV_YN,
+           		       C.NGTV_CNT,
+            		   D.PSTI_NM,
+              		   FN_GET_AGE_BY_PSTI_NO(D.PSTI_NO) AS AGE,
+        		       D.GENDER
+        	      FROM (SELECT A.*
+                  	   	  FROM SMPL A, (SELECT MANAGE_NO, MAX(REQ_YMD) AS REQ_YMD
+                                  	      FROM SMPL
+                                 	     GROUP BY MANAGE_NO) B
+                                 	     WHERE A.MANAGE_NO = B.MANAGE_NO
+                                   		   AND A.REQ_YMD = B.REQ_YMD) A, SMPL_RESULT B, CNFM C, PSTI D, ISOPTNT E
+                 WHERE A.SMPL_NO = B.SMPL_NO
+                   AND A.MANAGE_NO = C.MANAGE_NO
+                   AND A.MANAGE_NO = D.MANAGE_NO
+                   AND A.MANAGE_NO = E.MANAGE_NO
+                   AND C.NGTV_CNT &lt; 3
+                   AND E.LTCT_NO = #{ltctNo}
+                   <include refid="search"/>
+                 ORDER BY REQ_YMD DESC) AA)
+ WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+<select id="selectSckbdListCount" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="java.lang.Integer">
+SELECT COUNT(B.MANAGE_NO)
+  FROM PSTI A, (SELECT MANAGE_NO,
+		   		 	   HSPT_NO,
+		   		   	   HSPT_NM,
+		   		  	   SCKBDREQ_YMD
+		     	  FROM SCKBDREQ
+		    	 WHERE CHILD_NO = #{ltctNo}
+		      	   AND SCKBDREQ_CODE IN ('H101','H102')) B
+ WHERE A.MANAGE_NO = B.MANAGE_NO
+ <include refid="search"/>
+</select>
+<select id="selectSckbdList" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="com.spring.compass.command.LtctSckbdListVO">
+SELECT RNUM, MANAGE_NO, HSPT_NO, SCKBDREQ_YMD, PSTI_NM, AGE, PSTI_TELNO, HSPT_NM, GENDER
+  FROM (SELECT ROWNUM AS RNUM, MANAGE_NO, HSPT_NO, SCKBDREQ_YMD, PSTI_NM, AGE, PSTI_TELNO, HSPT_NM, GENDER
+  		  FROM (SELECT B.MANAGE_NO,
+		   		       B.HSPT_NO,
+		 		       B.HSPT_NM,
+				       B.SCKBDREQ_YMD,
+				       A.PSTI_NM,
+				       A.GENDER,
+		 		       FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE,
+		 		       A.PSTI_TELNO
+				  FROM PSTI A, (SELECT MANAGE_NO,
+		   		  	 				   HSPT_NO,
+		   							   HSPT_NM,
+		   				 	   		   SCKBDREQ_YMD
+		    			  		  FROM SCKBDREQ
+		 			     		 WHERE CHILD_NO = #{ltctNo}
+		 			       		   AND SCKBDREQ_CODE IN ('H101','H102')) B
+		 		 WHERE A.MANAGE_NO = B.MANAGE_NO
+		 		 <include refid="search"/>
+		 		 ORDER BY SCKBDREQ_YMD DESC)
+		)
+	WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+<select id="selectSckbdCount" parameterType="java.lang.String" resultType="com.spring.compass.command.LtctSckbdCountAndStats">
+SELECT RMND_SCKBD_CNT,
+          SCKBD_CNT
+     FROM LTCT
+    WHERE LTCT_NO = #{ltctNo}
+</select>
+<select id="selectSckbdStats" parameterType="java.lang.String" resultType="com.spring.compass.command.LtctSckbdCountAndStats">
+SELECT REQ_DGNSS_CNT,
+       IN_ISOPTNT_CNT,
+       OUT_ISOPTNT_CNT,
+       TOT_ISOPTNT_CNT,
+       RLSED_CNT
+  FROM LTCTSTATS
+ WHERE TRUNC(STATS_YMD) = TRUNC(SYSDATE -1) 
+   AND LTCT_NO = #{ltctNo}
+</select>
+<select id="selectIsoptntHighTempCardList" parameterType="java.lang.String" resultType="com.spring.compass.command.LtctIsoptntHighTempCardListVO">
+SELECT A.BDTEMP,
+       B.PSTI_NM,
+       B.PSTI_TELNO,
+       B.SYMPTMS,
+       B.MANAGE_NO,
+       A.IN_YMD
+  FROM ISOPTNT A, PSTI B
+ WHERE A.MANAGE_NO = B.MANAGE_NO
+   AND OUT_YMD IS NULL
+   AND LTCT_NO = #{ltctNo}
+   AND BDTEMP &gt;= 37.5
+   AND ROWNUM &lt;= 12
+ ORDER BY A.BDTEMP DESC
+</select>
+<select id="selectDgnssTodayByManageNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*)
+  FROM (SELECT MAX(REQ_YMD) AS REQ_YMD,
+               MANAGE_NO
+          FROM DGNSS
+         WHERE MANAGE_NO = #{manageNo}
+           AND trunc(REQ_YMD) = trunc(SYSDATE)
+         GROUP BY MANAGE_NO) A
+</select>
+<select id="selectSmplTodayByManageNo" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+SELECT count(manage_no)
+  FROM (SELECT MAX(REQ_YMD) AS REQ_YMD,
+               MANAGE_NO
+               FROM SMPL
+         WHERE MANAGE_NO = #{manageNo}
+           AND INST_NO = #{instNo}
+         GROUP BY MANAGE_NO)
+ WHERE trunc(REQ_YMD) = trunc(SYSDATE)
+</select>
+
+<update id="updateSckbdCnt" parameterType="com.spring.compass.command.LtctUpdateSckbdCntCommand">
+UPDATE LTCT
+   SET SCKBD_CNT = #{sckbdCnt},
+   	   RMND_SCKBD_CNT = #{rmndSckbdCnt}
+ WHERE LTCT_NO = #{ltctNo}
+</update>
+
+<!-- 북마크 기관 가져오기 -->
+<select id="selectHsptBookmarkListCount" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="java.lang.Integer">
+SELECT COUNT(*)
+  FROM HSPT A, BOOKMARK B
+ WHERE B.TO_INST_NO = A.HSPT_NO
+   AND B.FROM_INST_NO = #{ltctNo}
+   <include refid="hsptSerch" />
+</select>
+<select id="selectHsptBookmarkList" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="com.spring.compass.command.DgnssHsptVO">
+select rnum, A.*
+  from (select rownum as rnum, A.*
+  		  from (select *
+  				  from (select * 
+	    				  from (SELECT
+       		 	     				   hspt_no
+       								   ,inst_no
+				       				   ,inst_nm
+							           ,inst_adres
+							           ,inst_telno
+							           ,emp_cnt
+							           ,sckbd_cnt
+							           ,rmnd_sckbd_cnt
+							           ,area_no
+							           ,fn_get_op_rate_by_hspt_no(hspt_no) as op_rate
+   								   FROM hspt
+			   					  where hspt_no is not null
+			     				    and inst_adres like '%'||#{myArea}||'%'
+			     					and rmnd_sckbd_cnt != 0
+			   				      order by rmnd_sckbd_cnt desc
+			 					 ) A
+						union all
+   						select * 
+	 					  from (SELECT
+							           hspt_no
+							          ,inst_no
+							          ,inst_nm
+							          ,inst_adres
+							          ,inst_telno
+							          ,emp_cnt
+							          ,sckbd_cnt
+							          ,rmnd_sckbd_cnt
+							          ,area_no
+							          ,fn_get_op_rate_by_hspt_no(hspt_no) as op_rate
+					    		 FROM hspt
+    	   					    where hspt_no is not null
+     		 					  and hspt_no not in (SELECT hspt_no
+     		 					  					    FROM hspt
+           						  					   where hspt_no is not null
+             											 and inst_adres like '%'||#{myArea}||'%'
+             											 and rmnd_sckbd_cnt != 0
+    												) 
+     	   					    order by rmnd_sckbd_cnt desc,  inst_adres asc
+     	  					) A 
+     			)A 
+where hspt_no is not null)A )A
+where rnum between #{startRowNum} AND #{endRowNum}
+
+</select>
+<select id="selectHsptAllList" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="com.spring.compass.command.DgnssHsptVO">
+SELECT RNUM, HSPT_NO, INST_NO, INST_NM, INST_ADRES, INST_TELNO, EMP_CNT, SCKBD_CNT, RMND_SCKBD_CNT, AREA_NO, OP_RATE
+  FROM (SELECT ROWNUM AS RNUM, HSPT_NO, INST_NO, INST_NM, INST_ADRES, INST_TELNO, EMP_CNT, SCKBD_CNT, RMND_SCKBD_CNT, AREA_NO, OP_RATE
+  		  FROM (SELECT HSPT_NO,
+	   			       INST_NO,
+	   		   		   INST_NM,
+	   		   		   INST_ADRES,
+	   		   		   INST_TELNO,
+	   		   		   EMP_CNT,
+	   		   		   SCKBD_CNT,
+	   		   		   RMND_SCKBD_CNT,
+	   		   		   AREA_NO,
+	   		   		   FN_GET_OP_RATE_BY_HSPT_NO(HSPT_NO) AS OP_RATE
+  		  		  FROM HSPT
+ 		 		 WHERE HSPT_NO IS NOT NULL
+ 		 		 <include refid="hsptSerch" />
+ 		 		 ORDER BY CASE WHEN INST_ADRES LIKE '%'||#{myArea}||'%' THEN INST_ADRES END ASC)
+ 	)
+ WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+<select id="selectHsptAllListCount" parameterType="com.spring.compass.command.LtctSearchCommand" resultType="java.lang.Integer">
+SELECT COUNT(*)
+  FROM HSPT
+ WHERE HSPT_NO IS NOT NULL
+ <include refid="hsptSerch" />
+</select>
+<select id="selectMyArea" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT INST_ADRES
+  FROM LTCT
+ WHERE LTCT_NO = #{ltctNo}
+</select>
+<select id="selectHsptDetail" parameterType="java.lang.String" resultType="com.spring.compass.command.DgnssHsptVO">
+SELECT
+    hspt_no
+   ,inst_no
+   ,inst_nm
+   ,inst_adres
+   ,inst_telno
+   ,emp_cnt
+   ,sckbd_cnt
+   ,rmnd_sckbd_cnt
+   ,area_no
+   ,fn_get_op_rate_by_hspt_no(hspt_no) as op_rate
+FROM
+    hspt
+    where hspt_no = #{hsptNo}
+</select>
+<update id="hsptDgnssRegist" parameterType="java.util.HashMap">
+INSERT
+	   INTO 
+			DGNSS
+				   (DGNSS_NO, HSPT_NO, TYPE, CHILD_NO, MANAGE_NO, DGNSS_CODE)
+			VALUES 
+				   (#{dgnssNo}, #{hsptNo}, 'B', #{ltctNo}, #{manageNo}, 'G101')
+</update>
+<update id="hsptRmndSckbdCntMinus" parameterType="java.util.HashMap">
+UPDATE HSPT
+   SET RMND_SCKBD_CNT = RMND_SCKBD_CNT - 1
+ WHERE HSPT_NO = #{hsptNo}
+</update>
+
+<!-- 병상신청 반려 -->
+<update id="updateSckbdreqReturn" parameterType="java.lang.String">
+UPDATE SCKBDREQ
+   SET SCKBDREQ_CODE = 'H105'
+ WHERE SCKBDREQ_NO = #{sckbdreqNo}
+</update>
+<update id="updateRmndSckbdCntReturn" parameterType="java.lang.String">
+UPDATE LTCT
+   SET RMND_SCKBD_CNT = RMND_SCKBD_CNT + 1
+ WHERE LTCT_NO = #{ltctNo}
+</update>
+<!-- 병상신청 승인 -->
+<update id="updateSckbdreqOk" parameterType="java.lang.String">
+UPDATE SCKBDREQ
+   SET SCKBDREQ_CODE = 'H103',
+       ACCEPT_YMD = sysdate
+ WHERE SCKBDREQ_NO = #{sckbdreqNo}
+</update>
+
+<select id="selectLastSckbdreqNoByManageNo" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT MAX(SCKBDREQ_NO) AS SCKBDREQ_NO
+  FROM (SELECT MAX(SCKBDREQ_YMD) AS SCKBDREQ_YMD,
+       SCKBDREQ_NO
+  FROM SCKBDREQ
+ WHERE MANAGE_NO = #{manageNo}
+ GROUP BY SCKBDREQ_NO)
+</select>
+
+<update id="updateHsptSckbdCntOk" parameterType="java.lang.String">
+UPDATE HSPT
+   SET RMND_SCKBD_CNT = RMND_SCKBD_CNT + 1
+ WHERE HSPT_NO = #{hsptNo}
+</update>
+<update id="updateManageSttusCodeOk" parameterType="com.spring.compass.command.LtctSckbdreqOkCommand">
+UPDATE MANAGE
+   SET STTUS_CODE = 'A106',
+       INST_NO = #{instNo},
+       INST_NM = #{instNm}
+ WHERE MANAGE_NO = #{manageNo}
+</update>
+<update id="insertIsoptntOk" parameterType="com.spring.compass.command.LtctSckbdreqOkCommand">
+INSERT INTO 
+			ISOPTNT
+					(ISOPTNT_NO, LTCT_NO, MANAGE_NO, IN_YMD, HSPTLZ_CODE, BDTEMP)
+			 VALUES (#{isoptntNo}, #{ltctNo}, #{manageNo}, sysdate, 'E101', #{bdtemp})
+</update>
+<select id="selectIsoptntSeq" resultType="java.lang.String">
+	SELECT ISOPTNT_SEQ.NEXTVAL FROM DUAL
+</select>
+<select id="selectPbhtListByAreaNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.PbhtVO">
+SELECT INST_NM,
+      PBHT_NO
+  FROM PBHT
+ WHERE AREA_NO = #{areaNo}
+</select>
+<select id="selectSmplSeq" resultType="java.lang.String">
+SELECT SMPL_SEQ.NEXTVAL FROM DUAL
+</select>
+<select id="selectDgnssSeq" resultType="java.lang.String">
+	SELECT DGNSS_SEQ.NEXTVAL FROM DUAL
+</select>
+<update id="manageSttusCodeUpdate" parameterType="java.util.HashMap">
+UPDATE manage
+    SET
+       sttus_code = #{sttusCode}
+WHERE
+    manage_no =#{manageNo}
+    and update_ymd = sysdate
+</update>
+<select id="selectPbhtByPbhtNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.LtctBasicDetailVO">
+SELECT INST_NM,
+	   INST_ADRES,
+	   INST_TELNO
+  FROM PBHT
+ WHERE PBHT_NO = #{pbhtNo}
+</select>
+<update id="insertSmplByLtct" parameterType="com.spring.compass.command.LtctRequestSmplVO">
+INSERT INTO SMPL(SMPL_NO, PBHT_NO, INST_NO, MANAGE_NO, CHKD_YN, REQ_YMD, SMPL_RES_CODE, INST_CODE)
+			VALUES(#{smplNo}, #{pbhtNo}, #{instNo}, #{manageNo}, 'N', sysdate, 'K101', 'C104')
+</update>
+
+<select id="selectLtctBackupList" resultType="com.spring.compass.vo.LtctVO">
+	SELECT 
+		LTCT_NO
+	   ,INST_NM
+	   ,INST_ADRES
+	   ,INST_TELNO
+	   ,EMP_CNT
+	 FROM LTCT
+</select>
+
+<select id="selectIsoptntNoList" resultType="java.lang.String">
+	SELECT
+		ISOPTNT_NO
+	  FROM ISOPTNT	
+</select>
+
+<update id="modifyIsoptntBdtempByIsoptntNo" parameterType="com.spring.compass.vo.IsoptntVO">
+	UPDATE ISOPTNT
+	   SET BDTEMP = #{bdtemp}
+	 WHERE ISOPTNT_NO=#{isoptntNo}
+</update>
+
+<select id="selectLtctStatsSeq" resultType="java.lang.String">
+	SELECT LTCTSTATS_SEQ.NEXTVAL FROM DUAL
+</select>
+
+<select id="selectAllLtctNo" resultType="java.lang.String">
+	SELECT LTCT_NO FROM LTCT
+</select>
+
+<insert id="insertLtctStats" parameterType="com.spring.compass.vo.LtctStatsVO">
+	INSERT INTO LTCTSTATS (
+		    LTCTSTATS_NO
+		   ,LTCT_NO
+		   ,STATS_YMD
+	) VALUES (
+		#{ltctStatsNo}
+	   ,#{ltctNo}
+	   ,SYSDATE
+	)
+</insert>
+
+<select id="selectLtctStatusNo" parameterType="com.spring.compass.vo.LtctStatsVO"
+		resultType="java.lang.String">
+	SELECT
+	    LTCTSTATS_NO
+	FROM
+	    LTCTSTATS
+	WHERE
+		LTCT_NO = #{ltctNo}
+		AND TO_CHAR(STATS_YMD,'yyyy-MM-dd') = #{statsYmd}	
+
+</select>
+
+<select id="selectLtctStatusNoByQuery" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT LTCTSTATS_NO
+  	  FROM LTCTSTATS
+     WHERE LTCT_NO = #{ltctNo}
+       AND STATS_YMD BETWEEN TRUNC(SYSDATE) AND TRUNC(SYSDATE) + 1
+
+</select>
+
+<select id="selectOutIsoptntCnt" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+  	  FROM ISOPTNT
+	 WHERE LTCT_NO = #{ltctNo}
+       AND HSPTLZ_CODE ='E103'		
+       AND OUT_YMD BETWEEN TRUNC(SYSDATE) AND TRUNC(SYSDATE) + 1
+</select>
+
+<update id="updateOutIsoptntCnt" parameterType="com.spring.compass.vo.LtctStatsVO">
+	UPDATE LTCTSTATS
+	   SET OUT_ISOPTNT_CNT =#{outIsoptntCnt}
+	 WHERE LTCTSTATS_NO =#{ltctStatsNo}
+</update>
+
+<select id="selectTotIsoptntCnt" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+  	  FROM ISOPTNT
+ 	WHERE LTCT_NO = #{ltctNo}
+      AND HSPTLZ_CODE ='E101'
+</select>
+
+<update id="updateTotIsoptntCnt" parameterType="com.spring.compass.vo.LtctStatsVO">
+	UPDATE LTCTSTATS
+	   SET TOT_ISOPTNT_CNT =#{totIsoptntCnt}
+	 WHERE LTCTSTATS_NO =#{ltctStatsNo}
+</update>
+
+<select id="selectRlsedCnt" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+  	  FROM ISOPTNT
+ 	 WHERE LTCT_NO = #{ltctNo}
+       AND HSPTLZ_CODE ='E102'
+</select>
+
+<update id="updateRlsedCnt" parameterType="com.spring.compass.vo.LtctStatsVO">
+	UPDATE LTCTSTATS
+	   SET RLSED_CNT =#{rlsedCnt}
+	 WHERE LTCTSTATS_NO =#{ltctStatsNo}
+</update>
+
+<update id="updateReqDgnssCnt" parameterType="com.spring.compass.vo.LtctStatsVO">
+	UPDATE LTCTSTATS
+	   SET REQ_DGNSS_CNT =#{reqDgnssCnt}
+	 WHERE LTCTSTATS_NO =#{ltctStatsNo}
+</update>
+
+<update id="updateInIsoptntCnt" parameterType="com.spring.compass.vo.LtctStatsVO">
+	UPDATE LTCTSTATS
+	   SET IN_ISOPTNT_CNT =#{inIsoptntCnt}
+	 WHERE LTCTSTATS_NO =#{ltctStatsNo}
+</update>
+
+<update id="updateReqDgnssAndInIsoptnt" parameterType="com.spring.compass.vo.LtctStatsVO">
+	UPDATE LTCTSTATS
+	   SET REQ_DGNSS_CNT =#{reqDgnssCnt},
+	   	   IN_ISOPTNT_CNT =#{inIsoptntCnt}
+	 WHERE LTCTSTATS_NO =#{ltctStatsNo}
+</update>
+<update id="updatePstiInfo" parameterType="com.spring.compass.vo.InspPstiVO">
+UPDATE PSTI
+   SET PSTI_NM = #{pstiNm},
+   	   PSTI_ADRES = #{pstiAdres},
+   	   PSTI_TELNO = #{pstiTelno},
+   	   PREGN_YN = #{pregnYn}
+ WHERE PSTI_NO = #{pstiNo}
+</update>
+<select id="selectModifyCancel" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspPstiVO">
+SELECT PSTI_NM,
+	   PSTI_ADRES,
+	   PSTI_TELNO,
+	   PREGN_YN
+  FROM PSTI
+ WHERE PSTI_NO = #{pstiNo}
+</select>
+
+<select id="selectPstiAdres" parameterType="java.lang.String" resultType="com.spring.compass.command.PstiAdresVO">
+SELECT PSTI_ADRES,
+	   AREA_NO
+  FROM PSTI
+ WHERE MANAGE_NO = #{mangeNo}
+</select>
+
+<update id="insertBookMarkRegist" parameterType="java.util.HashMap">
+INSERT INTO BOOKMARK (FROM_INST_NO, TO_INST_NO, FROM_INST_CODE, TO_INST_CODE)
+ 	   VALUES(#{from_ltctNo}, #{to_hsptNo}, #{fromCode}, #{toCode})
+</update>
+
+<select id="selectBookMark" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+SELECT COUNT(*)
+  FROM BOOKMARK
+ WHERE FROM_INST_NO = #{ltctNo}
+   AND TO_INST_NO = #{hsptNo}
+</select>
+
+<update id="deleteBookMark" parameterType="java.util.HashMap">
+DELETE FROM BOOKMARK
+ WHERE FROM_INST_NO = #{from_ltctNo}
+   AND TO_INST_NO = #{to_hsptNo}
+</update>
+<select id="selectRmndSckbdCntByHsptNo" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT RMND_SCKBD_CNT
+  FROM HSPT
+ WHERE HSPT_NO = #{hsptNo}
+</select>
+
+<select id="selectIsoptntCountByLtctNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(ISOPTNT_NO)
+  FROM ISOPTNT
+ WHERE LTCT_NO = #{ltctNo}
+   AND OUT_YMD IS NULL
+</select>
+<select id="selectSckbdreqCountByLtctNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(MANAGE_NO)
+  FROM SCKBDREQ
+ WHERE CHILD_NO = #{ltctNo}
+   AND SCKBDREQ_CODE IN ('H101', 'H102')
+</select>
+<select id="selectNgtvCntByManageNo" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT NGTV_CNT
+  FROM CNFM
+ WHERE MANAGE_NO = #{manageNo}
+</select>
+<select id="selectDgnssResultByDgnssNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(DGNSS_NO)
+  FROM DGNSS_RESULT
+ WHERE DGNSS_NO = #{dgnssNo}
+</select>
+<select id="selectDgnssResultCntByManageNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(B.DGNSS_NO)
+  FROM (SELECT MAX(DGNSS_NO) AS DGNSS_NO,
+               MANAGE_NO
+          FROM DGNSS
+         WHERE MANAGE_NO = #{manageNo}
+         GROUP BY MANAGE_NO) A, DGNSS_RESULT B
+ WHERE A.DGNSS_NO = B.DGNSS_NO
+</select>
+</mapper>
+
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+ 	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<authentication-manager>
+		<authentication-provider ref="customAuthenticationProvider"></authentication-provider>
+	</authentication-manager>
+	
+	<beans:bean id="customAuthenticationProvider"
+				class="com.spring.compass.security.CustomAuthenticationProvider"
+				p:mberService-ref="mberService"
+	/>
+	
+	<http pattern="/resources/**" security="none" />
+	<http pattern="/guest/**" security="none" />
+	<http use-expressions="true" pattern="/**">
+		<access-denied-handler error-page="/security/accessDenied"/>
+		
+		<intercept-url pattern="/**" access="permitAll" />
+		
+		<form-login login-page="/common/loginForm.do?error=1"
+					login-processing-url="/common/login.do"
+					username-parameter="mberId"
+					password-parameter="mberPwd"
+					authentication-success-handler-ref="loginSuccessHandler"
+					authentication-failure-handler-ref="loginFailureHandler"
+		/>
+		
+		<logout logout-url="/common/logout.do"
+				logout-success-url="/"
+				invalidate-session="true"
+				delete-cookies="JSESSIONID"
+		/>
+		
+		<session-management invalid-session-url="/common/loginTimeOut">
+			<concurrency-control expired-url="/common/loginExpired"
+								 max-sessions="1"
+								 session-registry-ref="sessionRegistry"
+			/>
+		</session-management>
+	</http>
+	
+	<beans:bean id="loginSuccessHandler"
+				class="com.spring.compass.security.LoginSuccessHandler"
+				p:mberService-ref="mberService"
+				p:inspService-ref="inspService"
+				p:pbhtService-ref="pbhtService"
+				p:hsptService-ref="hsptService"
+				p:ltctService-ref="ltctService"
+				p:defaultTargetUrl="/common/set-session"
+	/>
+	
+	<beans:bean id="loginFailureHandler"
+				class="com.spring.compass.security.LoginFailureHandler"
+				p:adminService-ref="adminService"
+				p:savePath-ref="loginFailUserFilePath"
+				p:saveFileName-ref="loginFailUserFileName"
+	/>
+	
+	<beans:bean id="sessionRegistry"
+				class="org.springframework.security.core.session.SessionRegistryImpl"
+	/>
+	
+	
+</beans:beans>

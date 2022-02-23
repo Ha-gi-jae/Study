@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Stats-Mapper">
+
+<select id="selectHstpStatsByStatsNo" parameterType="com.spring.compass.vo.HsptStatsVO" resultType="com.spring.compass.vo.HsptStatsVO">
+SELECT
+    hsptstats_no
+   ,hspt_no
+   ,dgnss_cnt
+   ,req_sckbd_cnt
+   ,inptnt_cnt
+   ,go_ltct_cnt
+   ,go_slf_cnt
+   ,out_cnt
+   ,death_cnt
+   ,rlsed_cnt
+   ,cur_inptnt_cnt
+   ,req_smple_cnt
+   ,smple_pstv_cnt
+   ,smple_ngtv_cnt
+   ,rmnd_sckbd_cnt
+   ,sckbd_cnt
+   ,avg_inptnt_age
+   ,avg_out_period
+   ,stats_ymd
+FROM
+    hsptstats where hsptstats_no=#{hsptStatsNo}
+
+</select> 
+
+<select id="selectHsptMainStatsBySysdate" resultType="com.spring.compass.command.HsptMainSckbdCommand">
+select hspt_no, inptnt_cnt, rlsed_cnt, go_cnt, death_cnt
+from
+(select  hspt_no
+        ,sum(inptnt_cnt) as inptnt_cnt
+        ,sum(rlsed_cnt) as rlsed_cnt
+        ,sum(req_sckbd_cnt) + sum(go_ltct_cnt) as go_cnt
+        ,sum(death_cnt) as death_cnt
+  from hsptstats
+where stats_ymd between sysdate - 30 and sysdate
+group by hspt_no)
+where hspt_no = #{hsptNo}
+</select>
+
+</mapper>

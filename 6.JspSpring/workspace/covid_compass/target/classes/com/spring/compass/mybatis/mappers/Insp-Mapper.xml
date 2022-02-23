@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Insp-Mapper">
+
+<sql id="search">
+	<if test="searchType == 'n'.toString()">
+		AND A.PSTI_NM LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType == 't'.toString()">
+		AND A.PSTI_TELNO LIKE  '%'||#{keyword}||'%'
+	</if>	
+</sql>
+
+
+
+<select id="test">
+select 1 from dual
+</select>
+
+<update id="insertPsti" parameterType="com.spring.compass.vo.PstiVO">
+INSERT INTO psti (
+    psti_no
+   ,insp_no
+   ,psti_nm
+   ,rrn
+   ,gender
+   ,pregn_yn
+   ,nlty
+   ,psti_telno
+   ,psti_adres
+   ,job_code
+   ,fever_yn
+   ,symptms
+   ,vac_code
+   ,wrt_ymd
+   ,del_ymd
+   ,rechkd_yn
+   ,chkd_yn
+   ,manage_no
+) VALUES (
+#{pstiNo}
+, #{inspNo}
+, #{pstiNm}
+, #{rrn}
+, #{gender}
+, #{pregnYn}
+, #{nlty}
+, #{pstiTelno}
+, #{pstiAdres}
+, #{jobCode}
+, #{feverYn}
+, #{sysptms}
+, #{vacCode}
+   ,SYSDATE
+   ,SYSDATE + 1
+, #{rechkdYn}
+   ,'N'
+   ,NULL
+)
+</update>
+
+<update id="updatePstiInfo" parameterType="com.spring.compass.vo.InspPstiVO">
+	UPDATE PSTI
+	   SET PSTI_NM = #{pstiNm},
+	       PSTI_ADRES = #{pstiAdres},
+	       PSTI_TELNO = #{pstiTelno},
+	       PREGN_YN = #{pregnYn}
+	 WHERE PSTI_NO = #{pstiNo}
+</update>
+
+<select id="selectInspNm" parameterType="java.lang.String" resultType="java.lang.String">
+select
+	inst_nm
+from insp
+where insp_no = #{inspNo}
+</select>
+
+<!-- pcr키트 리스트 -->
+<select id="selectPcrKitListCount" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="java.lang.Integer">
+SELECT COUNT(KITHIST_NO)
+  FROM KITHIST A, MBER B
+ WHERE A.INSPEMP_NO = B.MBER_NO
+   AND INSP_NO = #{inspNo}
+</select>
+<select id="selectPcrKitList" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="com.spring.compass.vo.PcrKitVO" >
+SELECT RNUM, KITHIST_NO, INSP_NO, INSPEMP_NO, INPUT_CNT, INPUT_YMD, MBER_NM
+  FROM (SELECT ROWNUM AS RNUM, KITHIST_NO, INSP_NO, INSPEMP_NO, INPUT_CNT, INPUT_YMD, MBER_NM
+  		  FROM (SELECT A.KITHIST_NO, A.INSP_NO, A.INSPEMP_NO, A.INPUT_CNT, A.INPUT_YMD, B.MBER_NM
+  	      		  FROM KITHIST A, MBER B
+ 	     		 WHERE A.INSPEMP_NO = B.MBER_NO
+   		   		   AND INSP_NO = #{inspNo}
+ 		 		 ORDER BY A.INPUT_YMD DESC)
+ 	   )
+ WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+<!-- 기관 잔여 pcr 키트 수 -->
+<select id="selectPcrKitCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT RMND_KIT_CNT
+  FROM INSP
+ WHERE INSP_NO = #{inspNo}
+</select>
+<!-- 기관 키트 누적 수량-->
+<select id="selectTotalKitCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT SUM(INPUT_CNT) AS INPUT_CNT
+  FROM KITHIST
+ WHERE INSP_NO = #{inspNo}
+</select>
+<!-- 피검자 리스트 -->
+<select id="selectPstiListCount" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="java.lang.Integer">
+SELECT COUNT(A.PSTI_NO)
+  FROM PSTI A
+ WHERE A.INSP_NO = #{inspNo}
+   AND A.CHKD_YN = 'N'
+  <include refid="search"/>
+</select>
+<select id="selectPstiList" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="com.spring.compass.vo.InspPstiVO">
+SELECT RNUM, JOB, VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO
+  FROM (SELECT ROWNUM AS RNUM, CODE_NM1 AS JOB, VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO
+          FROM (SELECT CODE_NM1 AS VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO
+                  FROM (SELECT A.PSTI_NO, A.INSP_NO, A.PSTI_NM, A.NLTY, FN_GET_BIR_BY_PSTI_NO(A.PSTI_NO) AS BIR, FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE, A.GENDER, A.RRN, A.PSTI_TELNO, A.JOB_CODE, A.PSTI_ADRES, A.WRT_YMD, A.RECHKD_YN, A.CHKD_YN, A.VAC_CODE, A.FEVER_YN, A.PREGN_YN, A.SYMPTMS, A.MANAGE_NO, A.AREA_NO
+                          FROM PSTI A
+                         WHERE INSP_NO = #{inspNo}
+                           AND CHKD_YN = 'N'
+                           <include refid="search"/>
+                           ORDER BY A.WRT_YMD desc), CMMN_CODE B
+                 WHERE VAC_CODE = CMMN_CODE ), CMMN_CODE C
+         WHERE JOB_CODE = CMMN_CODE) AAA
+ WHERE AAA.RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+       
+
+</select>
+<!-- 피검자 디테일 -->
+<select id="selectPstiDetail" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspPstiVO">
+SELECT CODE_NM1 AS JOB, VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO
+          FROM (SELECT CODE_NM1 AS VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO
+                  FROM (SELECT A.PSTI_NO, A.INSP_NO, A.PSTI_NM, A.NLTY, FN_GET_BIR_BY_PSTI_NO(A.PSTI_NO) AS BIR, FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE, A.GENDER, A.RRN, A.PSTI_TELNO, A.JOB_CODE, A.PSTI_ADRES, A.WRT_YMD, A.RECHKD_YN, A.CHKD_YN, A.VAC_CODE, A.FEVER_YN, A.PREGN_YN, A.SYMPTMS, A.MANAGE_NO, A.AREA_NO
+                          FROM PSTI A
+                         WHERE PSTI_NO = #{pstiNo}
+                           AND CHKD_YN = 'N'), CMMN_CODE B
+                 WHERE VAC_CODE = CMMN_CODE ), CMMN_CODE C
+         WHERE JOB_CODE = CMMN_CODE
+</select>
+<select id="selectChckdDetail" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspChckdVO">
+SELECT CODE_NM1 AS JOB, VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO, MAX_BRSSR, MIN_BRSSR, BDHEIGHT, BDWEIGHT, BDHEAT, HTSC_YMD
+          FROM (SELECT CODE_NM1 AS VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO, MAX_BRSSR, MIN_BRSSR, BDHEIGHT, BDWEIGHT, BDHEAT, HTSC_YMD
+                  FROM (SELECT A.PSTI_NO, A.INSP_NO, A.PSTI_NM, A.NLTY, FN_GET_BIR_BY_PSTI_NO(A.PSTI_NO) AS BIR, FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE, A.GENDER, A.RRN, A.PSTI_TELNO, A.JOB_CODE, A.PSTI_ADRES, A.WRT_YMD, A.RECHKD_YN, A.CHKD_YN, A.VAC_CODE, A.FEVER_YN, A.PREGN_YN, A.SYMPTMS, A.MANAGE_NO, A.AREA_NO, E.MAX_BRSSR, E.MIN_BRSSR, E.BDHEIGHT, E.BDWEIGHT, E.BDHEAT, E.HTSC_YMD
+                          FROM PSTI A, HTSC E
+                         WHERE A.PSTI_NO = E.PSTI_NO
+                           AND A.PSTI_NO = #{pstiNo}
+                           AND CHKD_YN = 'Y'
+                           AND REQ_YN = 'N'
+                           ), CMMN_CODE B
+                 WHERE VAC_CODE = CMMN_CODE ), CMMN_CODE C
+         WHERE JOB_CODE = CMMN_CODE
+</select>
+<!-- 검사요청 리스트 -->
+<select id="selectChckdListCount" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="java.lang.Integer">
+	SELECT COUNT(A.PSTI_NO)
+	  FROM PSTI A, HTSC E
+     WHERE A.PSTI_NO = E.PSTI_NO
+       AND A.INSP_NO = #{inspNo}
+       AND A.CHKD_YN = 'Y'
+       AND A.REQ_YN = 'N'
+<include refid="search"/>
+</select>
+<select id="selectChckdList" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="com.spring.compass.vo.InspChckdVO">
+SELECT RNUM, JOB, VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO, MAX_BRSSR, MIN_BRSSR, BDHEIGHT, BDWEIGHT, BDHEAT, HTSC_YMD
+  FROM (SELECT ROWNUM AS RNUM, CODE_NM1 AS JOB, VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO, MAX_BRSSR, MIN_BRSSR, BDHEIGHT, BDWEIGHT, BDHEAT, HTSC_YMD
+          FROM (SELECT CODE_NM1 AS VAC, PSTI_NO, INSP_NO, PSTI_NM, NLTY, BIR, AGE, GENDER, RRN, PSTI_TELNO, JOB_CODE, PSTI_ADRES, WRT_YMD, RECHKD_YN, CHKD_YN, VAC_CODE, FEVER_YN, PREGN_YN, SYMPTMS, MANAGE_NO, AREA_NO, MAX_BRSSR, MIN_BRSSR, BDHEIGHT, BDWEIGHT, BDHEAT, HTSC_YMD
+                  FROM (SELECT A.PSTI_NO, A.INSP_NO, A.PSTI_NM, A.NLTY, FN_GET_BIR_BY_PSTI_NO(A.PSTI_NO) AS BIR, FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE, A.GENDER, A.RRN, A.PSTI_TELNO, A.JOB_CODE, A.PSTI_ADRES, A.WRT_YMD, A.RECHKD_YN, A.CHKD_YN, A.VAC_CODE, A.FEVER_YN, A.PREGN_YN, A.SYMPTMS, A.MANAGE_NO, A.AREA_NO, E.MAX_BRSSR, E.MIN_BRSSR, E.BDHEIGHT, E.BDWEIGHT, E.BDHEAT, E.HTSC_YMD
+                          FROM PSTI A, HTSC E
+                         WHERE A.PSTI_NO = E.PSTI_NO
+                           AND A.INSP_NO = #{inspNo}
+                           AND A.CHKD_YN = 'Y'
+                           AND A.REQ_YN = 'N'
+                           <include refid="search"/>
+                         ORDER BY E.HTSC_YMD DESC), CMMN_CODE B
+                 WHERE VAC_CODE = CMMN_CODE ), CMMN_CODE C
+         WHERE JOB_CODE = CMMN_CODE) AAA
+ WHERE AAA.RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<!-- 결과조회 리스트 -->
+<select id="selectPbhtInfoByPbhtNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspResultVO">
+SELECT INST_NM,
+	   INST_ADRES,
+	   INST_TELNO
+  FROM PBHT
+ WHERE PBHT_NO = #{pbhtNo}
+</select>
+<select id="selectResultListCount" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="java.lang.Integer">
+	SELECT COUNT(A.PSTI_NO)
+  		  FROM PSTI A, HTSC B, (SELECT A.SMPL_NO ,A.PBHT_NO ,A.INST_NO ,A.MANAGE_NO ,A.CHKD_YN ,A.REQ_YMD ,A.SMPL_RES_CODE, A.INST_CODE ,B.PSTV_YN ,B.RES_YMD
+                          FROM SMPL A, SMPL_RESULT B
+                       WHERE A.SMPL_NO = B.SMPL_NO(+)
+                    ) C
+ WHERE A.PSTI_NO = B.PSTI_NO
+   AND C.MANAGE_NO = A.MANAGE_NO
+   AND C.INST_CODE = 'C101'
+   AND A.INSP_NO = #{inspNo}
+      <include refid="search"/>
+</select>
+<select id="selectSmplCountByManageNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*)
+  FROM SMPL
+ WHERE INST_NO = 'INST018000001'
+   AND INST_CODE = 'C101'
+   AND MANAGE_NO = #{manageNo}
+</select>
+
+<select id="selectResultList" parameterType="com.spring.compass.command.InspPstiSearchCommand" resultType="com.spring.compass.vo.InspResultVO">
+ SELECT RNUM, PSTI_NO, NLTY, GENDER, FEVER_YN, PREGN_YN, RRN, PSTI_TELNO, PSTI_ADRES, SYMPTMS, PSTI_NM, HTSC_YMD, AGE, VAC_CODE, RECHKD_YN, SMPL_NO, PSNO, MANAGE_NO, SMPL_RES_CODE, RES_YMD, REQ_YMD
+   FROM (SELECT ROWNUM AS RNUM, PSTI_NO, NLTY, GENDER, FEVER_YN, PREGN_YN, RRN, PSTI_TELNO, PSTI_ADRES, SYMPTMS, PSTI_NM, HTSC_YMD, AGE, VAC_CODE, RECHKD_YN, SMPL_NO, PSNO, MANAGE_NO, SMPL_RES_CODE, RES_YMD, REQ_YMD
+  		   FROM (SELECT A.PSTI_NO, A.NLTY, A.GENDER, A.FEVER_YN, A.PREGN_YN, A.RRN, A.PSTI_TELNO, A.PSTI_ADRES, A.SYMPTMS, A.PSTI_NM, B.HTSC_YMD, FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE, A.VAC_CODE, A.RECHKD_YN, B.PSTI_NO AS PSNO, C.SMPL_NO, C.REQ_YMD, A.MANAGE_NO, C.SMPL_RES_CODE, C.RES_YMD,C.INST_CODE
+  		  		   FROM PSTI A, HTSC B, (SELECT A.SMPL_NO ,A.PBHT_NO ,A.INST_NO ,A.MANAGE_NO ,A.CHKD_YN ,A.REQ_YMD ,A.SMPL_RES_CODE, A.INST_CODE ,B.PSTV_YN ,B.RES_YMD
+                          				   FROM SMPL A, SMPL_RESULT B
+                         				  WHERE A.SMPL_NO = B.SMPL_NO(+)
+                    				    ) C
+ 			      WHERE A.PSTI_NO = B.PSTI_NO
+   					AND C.MANAGE_NO = A.MANAGE_NO
+   					AND C.INST_CODE = 'C101'
+   					AND A.INSP_NO = #{inspNo}
+   					<include refid="search"/>
+ 				  ORDER BY C.REQ_YMD desc)
+ 		)
+  WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+<!-- 결과조회 디테일 -->
+<select id="selectResultDetail" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspResultVO">
+SELECT ROWNUM AS RNUM, A.PSTI_NO, A.NLTY, A.GENDER, A.FEVER_YN, A.PREGN_YN, A.RRN, A.PSTI_TELNO, A.PSTI_ADRES, A.SYMPTMS, A.PSTI_NM, B.HTSC_YMD, FN_GET_AGE_BY_PSTI_NO(A.PSTI_NO) AS AGE, A.VAC_CODE, A.RECHKD_YN, B.PSTI_NO AS PSNO, C.SMPL_NO, A.MANAGE_NO, C.SMPL_RES_CODE, C.RES_YMD
+  FROM PSTI A, HTSC B, (SELECT A.SMPL_NO ,A.PBHT_NO ,A.INST_NO ,A.MANAGE_NO ,A.CHKD_YN ,A.REQ_YMD ,A.SMPL_RES_CODE ,B.PSTV_YN ,B.RES_YMD
+                          FROM SMPL A, SMPL_RESULT B
+                       WHERE A.SMPL_NO = B.SMPL_NO(+)
+                    ) C
+ WHERE A.PSTI_NO = B.PSTI_NO
+   AND C.MANAGE_NO = A.MANAGE_NO
+   AND C.SMPL_NO = #{smplNo}
+</select>
+<select id="selectPstiByPstiNo" parameterType="java.lang.String">
+SELECT
+    psti_no
+   ,insp_no
+   ,psti_nm
+   ,rrn
+   ,gender
+   ,pregn_yn
+   ,nlty
+   ,psti_telno
+   ,psti_adres
+   ,job_code
+   ,fever_yn
+   ,symptms
+   ,vac_code
+   ,wrt_ymd
+   ,del_ymd
+   ,rechkd_yn
+   ,chkd_yn
+   ,manage_no
+FROM
+    psti
+WHERE
+	PSTI_NO = #{pstiNo}
+</select>
+<select id="selectPstiSeqNextval">
+SELECT PSTI_SEQ.NEXTVAL AS PSTI_SEQ
+FROM DUAL
+</select>
+<select id="selectPstiNo" parameterType="java.lang.String">
+SELECT 'PSTI' || TO_CHAR(SYSDATE, 'YYYYMMDD') || #{pstiSeq} AS PSTI_NO
+FROM DUAL
+</select>
+<select id="selectInspByInstNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspVO">
+SELECT
+    insp_no
+   ,pbht_no
+   ,inst_no
+   ,inst_nm
+   ,inst_adres
+   ,inst_telno
+   ,emp_cnt
+   ,rmnd_kit_cnt
+   ,area_no
+FROM
+    insp
+WHERE
+    inst_no = #{instNo}
+
+</select>
+
+<select id="selectInspCityNo" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT 
+		CODE_NM2 
+	FROM 
+		CMMN_CODE 
+	WHERE 
+		CODE_NM1=#{city}
+</select>
+
+<select id="selectInspNextval" resultType="java.lang.String">
+	SELECT INSP_SEQ.NEXTVAL AS INSP_SEQ FROM DUAL
+</select>
+
+<select id="selectInstNextval" resultType="java.lang.String">
+	SELECT INST_SEQ.NEXTVAL AS INST_SEQ FROM DUAL
+</select>
+
+<update id="insertInsp" parameterType="com.spring.compass.vo.InspVO">
+	INSERT INTO INSP(
+			         INSP_NO
+			        ,PBHT_NO
+			        ,INST_NO
+			        ,INST_NM
+			        ,INST_ADRES
+			        ,INST_TELNO
+			        ,AREA_NO
+			        )
+	          VALUES(
+	        		#{inspNo}
+	        	   ,#{pbhtNo}
+	        	   ,#{instNo}
+	        	   ,#{instNm}
+	        	   ,#{instAdres}
+	               ,#{instTelno}
+	               ,#{cityNo}
+	       			)
+</update>	
+
+<update id="insertInst" parameterType="com.spring.compass.vo.InspVO">
+	INSERT INTO INST(
+                      INST_NO
+                     ,INST_CODE
+                     ,CHILD_NO
+                    )
+              VALUES(
+                     #{instNo}
+                    ,#{instCode}
+                    ,#{childNo}
+                    )
+</update>
+
+<select id="selectResponsibleAgency" resultType="java.lang.String">
+	select pbht_no from pbht where inst_nm = #{responsible}
+</select>
+<!-- 문진표등록 -->
+<update id="updateHtscQuestion" parameterType="com.spring.compass.command.InspPstiRegistCommand">
+UPDATE HTSC
+   SET MAX_BRSSR = #{maxBrssr},
+   	   MIN_BRSSR = #{minBrssr},
+   	   BDHEIGHT = #{bdheight},
+   	   BDWEIGHT = #{bdweight},
+   	   BDHEAT = #{bdheat},
+   	   HTSC_YMD = SYSDATE
+ WHERE PSTI_NO = #{pstiNo} 
+</update>
+<update id="insertHtscQuestion" parameterType="com.spring.compass.command.InspPstiRegistCommand">
+INSERT INTO HTSC(PSTI_NO, MAX_BRSSR, MIN_BRSSR, BDHEIGHT, BDWEIGHT, BDHEAT, HTSC_YMD)
+	      VALUES(#{pstiNo}, #{maxBrssr}, #{minBrssr}, #{bdheight}, #{bdweight}, #{bdheat}, sysdate)
+</update>
+
+<update id="insertPstiQuestion" parameterType="java.lang.String">
+UPDATE PSTI
+   SET CHKD_YN = 'Y',
+       REQ_YN = 'N',
+       DEL_YMD = null
+ WHERE PSTI_NO = #{pstiNo}
+</update>
+<update id="updateInspKit" parameterType="com.spring.compass.command.InspPstiRegistCommand">
+UPDATE INSP
+   SET RMND_KIT_CNT = #{rmndKitCnt}
+ WHERE INSP_NO = #{inspNo}
+</update>
+
+<!-- 검사요청 -->
+<update id="insertSmplInfo" parameterType="com.spring.compass.command.InspSmplRequestCommand">
+INSERT 
+INTO SMPL
+(SMPL_NO, PBHT_NO, INST_NO, MANAGE_NO, CHKD_YN, REQ_YMD, SMPL_RES_CODE, INST_CODE)
+VALUES
+(#{smplNo}, #{pbhtNo}, #{instNo}, #{manageNo}, 'N', sysdate, 'K101', 'C101')
+</update>
+
+<update id="insertManageInfo" parameterType="com.spring.compass.command.InspSmplRequestCommand">
+INSERT INTO MANAGE(MANAGE_NO, STTUS_CODE, UPDATE_YMD, INST_NM, INST_NO)
+		  VALUES(#{manageNo}, 'A101', sysdate, #{instNm}, #{instNo})
+</update>
+<update id="updateManageInfoManage" parameterType="com.spring.compass.command.InspSmplRequestCommand">
+UPDATE MANAGE
+   SET STTUS_CODE = 'A101',
+       UPDATE_YMD = sysdate,
+       INST_NM = #{instNm},
+       INST_NO = #{instNo}
+ WHERE MANAGE_NO = #{manageNo}
+</update>
+<update id="updateManageInfo" parameterType="com.spring.compass.command.InspSmplRequestCommand">
+UPDATE PSTI
+   SET MANAGE_NO = #{manageNo}
+ WHERE PSTI_NO = #{pstiNo}
+</update>
+<update id="updatePstiReq" parameterType="java.lang.String">
+UPDATE PSTI
+   SET REQ_YN = 'Y'
+ WHERE PSTI_NO = #{pstiNo}
+</update>
+<select id="selectManageNoByPstiNo" parameterType ="java.lang.String" resultType="java.lang.String">
+SELECT MANAGE_NO
+  FROM PSTI
+ WHERE PSTI_NO = #{pstiNo}
+</select>
+<select id="selectSmplSeq" resultType="java.lang.String">
+SELECT SMPL_SEQ.NEXTVAL
+  FROM DUAL
+</select>
+<select id="selectManageSeq" resultType="java.lang.String">
+SELECT MANAGE_SEQ.NEXTVAL
+  FROM DUAL
+</select>
+<select id="selectKitHistSeq" resultType="java.lang.String">
+SELECT KITHIST_SEQ.NEXTVAL
+  FROM DUAL
+</select>
+<update id="insertKitHist" parameterType="com.spring.compass.vo.KitHistVO">
+INSERT INTO KITHIST(KITHIST_NO, INSP_NO, INSPEMP_NO, INPUT_CNT, INPUT_YMD)
+			VALUES (#{kithistNo}, #{inspNo}, #{inspempNo}, #{inputCnt}, sysdate)
+</update>
+<select id="selectInspAllInspNo" resultType="java.lang.String">
+  SELECT INSP_NO
+  FROM INSP
+</select>
+<select id="selectInspstatsSeq" resultType="java.lang.String">
+	SELECT INSPSTATS_SEQ.NEXTVAL FROM DUAL
+</select>
+
+<update id="insertInspStats" parameterType="com.spring.compass.vo.InspStatsVO">
+	INSERT INTO INSPSTATS(
+				INSPSTATS_NO
+			   ,INSP_NO
+			   ,REQ_SMPLE_CNT
+			   ,STATS_YMD		
+				)VALUES(
+				#{inspstatsNo}
+			   ,#{inspNo}
+			   ,0
+			   ,SYSDATE
+			  )
+</update>
+
+
+<select id="selectInspStatusNo" parameterType="com.spring.compass.vo.InspStatsVO"
+		resultType="java.lang.String">
+SELECT
+    INSPSTATS_NO
+FROM
+    INSPSTATS
+WHERE
+	INSP_NO = #{inspNo}
+	AND TO_CHAR(STATS_YMD,'yyyy-MM-dd') = #{statsYmd}	
+
+</select>
+
+<update id="updateInspStatus" parameterType="com.spring.compass.vo.InspStatsVO">
+	UPDATE INSPSTATS
+	   SET REQ_SMPLE_CNT = #{reqSmpleCnt}
+	 WHERE INSPSTATS_NO = #{inspstatsNo}
+	   AND TO_CHAR(STATS_YMD, 'yyyy-MM-dd') =#{statsYmd}
+</update>
+
+<select id="selectInspBackup" resultType="com.spring.compass.vo.InspVO">
+	SELECT
+		INSP_NO
+	   ,INST_NM
+	   ,INST_ADRES
+	   ,INST_TELNO
+	   ,EMP_CNT
+	 FROM INSP
+</select>
+
+<select id="selectInspByInspNo" parameterType="java.lang.String"
+		resultType="com.spring.compass.vo.InspVO">
+	SELECT
+	    INSP_NO
+	   ,PBHT_NO
+	   ,INST_NO
+	   ,INST_NM
+	   ,INST_ADRES
+	   ,INST_TELNO
+	   ,EMP_CNT
+	   ,RMND_KIT_CNT
+	   ,AREA_NO
+	FROM
+	    INSP
+	WHERE
+		INSP_NO = #{inspNo}
+</select>
+<select id="selectInspStatsByInspNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspStatsVO">
+SELECT REQ_SMPLE_CNT,
+       TO_CHAR(STATS_YMD, 'YYYY-MM-DD') AS STATS_YMD
+  FROM INSPSTATS
+ WHERE INSP_NO = #{inspNo}
+   AND STATS_YMD BETWEEN trunc(SYSDATE-7) AND trunc(SYSDATE)
+ ORDER BY STATS_YMD
+</select>
+<select id="selectModifyCancel" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspPstiVO">
+SELECT PSTI_NM,
+	   PSTI_ADRES,
+	   PSTI_TELNO,
+	   PREGN_YN
+  FROM PSTI
+ WHERE PSTI_NO = #{pstiNo}
+</select>
+
+<select id="selectResultByManageNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.InspPstiVO">
+SELECT PSTV_YN,
+       RES_YMD,
+       C.SMPL_NO,
+       D.MANAGE_NO
+  FROM SMPL_RESULT C, (SELECT A.SMPL_NO, A.MANAGE_NO
+          FROM SMPL A, (SELECT MANAGE_NO, MAX(REQ_YMD) AS REQ_YMD
+                          FROM SMPL
+                         WHERE MANAGE_NO = #{manageNo}
+                         GROUP BY MANAGE_NO) B
+         WHERE A.MANAGE_NO = B.MANAGE_NO
+           AND A.REQ_YMD = B.REQ_YMD) D
+ WHERE C.SMPL_NO = D.SMPL_NO
+</select>
+
+<delete id="deletePsti">
+DELETE
+  FROM PSTI
+ WHERE DEL_YMD &lt; SYSDATE 
+</delete>
+
+<select id="selectHtscByPstiNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*)
+  FROM HTSC
+ WHERE PSTI_NO = #{pstiNo}
+</select>
+
+<select id="selectKitYnCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*)
+  FROM KITHIST
+ WHERE INSP_NO = #{inspNo}
+</select>
+</mapper>
+
+
+
+
+
+
+

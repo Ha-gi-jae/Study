@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Mber-Mapper">
+
+<select id="selectMberById" parameterType="java.lang.String"
+		resultType="com.spring.compass.vo.MberVO" >
+		SELECT MBER_NO
+			   ,INST_NO
+			   ,MBER_CODE
+			   ,MBER_ID
+			   ,MBER_PWD
+			   ,MBER_TELNO
+			   ,MBER_EMAIL
+			   ,USE_YN
+			   ,MBER_REGDATE
+			   ,MBER_NM
+			   ,MBER_ADRES
+			   ,MBER_BIR
+		  FROM MBER
+		 WHERE MBER_ID = #{mberId}
+</select>
+
+<select id="findByInfo" parameterType="com.spring.compass.vo.MberVO" resultType="com.spring.compass.vo.MberVO">
+	SELECT MBER_NO
+		   ,MBER_TELNO
+		   ,MBER_NM
+		   ,MBER_ID
+	  FROM MBER
+	 WHERE MBER_NM = #{mberNm}
+	   AND MBER_TELNO = #{mberTelno}
+</select>
+
+<update id="updatePwd" parameterType="com.spring.compass.vo.MberVO">
+	UPDATE MBER
+	   SET MBER_PWD = #{mberPwd}
+	 WHERE MBER_NO = #{mberNo}
+</update>
+
+<select id="selectMbserSeq" resultType="java.lang.String">
+	SELECT MBER_SEQ.NEXTVAL AS MBERSEQ FROM DUAL
+</select>
+
+<update id="insertMberRepresent" parameterType="com.spring.compass.vo.MberVO">
+	INSERT INTO mber (
+            mber_no
+            , inst_no
+            , mber_code
+            , mber_id
+            , mber_pwd
+            , mber_telno
+            , mber_nm
+            , mber_adres
+            ) VALUES (
+            #{mberNo}
+            ,#{instNo} 
+            ,#{mberCode}
+            ,#{mberId}
+            ,#{mberPwd}
+            ,#{mberTelno}
+            ,#{mberNm}
+            ,#{mberAdres}
+            )
+</update>
+<update id="updateInfo" parameterType="com.spring.compass.vo.MberVO">
+UPDATE MBER
+   SET MBER_TELNO = #{mberTelno},
+       MBER_ADRES = #{mberAdres},
+       MBER_EMAIL = #{mberEmail}
+ WHERE MBER_NO = #{mberNo}
+</update>
+<select id="selectDetailByMberNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.MberVO">
+SELECT B.INST_NM,
+       A.MBER_NO,
+       A.MBER_TELNO,
+       A.MBER_EMAIL,
+       A.MBER_BIR,
+       A.MBER_ADRES,
+       A.MBER_NM,
+       A.INST_NO
+  FROM MBER A, INST B
+ WHERE A.INST_NO = B.INST_NO
+   AND MBER_NO = #{mberNo}
+</select>
+
+<select id="selectMberManageList" parameterType="com.spring.compass.command.MberManageCommand" resultType="com.spring.compass.vo.MberVO">
+SELECT RNUM, MBER_NO, MBER_ID, MBER_CODE, MBER_NM, MBER_BIR, MBER_TELNO, MBER_EMAIL, MBER_ADRES
+  FROM ( SELECT ROWNUM AS RNUM, mber_code, MBER_NO, MBER_ID, MBER_NM, MBER_BIR, MBER_TELNO, MBER_EMAIL, MBER_ADRES
+  		   FROM (SELECT mber_no,
+		   		   	    mber_id,
+		   		   	    mber_code,
+		  			    mber_nm,
+		 			    mber_bir,
+				 	    mber_telno,
+					    mber_email,
+		   			    mber_adres
+				   FROM
+	    			    mber
+				  where use_yn = 'Y' and INST_NO=#{instNo}
+				  order by case when mber_code like '%'||'B12'||'%' then mber_code end asc)
+		)
+ WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<select id="selectMberManageCount" parameterType="com.spring.compass.command.MberManageCommand" resultType="java.lang.Integer">
+SELECT COUNT(INST_NO)
+  FROM mber
+where  use_yn = 'Y' and INST_NO=#{instNo}
+</select>
+
+<update id="insertMber" parameterType="com.spring.compass.vo.MberVO">
+INSERT INTO mber (
+    mber_no,
+    inst_no,
+    mber_code,
+    mber_id,
+    mber_pwd,
+    mber_telno,
+    mber_email,
+    use_yn,
+    mber_regdate,
+    mber_nm,
+    mber_adres,
+    mber_bir
+) VALUES (
+    #{mberNo},
+    #{instNo},
+    #{mberCode},
+    #{mberId},
+    #{mberPwd},
+    #{mberTelno},
+    #{mberEmail},
+    'Y',
+    sysdate,
+    #{mberNm},
+    #{mberAdres},
+    #{mberBir}
+)
+</update>
+
+<update id="deleteMber" parameterType="java.lang.String">
+UPDATE MBER
+  SET USE_YN = 'N'
+ WHERE MBER_NO = #{mberNo}
+</update>
+
+</mapper>

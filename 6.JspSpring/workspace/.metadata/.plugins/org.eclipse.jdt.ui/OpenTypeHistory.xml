@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=command_bootstrap/D:\/A_TeachingMaterial\/6.JspSpring\/workspace\/command_bootstrap\/WebContent\/WEB-INF\/lib\/mybatis-3.5.0.jar&lt;org.apache.ibatis.session(SqlSessionFactory.class[SqlSessionFactory" modifiers="1537" timestamp="1636960393237"/>
+<typeInfo handle="=command_bootstrap/D:\/B_Util\/2.Java\/JDK1.8\/jre\/lib\/rt.jar&lt;java.sql(SQLOutput.class[SQLOutput" modifiers="1537" timestamp="1625467101975"/>
+<typeInfo handle="=command_bootstrap/src&lt;com.jsp.dao{MemberDAO.java[MemberDAO" modifiers="513" timestamp="1638258920541"/>
+<typeInfo handle="=command_bootstrap/src&lt;com.jsp.command{Criteria.java[Criteria" modifiers="1" timestamp="1638775160822"/>
+<typeInfo handle="=JSP_HGJ/src&lt;com.hgj.command{Criteria.java[Criteria" modifiers="1" timestamp="1637584401778"/>
+<typeInfo handle="=command_bootstrap/D:\/B_Util\/2.Java\/JDK1.8\/jre\/lib\/rt.jar&lt;java.lang(Exception.class[Exception" modifiers="33" timestamp="1625467101975"/>
+<typeInfo handle="=command_bootstrap/src&lt;com.jsp.service{MemberService.java[MemberService" modifiers="513" timestamp="1638154271302"/>
+<typeInfo handle="=command_bootstrap/src&lt;com.jsp.dao{MenuDAO.java[MenuDAO" modifiers="513" timestamp="1638502815838"/>
+<typeInfo handle="=command_bootstrap/src&lt;com.jsp.service{MenuService.java[MenuService" modifiers="513" timestamp="1638517191088"/>
+<typeInfo handle="=JSP_HGJ/src&lt;com.hgj.action{Action.java[Action" modifiers="513" timestamp="1638526887801"/>
+<typeInfo handle="=command_bootstrap/src&lt;com.jsp.action{Action.java[Action" modifiers="513" timestamp="1638408640028"/>
+<typeInfo handle="=spring_bootstrap/C:\/Users\/PC-06\/.m2\/repository\/org\/springframework\/spring-webmvc\/4.3.2.RELEASE\/spring-webmvc-4.3.2.RELEASE.jar&lt;org.springframework.web.servlet(View.class[View" modifiers="1537" timestamp="1639543628610"/>
+<typeInfo handle="=spring_bootstrap/src\/main\/java&lt;kr.or.ddit.dao.spring{MemberDAOBean.java[MemberDAOBean" modifiers="513" timestamp="1639621634575"/>
+<typeInfo handle="=spring_bootstrap/D:\/B_Util\/2.Java\/JDK1.8\/jre\/lib\/rt.jar&lt;java.util.concurrent(ScheduledExecutorService.class[ScheduledExecutorService" modifiers="1537" timestamp="1625467101975"/>
+<typeInfo handle="=spring_bootstrap/src\/main\/java&lt;kr.or.ddit.dao.spring{MemberDAOImplTemplate.java[MemberDAOImplTemplate" modifiers="1" timestamp="1639621634549"/>
+<typeInfo handle="=spring_bootstrap/src\/main\/java&lt;kr.or.ddit.dao.spring{ScheduledMemberDAOBean.java[ScheduledMemberDAOBean" modifiers="513" timestamp="1640829949565"/>
+<typeInfo handle="=spring_bootstrap/D:\/A_TeachingMaterial\/6.JspSpring\/workspace\/spring_bootstrap\/src\/main\/webapp\/WEB-INF\/lib\/command_bootstrap1.1.jar&lt;com.jsp.service(MemberServiceForModify.class[MemberServiceForModify" modifiers="1537" timestamp="1639635728408"/>
+<typeInfo handle="=spring_bootstrap/D:\/A_TeachingMaterial\/6.JspSpring\/workspace\/spring_bootstrap\/src\/main\/webapp\/WEB-INF\/lib\/command_bootstrap1.1.jar&lt;com.jsp.service(MemberServiceForModifyImpl.class[MemberServiceForModifyImpl" modifiers="33" timestamp="1639635728408"/>
+<typeInfo handle="=spring_bootstrap/src\/main\/java&lt;kr.or.ddit.service.spring{ScheduledMemberServiceForModify.java[ScheduledMemberServiceForModify" modifiers="513" timestamp="1640831237842"/>
+<typeInfo handle="=spring_bootstrap/D:\/B_Util\/2.Java\/JDK1.8\/jre\/lib\/rt.jar&lt;java.util.concurrent(ScheduledFuture.class[ScheduledFuture" modifiers="1537" timestamp="1625467101975"/>
+<typeInfo handle="=spring_bootstrap/D:\/A_TeachingMaterial\/6.JspSpring\/workspace\/spring_bootstrap\/src\/main\/webapp\/WEB-INF\/lib\/command_bootstrap1.1.jar&lt;com.jsp.service(BoardService.class[BoardService" modifiers="1537" timestamp="1639635728408"/>
+</typeInfoHistroy>

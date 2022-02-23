@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Admin-Mapper">
+
+<select id="selectMeberDetailByMberId" parameterType="java.lang.String" resultType="com.spring.compass.vo.MberVO">
+	SELECT MBER_NO
+		 ,INST_NO
+		 ,MBER_NM
+         ,MBER_CODE
+         ,MBER_PWD
+         ,MBER_TELNO
+         ,MBER_EMAIL
+    FROM MBER
+    WHERE MBER_ID =#{mberId}
+</select>
+
+<sql id="eachInstSearch">
+	<if test="searchType2=='name'.toString()">
+		AND INST_NM LIKE '%' || #{keyword} || '%'
+	</if>
+	<if test="searchType2=='adres'.toString()">
+		AND INST_ADRES LIKE '%' || #{keyword} || '%'
+	</if>
+</sql>
+
+<select id="selectAllInsp" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="com.spring.compass.vo.InspVO">
+	     SELECT RNUM,
+                INSP_NO, PBHT_NO,
+                INST_NO, INST_NM,
+                INST_ADRES, INST_TELNO,
+                EMP_CNT, RMND_KIT_CNT,
+                AREA_NO
+       FROM(SELECT ROWNUM AS RNUM,
+                INSP_NO, PBHT_NO,
+                INST_NO, INST_NM,
+                INST_ADRES, INST_TELNO,
+                EMP_CNT, RMND_KIT_CNT,
+                AREA_NO
+        FROM(SELECT 
+                INSP_NO, PBHT_NO,
+                INST_NO, INST_NM,
+                INST_ADRES, INST_TELNO,
+                EMP_CNT, RMND_KIT_CNT,
+                AREA_NO
+            FROM INSP
+            WHERE 1 = 1
+            <include refid="eachInstSearch"/>)
+            )WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<select id="selectAllPbht" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="com.spring.compass.vo.PbhtVO">
+	     SELECT RNUM,
+                PBHT_NO, INST_NO, 
+                INST_NM, INST_ADRES, 
+                INST_TELNO, EMP_CNT, 
+                AREA_NO
+       FROM(SELECT ROWNUM AS RNUM,
+                PBHT_NO, INST_NO, 
+                INST_NM, INST_ADRES, 
+                INST_TELNO, EMP_CNT, 
+                AREA_NO
+        FROM(SELECT 
+                PBHT_NO, INST_NO, 
+                INST_NM, INST_ADRES, 
+                INST_TELNO, EMP_CNT, 
+                AREA_NO
+            FROM PBHT
+            WHERE 1 = 1
+            <include refid="eachInstSearch"/>)
+            )WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<select id="selectAllHspt" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="com.spring.compass.vo.HsptVO">
+			SELECT RNUM,
+               	  HSPT_NO, INST_NO, 
+      		      INST_NM, INST_ADRES, 
+      			  INST_TELNO, EMP_CNT,
+      			  SCKBD_CNT, RMND_SCKBD_CNT,
+      			  AREA_NO
+       			FROM(SELECT ROWNUM AS RNUM,
+               				HSPT_NO, INST_NO, 
+               				INST_NM, INST_ADRES, 
+               				INST_TELNO, EMP_CNT,
+               				SCKBD_CNT, RMND_SCKBD_CNT,
+               				AREA_NO
+       			 	FROM(SELECT 
+                				HSPT_NO, INST_NO, 
+                				INST_NM, INST_ADRES, 
+                				INST_TELNO, EMP_CNT,
+                				SCKBD_CNT, RMND_SCKBD_CNT,
+                				AREA_NO
+           				  FROM HSPT
+           				  WHERE 1 = 1
+            			<include refid="eachInstSearch"/>)
+            )WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<select id="selectAllLtct" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="com.spring.compass.vo.LtctVO">
+			SELECT RNUM,
+       				LTCT_NO, INST_NO, 
+       				INST_NM, INST_ADRES, 
+       				INST_TELNO, EMP_CNT,
+       				SCKBD_CNT, RMND_SCKBD_CNT, 
+       				AREA_NO
+       			FROM(SELECT ROWNUM AS RNUM,
+                				LTCT_NO, INST_NO, 
+                				INST_NM, INST_ADRES, 
+                				INST_TELNO, EMP_CNT,
+                				SCKBD_CNT, RMND_SCKBD_CNT, 
+                				AREA_NO
+       			 	FROM(SELECT 
+                				LTCT_NO, INST_NO, 
+                				INST_NM, INST_ADRES, 
+                				INST_TELNO, EMP_CNT,
+                				SCKBD_CNT, RMND_SCKBD_CNT, 
+                				AREA_NO
+           				  FROM LTCT
+           				  WHERE 1 = 1
+            			<include refid="eachInstSearch"/>)
+            )WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<update id="insertInst" parameterType="com.spring.compass.vo.InstVO">
+			INSERT INTO INST(
+                      INST_NO
+                     ,INST_CODE
+                     ,CHILD_NO
+                     ,INST_NM
+                     ,INST_TELNO
+                     ,INST_ADRES
+                    )
+              VALUES(
+                     #{instNo}
+                    ,#{instCode}
+                    ,#{childNo}
+                    ,#{instNm}
+                    ,#{instTelno}
+                    ,#{instAdres}
+                    
+                    )
+</update>
+
+<select id="selectInstTotalCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM INST
+</select>
+
+<select id="selectInspTotalCount" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM INSP
+	WHERE 1 = 1
+	<include refid="eachInstSearch"/>
+</select>
+<select id="selectPbhtTotalCount" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM PBHT
+	WHERE 1 = 1
+	<include refid="eachInstSearch"/>
+</select>
+<select id="selectHsptTotalCount" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM HSPT
+	WHERE 1 = 1
+	<include refid="eachInstSearch"/>
+</select>
+<select id="selectLtctTotalCount" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM LTCT
+	WHERE 1 = 1
+	<include refid="eachInstSearch"/>
+</select>
+
+
+<sql id="search">
+	<if test="searchType=='allInst'.toString()">
+	</if>
+	<if test="searchType=='allInst'.toString() and searchType2=='name'.toString()">
+		AND INST_NM LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	<if test="searchType=='allInst'.toString() and searchType2=='adres'.toString()">
+		AND INST_ADRES LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	<if test="searchType=='insp'.toString()">
+		AND CHILD_NO LIKE 'INSP'||'%'
+	</if>
+	
+	<if test="searchType=='insp'.toString() and searchType2=='name'.toString()">
+		AND CHILD_NO LIKE 'INSP'||'%'
+		AND INST_NM LIKE '%'|| #{keyword}||'%'
+	</if>
+	<if test="searchType=='insp'.toString() and searchType2=='adres'.toString()">
+		AND CHILD_NO LIKE 'INSP'||'%'
+		AND INST_ADRES LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	<if test="searchType=='pbht'.toString()">
+		AND CHILD_NO LIKE 'PBHT'||'%'
+	</if>
+	
+	<if test="searchType=='pbht'.toString() and searchType2=='name'.toString()">
+		AND CHILD_NO LIKE 'PBHT'||'%'
+		AND INST_NM LIKE '%'|| #{keyword}||'%'
+	</if>
+	<if test="searchType=='pbht'.toString() and searchType2=='adres'.toString()">
+		AND CHILD_NO LIKE 'PBHT'||'%'
+		AND INST_ADRES LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	<if test="searchType=='hspt'.toString()">
+		AND CHILD_NO LIKE 'HSPT'||'%'
+	</if>
+	
+	<if test="searchType=='hspt'.toString() and searchType2=='name'.toString()">
+		AND CHILD_NO LIKE 'HSPT'||'%'
+		AND INST_NM LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	<if test="searchType=='hspt'.toString() and searchType2=='adres'.toString()">
+		AND CHILD_NO LIKE 'HSPT'||'%'
+		AND INST_ADRES LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	<if test="searchType=='ltct'.toString()">
+		AND CHILD_NO LIKE 'LTCT'||'%'
+	</if>
+	
+	<if test="searchType=='ltct'.toString() and searchType2=='name'.toString()">
+		AND CHILD_NO LIKE 'LTCT'||'%'
+		AND INST_NM LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	<if test="searchType=='ltct'.toString() and searchType2=='adres'.toString()">
+		AND CHILD_NO LIKE 'LTCT'||'%'
+		AND INST_ADRES LIKE '%'|| #{keyword}||'%'
+	</if>
+	
+	
+</sql>
+
+<select id="selectAllInstCount" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="java.lang.Integer">
+		   SELECT 
+		   		COUNT(INST_NO)  
+		   	FROM INST
+		   	WHERE 1=1
+		 <include refid="search"/>
+</select>
+
+
+<select id="selectAllInst" parameterType="com.spring.compass.command.SearchCriteriaGeon" resultType="com.spring.compass.vo.InstVO">
+		SELECT RNUM,
+		  		INST_NO, INST_CODE, 
+		   		CHILD_NO, INST_NM, 
+				INST_TELNO, INST_ADRES, 
+		   		EMP_NO
+		FROM(SELECT ROWNUM AS RNUM,
+				  		INST_NO, INST_CODE, 
+		   				CHILD_NO, INST_NM, 
+						INST_TELNO, INST_ADRES, 
+		   				EMP_NO  
+		   FROM(SELECT 
+		   			INST_NO, INST_CODE, 
+		   			CHILD_NO, INST_NM, 
+		   			INST_TELNO, INST_ADRES, 
+		   			EMP_NO 
+		   		FROM INST
+		   		WHERE 1=1
+		 		<include refid="search"/>)
+		 	)WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<select id="selectInstDetail" parameterType="java.lang.String" resultType="com.spring.compass.vo.InstVO">
+	 SELECT INST_NO,
+           INST_CODE,
+           CHILD_NO,
+           INST_NM,
+           INST_TELNO,
+           INST_ADRES,
+           EMP_NO
+       FROM INST
+       WHERE INST_NO=#{instNo}
+</select>
+
+<select id="selectMeberByInstNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.MberVO">
+	SELECT MBER_NO
+		 ,MBER_NM
+         ,MBER_CODE
+         ,MBER_ID
+         ,MBER_PWD
+         ,MBER_TELNO
+         ,MBER_EMAIL
+    FROM MBER
+    WHERE INST_NO =#{instNo}
+      AND USE_YN ='Y'
+</select>
+
+<update id="updateInst" parameterType="com.spring.compass.vo.InstVO">
+	UPDATE INST
+   	   SET INST_NM=#{instNm}
+      	  ,INST_TELNO=#{instTelno}
+          ,INST_ADRES=#{instAdres}
+     WHERE INST_NO =#{instNo}
+</update>
+
+<select id="selectChildNoByInstNo" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT CHILD_NO
+	  FROM INST
+	  WHERE INST_NO =#{instNO}
+</select>
+
+<update id="deleteMemberByInstNo" parameterType="java.lang.String">
+	DELETE FROM MBER WHERE INST_NO = #{instNo}
+</update>
+
+<update id="deleteInspByInspNo" parameterType="java.lang.String">
+	DELETE FROM INSP WHERE INSP_NO=#{inspNo}
+</update>
+
+<update id="deleteInspByPbhtNo" parameterType="java.lang.String">
+	DELETE FROM INSP WHERE Pbht_NO=#{pbhtNo}
+</update>
+
+<update id="deletePbhtByPbhtNo" parameterType="java.lang.String">
+	DELETE FROM PBHT WHERE PBHT_NO=#{pbhtNo}
+</update>
+
+<update id="deleteHsptByHsptNo" parameterType="java.lang.String">
+	DELETE FROM HSPT WHERE HSPT_NO=#{hspttNo}
+</update>
+
+<update id="deleteLtctByLtctNo" parameterType="java.lang.String">
+	DELETE FROM LTCT WHERE LTCT_NO=#{ltcttNo}
+</update>
+<update id="deleteInstByInstNo" parameterType="java.lang.String">
+	DELETE FROM INST WHERE INST_NO=#{insttNo}
+</update>
+
+
+<select id="selectNoticeSeq" resultType="java.lang.String">
+	SELECT NOTICE_SEQ.NEXTVAL FROM DUAL
+</select>
+
+<update id="registNotice" parameterType="com.spring.compass.vo.NoticeVO">
+	INSERT INTO NOTICE(
+				NOTICE_NO
+			   ,MBER_NO
+			   ,INST_NO
+			   ,TITLE
+			   ,CONTENT
+			   ,START_YMD
+			   ,END_YMD
+			   ,WRITER
+			   ,POPUP
+			)
+				VALUES(
+				#{noticeNo}
+			   ,#{mberNo}
+			   ,#{instNo}
+			   ,#{title}
+			   ,#{content}
+			   ,#{startYmd}
+			   ,#{endYmd}
+			   ,#{writer}
+			   ,#{popUp}
+			)
+	
+</update>
+
+<update id="registNoticeAdmin" parameterType="com.spring.compass.vo.NoticeVO">
+	INSERT INTO NOTICE(
+				NOTICE_NO
+			   ,MBER_NO
+			   ,TITLE
+			   ,CONTENT
+			   ,START_YMD
+			   ,END_YMD
+			   ,WRITER
+			   ,POPUP
+			)
+				VALUES(
+				#{noticeNo}
+			   ,#{mberNo}
+			   ,#{title}
+			   ,#{content}
+			   ,#{startYmd}
+			   ,#{endYmd}
+			   ,#{writer}
+			   ,#{popUp}
+			)
+	
+</update>
+
+
+<select id="selectAtchSeq" resultType="java.lang.String">
+	SELECT ATCH_SEQ.NEXTVAL FROM DUAL
+</select>
+
+<update id="deleteAttachByMberNo" parameterType="java.lang.String">
+	DELETE FROM ATTACH WHERE MBER_NO=#{mberNo}
+</update>
+
+<update id="registAttach" parameterType="com.spring.compass.vo.AttachVO">
+		INSERT INTO ATTACH(
+                    ATCH_NO
+                   ,UPLOAD_PATH
+                   ,FILE_NAME
+                   ,NOTICE_NO
+                   ,TYPE
+                   ,MBER_NO
+                    )
+                    VALUES(
+                    #{atchNo}
+                   ,#{uploadPath}
+                   ,#{fileName}
+                   ,#{noticeNo}
+                   ,#{type}
+                   ,#{mberNo}
+                   )
+</update>
+
+<sql id="noticeSearch">
+	AND WRITER ='시스템관리자'
+	<if test="searchType=='title'.toString()">
+		AND TITLE LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType=='content'.toString()">
+		AND CONTENT LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType='whole'.toString()">
+		AND 
+		(TITLE LIKE '%'||#{keyword}||'%'
+		 OR CONTENT LIKE '%'||#{keyword}||'%'
+		)
+	</if>
+</sql>
+
+<select id="selectAllNotice" resultType="com.spring.compass.vo.NoticeVO">
+	SELECT NOTICE_NO
+		  ,MBER_NO
+		  ,INST_NO
+		  ,TITLE
+		  ,CONTENT
+		  ,WRT_YMD
+		  ,USE_YN
+		  ,START_YMD
+		  ,END_YMD
+		  ,WRITER
+		  ,POPUP
+	  FROM NOTICE
+	  WHERE 1=1
+	  	AND WRITER = '시스템관리자'
+	  <include refid="noticeSearch"/>
+	  ORDER BY NOTICE_NO DESC
+</select>
+
+<sql id="noticeSearchByInstNo">
+	AND INST_NO=#{instNo}
+	<if test="searchType=='title'.toString()">
+		AND TITLE LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType=='content'.toString()">
+		AND CONTENT LIKE '%'||#{keyword}||'%'
+	</if>
+	<if test="searchType='whole'.toString()">
+		AND 
+		(TITLE LIKE '%'||#{keyword}||'%'
+		 OR CONTENT LIKE '%'||#{keyword}||'%'
+		)
+	</if>
+</sql>
+
+<select id="selectAllNoticeByInstNo" resultType="com.spring.compass.vo.NoticeVO">
+	SELECT NOTICE_NO
+		  ,MBER_NO
+		  ,INST_NO
+		  ,TITLE
+		  ,CONTENT
+		  ,WRT_YMD
+		  ,USE_YN
+		  ,START_YMD
+		  ,END_YMD
+		  ,WRITER
+		  ,POPUP
+	  FROM NOTICE
+	  WHERE 1=1
+	  <include refid="noticeSearchByInstNo"/>
+	  ORDER BY NOTICE_NO DESC
+</select>
+
+<select id="selectSearchNoticeListByInstNoCount" resultType="java.lang.Integer">
+	SELECT COUNT(NOTICE_NO)
+	  FROM NOTICE
+	  WHERE 1=1
+	 <include refid="noticeSearchByInstNo"/>
+</select>
+
+<select id="selectSearchNoticeListCount" resultType="java.lang.Integer">
+	SELECT COUNT(NOTICE_NO)
+	  FROM NOTICE
+	  WHERE 1=1
+	 <include refid="noticeSearch"/>
+</select>
+
+<select id="selectNoticeByNoticeNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.NoticeVO">
+	SELECT NOTICE_NO
+		  ,MBER_NO
+		  ,INST_NO
+		  ,TITLE
+		  ,CONTENT
+		  ,WRT_YMD
+		  ,USE_YN
+		  ,START_YMD
+		  ,END_YMD
+		  ,WRITER
+		  ,POPUP
+	  FROM NOTICE
+	  WHERE NOTICE_NO=#{noticeNo}
+</select>
+
+<select id="selectAttachByNoticeNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.AttachVO">
+	SELECT ATCH_NO
+		  ,UPLOAD_PATH
+		  ,FILE_NAME
+		  ,FILE_TYPE
+		  ,NOTICE_NO
+		  ,MBER_NO
+		  ,REGDATE
+		  ,TYPE
+		  ,INST_NO
+     FROM ATTACH
+     WHERE NOTICE_NO = #{noticeNo}
+</select>
+
+<update id="removeAttachByAtchNo" parameterType="java.lang.String">
+	DELETE FROM ATTACH WHERE ATCH_NO=#{atchNo}
+</update>
+
+<update id="removeNoticeByNoticeNo" parameterType="java.lang.String">
+	DELETE FROM NOTICE WHERE NOTICE_NO=#{noticeNo}
+</update>
+
+<update id="noticeModify" parameterType="com.spring.compass.vo.NoticeVO">
+	UPDATE NOTICE
+         SET TITLE=#{title},
+             CONTENT=#{content},
+             POPUP=#{popUp}
+        WHERE NOTICE_NO=#{noticeNo}
+</update>
+
+<update id="noticeModifyByInst" parameterType="com.spring.compass.vo.NoticeVO">
+	UPDATE NOTICE
+         SET TITLE=#{title},
+             CONTENT=#{content},
+             WRT_YMD=SYSDATE
+        WHERE NOTICE_NO=#{noticeNo}
+</update>
+
+<update id="attachModify" parameterType="com.spring.compass.vo.AttachVO">
+		UPDATE ATTACH
+           SET FILE_NAME=#{fileName}
+         WHERE NOTICE_NO=#{noticeNo}
+</update>
+
+<update id="deleteAttachByFileName" parameterType="java.lang.String">
+	DELETE FROM ATTACH WHERE FILE_NAME=#{fileName}
+</update>
+
+<select id="selectInstNoByMberNo" parameterType="java.lang.String" resultType="java.lang.String">
+	select inst_no from mber where mber_no =#{mberNo}
+</select>
+
+<select id="selectInstTelNoByInstNo" parameterType="java.lang.String" resultType="java.lang.String">
+	select inst_telno from inst where inst_no=#{instNo}
+</select>
+
+<update id="updatePasswordMber" parameterType="com.spring.compass.vo.MberVO">
+	update mber
+       set mber_pwd=#{mberPwd}
+     where mber_no=#{mberNo}
+</update>
+
+<select id="detailMberByMberNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.MberVO">
+	SELECT MBER_NO
+		  ,INST_NO
+		  ,MBER_CODE
+		  ,MBER_ID
+		  ,MBER_PWD
+		  ,MBER_TELNO
+		  ,MBER_EMAIL
+		  ,USE_YN
+		  ,MBER_REGDATE
+		  ,MBER_NM
+		  ,MBER_ADRES
+		  ,MBER_BIR
+	  FROM MBER 
+	  WHERE MBER_NO = #{mberNo}
+</select>
+
+<update id="deleteInspStatsByInspNo" parameterType="java.lang.String">
+	DELETE FROM INSPSTATS WHERE INSP_NO = #{inspNo}
+</update>
+
+<update id="deletePbhtStatsByPbhtNo" parameterType="java.lang.String">
+	DELETE FROM PBHTSTATS WHERE PBHT_NO = #{pbhtNo}
+</update>
+
+<update id="deleteHsptStatsByHsptNo" parameterType="java.lang.String">
+	DELETE FROM HSPTSTATS WHERE HSPT_NO = #{hsptNo}
+</update>
+
+<update id="deleteLtctStatsByLtctNo" parameterType="java.lang.String">
+	DELETE FROM LTCTSTATS WHERE LTCT_NO = #{ltctNo}
+</update>
+
+<select id="selectInspNoByPbhtNo" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT INSP_NO FROM INSP WHERE PBHT_NO =#{pbhtNo}
+</select>
+
+<select id="selectInstNoByInspNo" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT INST_NO FROM INSP WHERE INSP_NO =#{inspNo}
+</select>
+
+
+<select id="selectPstiNoByInspNo" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT PSTI_NO FROM PSTI WHERE INSP_NO=#{inspNo}
+</select>
+
+<update id="deleteHtscByPstiNo" parameterType="java.lang.String">
+	DELETE FROM HTSC WHERE PSTI_NO = #{pstiNo}
+</update>
+
+<update id="deletePstiByInspNo" parameterType="java.lang.String">
+	DELETE FROM PSTI WHERE INSP_NO = #{inspNo}
+</update>
+
+<update id="deleteInspEmpByInspNo" parameterType="java.lang.String">
+	DELETE FROM INSPEMP WHERE INSP_NO = #{inspNo}
+</update>
+
+
+
+<update id="deleteSmplByPbhtNo" parameterType="java.lang.String">
+	DELETE FROM SMPL WHERE PBHT_NO = #{pbhtNo}
+</update>
+
+<update id="deleteCnfmByPbhtNo" parameterType="java.lang.String">
+	DELETE FROM CNFM WHERE PBHT_NO = #{pbhtNo}
+</update>
+
+<update id="deleteSlfptntByPbhtNo" parameterType="java.lang.String">
+	DELETE FROM SLFPTNT WHERE PBHT_NO = #{pbhtNo}
+</update>
+
+<update id="deletePbhtEmp" parameterType="java.lang.String">
+	DELETE FROM PBHTEMP WHERE PBHT_NO = #{pbhtNo}
+</update>
+
+
+<update id="deleteHsptEmpByHsptNo" parameterType="java.lang.String">
+	DELETE FROM HSPTEMP WHERE HSPT_NO =#{hsptNo}
+</update>
+
+<update id="deleteInptntByHsptNo" parameterType="java.lang.String">
+	DELETE FROM INPTNT WHERE HSPT_NO =#{hsptNo}
+</update>
+
+<update id="deleteDgnssByHsptNo" parameterType="java.lang.String">
+	DELETE FROM DGNSS WHERE HSPT_NO =#{hsptNo}
+</update>
+
+
+
+<update id="deleteIsoptntByLtctNo" parameterType="java.lang.String">
+	DELETE FROM ISOPTNT WHERE LTCT_NO=#{ltctNo}
+</update>
+
+<update id="deleteLtctEmpByLtctNo" parameterType="java.lang.String">
+	DELETE FROM LTCTEMP WHERE LTCT_NO=#{ltctNo}
+</update>
+
+<select id="selectPstiBackupList" resultType="com.spring.compass.vo.PstiVO">
+	SELECT
+	    PSTI_NO
+	   ,INSP_NO
+	   ,PSTI_NM
+	   ,RRN
+	   ,GENDER
+	   ,PREGN_YN
+	   ,NLTY
+	   ,PSTI_TELNO
+	   ,PSTI_ADRES
+	   ,JOB_CODE
+	   ,FEVER_YN
+	   ,SYMPTMS
+	   ,VAC_CODE
+	   ,WRT_YMD
+	   ,DEL_YMD
+	   ,RECHKD_YN
+	   ,CHKD_YN
+	   ,MANAGE_NO
+	   ,AREA_NO
+	   ,REQ_YN
+	
+	FROM PSTI
+
+</select>
+
+<select id="selectPopupNotice" resultType="com.spring.compass.vo.NoticeVO">
+	SELECT * FROM NOTICE WHERE POPUP ='Y'
+</select>
+
+<select id="selectPbhtNoByInstNm" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT PBHT_NO FROM PBHT WHERE INST_NM =#{instNm}
+</select>
+
+<select id="selectAttachByMberNo" parameterType="java.lang.String" resultType="com.spring.compass.vo.AttachVO">
+	SELECT * FROM ATTACH WHERE MBER_NO=#{mberNo}
+</select>
+
+</mapper>

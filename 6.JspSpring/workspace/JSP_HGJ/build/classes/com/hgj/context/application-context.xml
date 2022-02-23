@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	
+	<!-- dataSource -->
+	<bean id="sqlSessionFactory" class="com.hgj.dataSource.OracleMyBatisSqlSessionFactory"/>
+	
+	<!-- Repository Layer -->
+	<bean id="memberDAO" class="com.hgj.dao.MemberDAOImpl" />
+	
+	<!-- Service Layer -->
+	<bean id="memberService" class="com.hgj.service.SearchMemberServiceImpl">
+		<property name="sqlSessionFactory" ref-value="sqlSessionFactory" />
+		<property name="memberDAO" ref-value="memberDAO" />
+	</bean>
+	
+</beans>

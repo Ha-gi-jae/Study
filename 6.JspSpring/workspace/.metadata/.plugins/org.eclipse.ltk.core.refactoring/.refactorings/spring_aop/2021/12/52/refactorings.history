@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;spring_aop&apos;&#x0D;&#x0A;- Original project: &apos;spring_aop&apos;&#x0D;&#x0A;- Original element: &apos;spring_aop/src/main/java/com.spring.aop&apos;" description="Delete element" element1="/src\/main\/java&lt;com.spring.aop" element2="/src\/main\/java&lt;com.spring" element3="/src\/main\/java&lt;com" elements="3" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1640230054655" subPackages="false" version="1.0"/>
+</session>

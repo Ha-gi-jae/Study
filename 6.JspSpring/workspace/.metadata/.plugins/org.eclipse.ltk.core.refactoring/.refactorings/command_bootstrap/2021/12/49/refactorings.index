@@ -1,0 +1,21 @@
+1638411286768	Rename type 'MemberDetailAction'
+1638411294864	Rename type 'MemberListAction'
+1638411318296	Rename type 'MemberRemoveAction'
+1638411897488	Rename type 'MemberListFormAction'
+1638411902837	Rename type 'MemberRemoveFormAction'
+1638411916776	Rename type 'MemberDetailFormAction'
+1638415387736	Rename type 'MemberEnabledFormAction'
+1638415831054	Rename type 'MemberGetPictureFormAction'
+1638416057997	Delete elements
+1638416343702	Move compilation units
+1638416357344	Move compilation unit
+1638416361664	Delete element
+1638416869429	Rename type 'MemberPictureUploadAction'
+1638492453526	Copy files
+1638493307904	Copy file
+1638493680899	Rename resource 'sqlException.jsp'
+1638495913398	Move 3 resources to 'views'
+1638501202158	Copy file
+1638506330732	Delete element
+1638518437691	Copy compilation unit
+1638518440728	Delete element

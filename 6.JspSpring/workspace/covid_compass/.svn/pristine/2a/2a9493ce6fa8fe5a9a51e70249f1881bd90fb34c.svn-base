@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="instPath" class="java.lang.String">
+		<constructor-arg value="${inst.upload}"/>
+	</bean>
+
+	<bean id="noticeFilePath" class="java.lang.String">
+		<constructor-arg value="${noticeFile.upload}"/>
+	</bean>
+	
+	<bean id="mypageFilePath" class="java.lang.String">
+		<constructor-arg value="${mypageFile.upload}"/>
+	</bean>
+	
+	<bean id="loginUserFilePath" class="java.lang.String">
+		<constructor-arg value="${login.user.log}"/>
+	</bean>
+	<bean id="loginUserFileName" class="java.lang.String">
+		<constructor-arg value="compass_user_login.csv"/>
+	</bean>
+	
+
+	<bean id="loginFailUserFilePath" class="java.lang.String">
+		<constructor-arg value="${loginFail.user.log}"/>
+	</bean>
+	
+	<bean id="loginFailUserFileName" class="java.lang.String">
+		<constructor-arg value="compass_user_loginFail.csv"/>
+	</bean>
+	
+	
+
+	<bean id="dgnssResultFilePath" class="java.lang.String">
+		<constructor-arg value="${dgnss.result.log}"/>
+	</bean>
+	<bean id="dgnssResultFileName" class="java.lang.String">
+		<constructor-arg value="compass_dgnss_result.csv"/>
+	</bean>
+	
+	<bean id="inspStatisticsFilePath" class="java.lang.String">
+		<constructor-arg value="${inspstats.log}"/>
+	</bean>
+	
+	<bean id="inspStatisticsFileName" class="java.lang.String">
+		<constructor-arg value="inspstats.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsDgnssFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.dgnss.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsDgnssFileName" class="java.lang.String">
+		<constructor-arg value="hsptDgnssStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsReqSckbdFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.reqsckbd.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsReqSckbdFileName" class="java.lang.String">
+		<constructor-arg value="hsptReqSckbdStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsInptntFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.inptnt.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsInptntFileName" class="java.lang.String">
+		<constructor-arg value="hsptInptntStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsGoLtctFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.goltct.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsGoLtctFileName" class="java.lang.String">
+		<constructor-arg value="hsptGoltctStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsGoSelfFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.goself.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsGoSelfFileName" class="java.lang.String">
+		<constructor-arg value="hsptGoSelfStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsDeathFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.death.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsDeathFileName" class="java.lang.String">
+		<constructor-arg value="hsptDeathStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsOutptntFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.outptnt.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsOutptntFileName" class="java.lang.String">
+		<constructor-arg value="hsptOutptntStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="hsptStatisticsRlsedFilePath" class="java.lang.String">
+		<constructor-arg value="${hsptstats.rlsed.log}"/>
+	</bean>
+	
+	<bean id="hsptStatisticsRlsedFileName" class="java.lang.String">
+		<constructor-arg value="hsptRlsedStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsSmpleCntFilePath" class="java.lang.String">
+		<constructor-arg value="${pbhtstats.smplecnt.log}"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsSmpleCntFileName" class="java.lang.String">
+		<constructor-arg value="pbhtInspSmpleCntStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsPstvGenderFilePath" class="java.lang.String">
+		<constructor-arg value="${pbhtstats.pstvgender.log}"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsPstvGenderFileName" class="java.lang.String">
+		<constructor-arg value="pbhtPstvGenderStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsNgtvGenderFilePath" class="java.lang.String">
+		<constructor-arg value="${pbhtstats.ngtvgender.log}"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsNgtvGenderFileName" class="java.lang.String">
+		<constructor-arg value="pbhtNgtvGenderStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsPstvAgeFilePath" class="java.lang.String">
+		<constructor-arg value="${pbhtstats.pstvage.log}"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsPstvAgeFileName" class="java.lang.String">
+		<constructor-arg value="pbhtPstvAgeStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsNgtvAgeFilePath" class="java.lang.String">
+		<constructor-arg value="${pbhtstats.ngtvage.log}"/>
+	</bean>
+	
+	<bean id="pbhtStatisticsNgtvAgeFileName" class="java.lang.String">
+		<constructor-arg value="pbhtNgtvAgeStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="ltctStatisticsReqDgnssFilePath" class="java.lang.String">
+		<constructor-arg value="${ltctstats.reqdgnss.log}"/>
+	</bean>
+	
+	<bean id="ltctStatisticsReqDgnssFileName" class="java.lang.String">
+		<constructor-arg value="ltctReqDgnssStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="ltctStatisticsIsoptntFilePath" class="java.lang.String">
+		<constructor-arg value="${ltctstats.isoptnt.log}"/>
+	</bean>
+	
+	<bean id="ltctStatisticsIsoptntFileName" class="java.lang.String">
+		<constructor-arg value="ltctIsoptntStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="ltctStatisticsRlrdFilePath" class="java.lang.String">
+		<constructor-arg value="${ltctstats.rlsed.log}"/>
+	</bean>
+	
+	<bean id="ltctStatisticsRlsedFileName" class="java.lang.String">
+		<constructor-arg value="ltctRlsedStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="ltctStatisticsOutptntFilePath" class="java.lang.String">
+		<constructor-arg value="${ltctstats.outptnt.log}"/>
+	</bean>
+	
+	<bean id="ltctStatisticsOutptntFileName" class="java.lang.String">
+		<constructor-arg value="ltctOutptntStatistics.log.csv"/>
+	</bean>
+	
+	<bean id="MakerStatisticsLogByInsp" class="com.spring.compass.util.MakerStatisticsLogByInsp"
+		p:saveFileName-ref="inspStatisticsFileName"
+		p:savePath-ref="inspStatisticsFilePath"
+	/>
+	
+	<bean id="MakeStatisticsLogByHspt" class="com.spring.compass.util.MakeStatisticsLogByHspt"
+		p:saveDgnssPath-ref="hsptStatisticsDgnssFilePath"
+		p:saveDgnssFileName-ref="hsptStatisticsDgnssFileName"
+		p:saveReqSckbdPath-ref="hsptStatisticsReqSckbdFilePath"
+		p:saveReqSckbdFileName-ref="hsptStatisticsReqSckbdFileName"
+		p:saveInptntPath-ref="hsptStatisticsInptntFilePath"
+		p:saveInptntFileName-ref="hsptStatisticsInptntFileName"
+		p:saveGoLtctFileName-ref="hsptStatisticsGoLtctFileName"
+		p:saveGoLtctPath-ref="hsptStatisticsGoLtctFilePath"
+		p:saveGoSelfFileName-ref="hsptStatisticsGoSelfFileName"
+		p:saveGoSelfPath-ref="hsptStatisticsGoSelfFilePath"
+		
+		p:saveDeathFileName-ref="hsptStatisticsDeathFileName"
+		p:saveDeathPath-ref="hsptStatisticsDeathFilePath"
+		p:saveOutptntFileName-ref="hsptStatisticsOutptntFileName"
+		p:saveOutptntPath-ref="hsptStatisticsOutptntFilePath"
+		p:saveRlsedFileName-ref="hsptStatisticsRlsedFileName"
+		p:saveRlsedPath-ref="hsptStatisticsRlsedFilePath"
+	/>
+	
+	<bean id="MakeStatisticsLogByPbht" class="com.spring.compass.util.MakeStatisticsLogByPbht"
+		p:pstiServiceLKH-ref="pstiServiceLKH"
+		p:savePbhtSmpleCntFileName-ref="pbhtStatisticsSmpleCntFileName"
+		p:savePbhtSmpleCntPath-ref="pbhtStatisticsSmpleCntFilePath"
+		p:savePstvGenderName-ref="pbhtStatisticsPstvGenderFileName"
+		p:savePstvGenderPath-ref="pbhtStatisticsPstvGenderFilePath"
+		p:saveNgtvAgeFileName-ref="pbhtStatisticsNgtvAgeFileName"
+		p:saveNgtvAgePath-ref="pbhtStatisticsNgtvAgeFilePath"
+		p:saveNgtvGenderName-ref="pbhtStatisticsNgtvGenderFileName"
+		p:saveNgtvGenderPath-ref="pbhtStatisticsNgtvGenderFilePath"
+		p:savePstvAgeFileName-ref="pbhtStatisticsPstvAgeFileName"
+		p:savePstvAgePath-ref="pbhtStatisticsPstvAgeFilePath"
+	/>
+	
+<!-- 	<bean id="MakeStatisticsLogByLtct" class="com.spring.compass.util.MakeStatisticsLogByLtct"
+		p:saveIsoptntFileName-ref="ltctStatisticsIsoptntFileName"
+		p:saveIsoptntPath-ref="ltctStatisticsIsoptntFilePath"
+		p:saveOutptntFileName-ref="ltctStatisticsOutptntFileName"
+		p:saveOutptntPath-ref="ltctStatisticsOutptntFilePath"
+		p:saveReqDgnssFileName-ref="ltctStatisticsReqDgnssFileName"
+		p:saveReqDgnssPath-ref="ltctStatisticsReqDgnssFilePath"
+		p:saveRlsedFileName-ref="ltctStatisticsRlsedFileName"
+		p:saveRlsedPath-ref="ltctStatisticsRlsedFilePath"
+	/> -->
+
+	<bean id="adminDAO" class="com.spring.compass.dao.AdminDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+
+	<!-- repository context(DAO) -->
+	<bean id="menuDAO" class="com.spring.compass.dao.MenuDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="inspDAO" class="com.spring.compass.dao.InspDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="pbhtDAO" class="com.spring.compass.dao.PbhtDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="hsptDAO" class="com.spring.compass.dao.HsptDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="ltctDAO" class="com.spring.compass.dao.LtctDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="mberDAO" class="com.spring.compass.dao.MberDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="pstiDAO" class="com.spring.compass.dao.PstiDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="statisticsDAO" class="com.spring.compass.dao.StatisticsDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+
+	<!-- service context(service) -->
+	<bean id="menuService" class="com.spring.compass.service.MenuServiceImpl"
+		p:menuDAO-ref="menuDAO"
+	/>
+	<bean id="inspService" class="com.spring.compass.service.InspServiceImpl"
+		p:inspDAO-ref="inspDAO"
+	/>
+	<bean id="pbhtService" class="com.spring.compass.service.PbhtServiceImpl"
+		p:pbhtDAO-ref="pbhtDAO"
+	/>
+
+	<bean id="ltctService" class="com.spring.compass.service.LtctServiceImpl"
+		p:ltctDAO-ref="ltctDAO"
+	/>
+
+
+	<bean id="hsptService" class="com.spring.compass.service.HsptServiceImpl"
+		p:hsptDAO-ref="hsptDAO"
+		
+	/>
+
+
+	<bean id="mberService" class="com.spring.compass.service.MberServiceImpl"
+		  p:mberDAO-ref="mberDAO"
+	/>
+	<bean id="pstiService" class="com.spring.compass.service.PstiServiceImpl"
+		p:pstiDAO-ref="pstiDAO"
+	/>
+
+	<bean id="adminService" class="com.spring.compass.service.AdminServiceImpl"
+		p:adminDAO-ref="adminDAO"
+	/>
+
+	<bean id="statisticsService" class="com.spring.compass.service.StatisticsServiceImpl"
+		p:statisticsDAO-ref="statisticsDAO"
+	/>
+
+	<bean id="pbhtServiceLKH" class="com.spring.compass.service.PbhtServiceImplLKH"
+		p:pbhtDAO-ref="pbhtDAO"
+		p:ltctDAO-ref="ltctDAO"
+		p:pstiDAO-ref="pstiDAO"
+		p:hsptDAO-ref="hsptDAO"
+	/>
+
+	<bean id="ltctServiceLKH" class="com.spring.compass.service.LtctServiceImplLKH"
+		p:ltctDAO-ref="ltctDAO"
+	/>
+
+	<bean id="hsptServiceLKH" class="com.spring.compass.service.HsptServiceImplLKH"
+		p:hsptDAO-ref="hsptDAO"
+		p:ltctDAO-ref="ltctDAO"
+		p:pbhtDAO-ref="pbhtDAO"
+		p:pstiDAO-ref="pstiDAO"
+	/>
+
+	<bean id="pstiServiceLKH" class="com.spring.compass.service.PstiServiceImplLKH"
+		p:pstiDAO-ref="pstiDAO"
+	/>
+
+	<bean id="pbhtServiceLMY" class="com.spring.compass.service.PbhtServiceImplLMY"
+		p:pbhtDAO-ref="pbhtDAO"
+	/>
+	
+	<bean id="testParsingExelCovidData" class="com.spring.compass.parse.TestParsingExelCovidData"
+	/>
+	
+	
+	
+	
+</beans>
